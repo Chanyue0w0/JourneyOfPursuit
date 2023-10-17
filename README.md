@@ -1,4 +1,4 @@
-# Journey-of-pursuit
+# JourneyOfPursuit Git使用教學
 在gitBash中使用指令按tab可提示(類似自動選字)
 
 cd 到目標位置(例如:cd Desktop)(cd ..回到上一頁)
