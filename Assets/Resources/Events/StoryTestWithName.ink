@@ -1,10 +1,21 @@
+// (->knot) 就是path
+EXTERNAL PushEvent(a)
+EXTERNAL GetEvent()
+EXTERNAL ClearEvent()
+// (難度, strength/agility/charisma)
+EXTERNAL DiceResult(a,b)
+
+/*~ PushEvent(->main)
+~ PushEvent(->sub2)
+
 那邊那位年少有為的! #speaker:精靈長老 #portrait:Elf1/faceImage
--> main
+->main
 
 === main ===
 你今天過得如何阿?
 + [開心]
     我也為你感到開心!!
+    
 + [難過]
     真假，==
 
@@ -15,17 +26,73 @@
     你用許願符的神力勉強擊傷眼前的精靈長老，但你也因此受了重傷 #speaker: #health:-60 #morality: -1
     -> END
 + [相信少女，隨她前去部落]
-    -> sub1("少女")
+    -> sub1
 + [相信長老，隨他前去部落]
-    -> sub1("長老")
+    -> sub1
 + [保持沉默]
     (長老皺眉)我先離開了，你想清楚了再來找我
     -> sub2
     
-=== sub1(a) ===
-你隨{a}前往森林深處，不料突然出現一群女巫 #speaker: #background:witches
+=== sub1 ===
+你隨之前往森林深處，不料突然出現一群女巫 #speaker: #background:witches
     -> END
     
 === sub2 ===
 你一個人餓死在了森林中央 #speaker: #health:-100
-    ->END
+    -> DONE
+*/
+
+~ ClearEvent()
+~ PushEvent(->main1)
+~ PushEvent(->main2)
+~ PushEvent(->main3)
+~ temp event = GetEvent()
+-> event
+
+=== main1 ===
+You encounter an elder elf #portrait:Elf1/faceImage #speaker:Narrator
+    +[fight]
+        ~ temp res = DiceResult(20, "strength")
+        {res: 
+            Victorious, you strip them of their clothes in triumph #strength:1
+        -else: 
+            You suffer defeat and endure injuries. #health:-10
+        }
+        
+    +[ask]
+        Answer your question and walk away #speaker:elder elf #morality:1
+- -> street
+
+=== main2 ===
+You encounter an elven maiden. #portrait:Elf2/faceImage #speaker:Narrator
+    +[fight]
+        ~ temp res = DiceResult(20, "strength")
+        {res: 
+            Victorious, you strip them of their clothes in triumph #strength:1
+        -else: 
+            You suffer defeat and endure injuries. #health:-10
+        }
+        
+    +[ask]
+        Answer your question and walk away #speaker:elven maiden #morality:1
+- -> street
+
+=== main3 ===
+You encounter a human. #portrait:Human1/faceImage #speaker:Narrator
+    +[fight]
+        ~ temp res = DiceResult(20, "strength")
+        {res: 
+            Victorious, you strip them of their clothes in triumph #strength:1
+        -else: 
+            You suffer defeat and endure injuries. #health:-10
+        }
+        
+    +[ask]
+        Answer your question and walk away #speaker:human #morality:1
+- -> street
+
+=== street ===
+~ ClearEvent()
+Walk to the street #background:witches #speaker:Narrator
+You start feeling hungry and look for something to eat 
+    -> END

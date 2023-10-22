@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using UnityEngine.SearchService;
+using Ink.Parsed;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -28,8 +29,15 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerHealthPointText;
     [SerializeField] private int playerHP;
     [SerializeField] private int playerMorality;
+    [SerializeField] private int playerStrength;
+    [SerializeField] private int playerAgility;
+    [SerializeField] private int playerCharisma;
 
-    private Story currentStory;
+    // Maybe store in other place will be better?
+    [Header("Variable bind with ink")]
+    [SerializeField] private List<Ink.Runtime.Path> randomEvents;
+
+    private Ink.Runtime.Story currentStory;
 
     public bool dialogueIsPlaying { get; private set; }
     public bool choicesIsMaking { get; private set; }
@@ -41,7 +49,11 @@ public class DialogueManager : MonoBehaviour
     private const string BACKGROUND_TAG = "background";
     private const string HEALTHPOINT_TAG = "health";
     private const string MORALITY_TAG = "morality";
-    private const string DIFFICULTY_TAG = "difficulty";
+    private const string STRENGTH_TAG = "strength";
+    private const string AGILITY_TAG = "agility";
+    private const string CHARISMA_TAG = "charisma";
+
+    private InkExternalFunctions inkExternalFunctions;
 
     private void Awake()
     {
@@ -51,11 +63,17 @@ public class DialogueManager : MonoBehaviour
         }
         instance = this;
 
+        inkExternalFunctions = new InkExternalFunctions();
+
         // Should find a better position to initialize these variables 
         inkJSON = Resources.Load<TextAsset>("Events/StoryTestWithName");
         playerHP = 100;
         playerMorality = 0;
+        playerStrength = 10;
+        playerAgility = 10;
+        playerCharisma = 10;
         playerHealthPointText.text = "Player HP: " + playerHP.ToString();
+        randomEvents = new List<Ink.Runtime.Path>();
     }
 
     public static DialogueManager GetInstance()
@@ -111,16 +129,29 @@ public class DialogueManager : MonoBehaviour
 
     public void EnterDialogueMode(TextAsset inkJSON)
     {
-        currentStory = new Story(inkJSON.text);
+        // Ink.Runtime.Story
+        currentStory = new Ink.Runtime.Story(inkJSON.text);
         dialogueIsPlaying = true;
         choicesIsMaking = false;
         dialoguePanel.SetActive(true);
+
+        // Bind with ink functions
+        inkExternalFunctions.BindPushEvent(currentStory, randomEvents);
+        inkExternalFunctions.BindGetEvent(currentStory, randomEvents);
+        inkExternalFunctions.BindClearEvent(currentStory, randomEvents);
+        inkExternalFunctions.BindDiceResult(currentStory, playerStrength, playerAgility, playerCharisma);
 
         ContinueStory();
     }
 
     private void ExitDialogueMode()
     {
+        // Unbind with ink functions
+        inkExternalFunctions.UnbindPushEvent(currentStory);
+        inkExternalFunctions.UnbindGetEvent(currentStory);
+        inkExternalFunctions.UnbindClearEvent(currentStory);
+        inkExternalFunctions.UnbindDiceResult(currentStory);
+
         dialogueIsPlaying = false;
         //dialoguePanel.SetActive(false);
         dialogueText.text = "";
@@ -180,7 +211,14 @@ public class DialogueManager : MonoBehaviour
                 case BACKGROUND_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/BackGround/" + tagValue);
                     break;
-                case DIFFICULTY_TAG:
+                case STRENGTH_TAG:
+                    playerStrength += int.Parse(tagValue);
+                    break;
+                case AGILITY_TAG:
+                    playerAgility += int.Parse(tagValue);
+                    break;
+                case CHARISMA_TAG:
+                    playerCharisma+= int.Parse(tagValue);
                     break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
@@ -191,7 +229,7 @@ public class DialogueManager : MonoBehaviour
 
     private void DisplayChoices()
     {
-        List<Choice> currentChoices = currentStory.currentChoices;
+        List<Ink.Runtime.Choice> currentChoices = currentStory.currentChoices;
 
         // defensive check to make sure our UI can support the number of choices coming in.
         if (currentChoices.Count > choices.Length)
@@ -212,7 +250,7 @@ public class DialogueManager : MonoBehaviour
 
         int index = 0;
         // enable and initialize the choices up to the amount of choices for this line of dialogue
-        foreach (Choice choice in currentChoices)
+        foreach (Ink.Runtime.Choice choice in currentChoices)
         {
             choices[index].gameObject.SetActive(true);
             choicesText[index].text = choice.text;
