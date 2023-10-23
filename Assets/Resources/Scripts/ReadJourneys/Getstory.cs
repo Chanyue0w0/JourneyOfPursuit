@@ -16,40 +16,72 @@ public class storys{
 
 public class Getstory : MonoBehaviour
 {
-    //public string Savesrc = ".//Assets/Resources/journeys/saves.json";
-    public string Journeysrc = ".//Assets/Resources/journeys/journey1/";
+    public Text Textlabel;
+    public Button rbutton;
+    public Button lbutton;
+    //public Button qbutton;
+
+
     string[] tales = Directory.GetFiles(".//Assets/Resources/journeys/journey1");
     public int storynum = 3;
-    public Text Textlabel;
-    public int index = 0;
-    storys show = new storys();
-    private void Start(){
-        
-    }
 
-    private void Update(){
-        if(Input.GetMouseButtonDown(0)){
-            if(index>=storynum*2){
+    public int fileindex = 0;
+    List<string> textlist = new List<string>();
+    
+    //List<string> imglist = new List<string>();
+    private void Start(){
+        rbutton.onClick.AddListener(ClickRightButton);
+        lbutton.onClick.AddListener(ClickLeftButton);
+        //qbutton.onClick.AddListener(ClickQuitButton);
+        GetTextFromFile(tales[0]);
+    }
+    void ClickRightButton(){
+        if(fileindex<storynum*2&&fileindex>=-2){
+            fileindex+=2;
+            if(fileindex==storynum*2){
                 Textlabel.text = "THE END.";
-                index=0;
-            }
-            else if(index<storynum*2){
-                show = new storys();
-                //Journeysrc = tales[index];
-                GetTextFromFile(tales[index]);
-                Textlabel.text = show.story+"\r\n"+show.image+"\r\n";
-                index+=2;
+            }         
+            else{
+                textlist.Clear();
+                GetTextFromFile(tales[fileindex]);
             }
         }
     }
-    
+    void ClickLeftButton(){
+        if(fileindex<=storynum*2&&fileindex>=2){     
+            fileindex-=2;    
+            textlist.Clear();
+            GetTextFromFile(tales[fileindex]);
+        }
+    }
+
+    /*
+    void ClickQuitButton(){
+
+    }
+    */
+    private void Update(){
+
+    }
     private void GetTextFromFile(string Path){
         StreamReader r = new StreamReader(Path);
         string json = r.ReadToEnd();
         var desjson = JsonConvert.DeserializeObject<storys>(json);
-        show.story = desjson.story;
-        show.image = desjson.image;
+        
+        var tempsave = (desjson.story).Split('#');
+        foreach(var words in tempsave){
+            textlist.Add(words);
+        }
+        string clearelement = "";
+        Textlabel.text = clearelement;
+        for(int i = 0;i<textlist.Count;i++){
+            Textlabel.text += textlist[i];
+            Textlabel.text += "\r\n\r\n";
+        }
+        /*
+        tempsave = (desjson.image).Split('#');
+        foreach(var pic in tempsave)
+            imglist.Add(pic);
+        */
     }
-    
-
 }
