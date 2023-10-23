@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEngine.SearchService;
 using Ink.Parsed;
+using System.IO;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -27,15 +28,18 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Player Statements")]
     [SerializeField] private TextMeshProUGUI playerHealthPointText;
-    [SerializeField] private int playerHP;
+    /*[SerializeField] private int playerHP;
     [SerializeField] private int playerMorality;
     [SerializeField] private int playerStrength;
     [SerializeField] private int playerAgility;
-    [SerializeField] private int playerCharisma;
+    [SerializeField] private int playerCharisma;*/
+    private PlayerState player;
 
     // Maybe store in other place will be better?
     [Header("Variable bind with ink")]
     [SerializeField] private List<Ink.Runtime.Path> randomEvents;
+
+    private FileManager fileManager;
 
     private Ink.Runtime.Story currentStory;
 
@@ -52,6 +56,7 @@ public class DialogueManager : MonoBehaviour
     private const string STRENGTH_TAG = "strength";
     private const string AGILITY_TAG = "agility";
     private const string CHARISMA_TAG = "charisma";
+    private const string CHANGEFILE_TAG = "changefile";
 
     private InkExternalFunctions inkExternalFunctions;
 
@@ -67,12 +72,9 @@ public class DialogueManager : MonoBehaviour
 
         // Should find a better position to initialize these variables 
         inkJSON = Resources.Load<TextAsset>("Events/StoryTestWithName");
-        playerHP = 100;
-        playerMorality = 0;
-        playerStrength = 10;
-        playerAgility = 10;
-        playerCharisma = 10;
-        playerHealthPointText.text = "Player HP: " + playerHP.ToString();
+        player = new PlayerState();
+        fileManager = new FileManager();
+        playerHealthPointText.text = "Player HP: " + player.HP.ToString();
         randomEvents = new List<Ink.Runtime.Path>();
     }
 
@@ -112,10 +114,8 @@ public class DialogueManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             int click = ClickOn();
-            print("Mouse click on " + click);
             if (click <= choices.Length && click >= 0)
             {
-                print("Make choices");
                 MakeChoice(click);
             }
             else if (!choicesIsMaking)
@@ -136,10 +136,11 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(true);
 
         // Bind with ink functions
-        inkExternalFunctions.BindPushEvent(currentStory, randomEvents);
+        inkExternalFunctions.BindAll(currentStory, randomEvents, player.strength, player.agility, player.charisma);
+        /*inkExternalFunctions.BindPushEvent(currentStory, randomEvents);
         inkExternalFunctions.BindGetEvent(currentStory, randomEvents);
         inkExternalFunctions.BindClearEvent(currentStory, randomEvents);
-        inkExternalFunctions.BindDiceResult(currentStory, playerStrength, playerAgility, playerCharisma);
+        inkExternalFunctions.BindDiceResult(currentStory, player.strength, player.agility, player.charisma);*/
 
         ContinueStory();
     }
@@ -147,10 +148,11 @@ public class DialogueManager : MonoBehaviour
     private void ExitDialogueMode()
     {
         // Unbind with ink functions
-        inkExternalFunctions.UnbindPushEvent(currentStory);
+        inkExternalFunctions.UnBindAll(currentStory);
+        /*inkExternalFunctions.UnbindPushEvent(currentStory);
         inkExternalFunctions.UnbindGetEvent(currentStory);
         inkExternalFunctions.UnbindClearEvent(currentStory);
-        inkExternalFunctions.UnbindDiceResult(currentStory);
+        inkExternalFunctions.UnbindDiceResult(currentStory);*/
 
         dialogueIsPlaying = false;
         //dialoguePanel.SetActive(false);
@@ -163,6 +165,7 @@ public class DialogueManager : MonoBehaviour
         {
             // set text for the current dialogue line
             dialogueText.text = currentStory.Continue();
+            fileManager.travelogue += "#" + dialogueText.text;
 
             // display choices, if any, for this dialogue line
             DisplayChoices();
@@ -200,25 +203,33 @@ public class DialogueManager : MonoBehaviour
                     break;
                 case PORTRAIT_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/Characters/" + tagValue);
+                    fileManager.imagePath += "#" + "Arts/Characters" + tagValue;
                     break;
                 case HEALTHPOINT_TAG:
-                    playerHP += int.Parse(tagValue);
-                    playerHealthPointText.text = "Player HP:" + playerHP.ToString();
+                    player.HP += int.Parse(tagValue);
+                    playerHealthPointText.text = "Player HP:" + player.HP.ToString();
                     break;
                 case MORALITY_TAG:
-                    playerMorality += int.Parse(tagValue);
+                    player.morality += int.Parse(tagValue);
                     break;
                 case BACKGROUND_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/BackGround/" + tagValue);
+                    fileManager.imagePath += "#" + "Arts/BackGround" + tagValue;
                     break;
                 case STRENGTH_TAG:
-                    playerStrength += int.Parse(tagValue);
+                    player.strength += int.Parse(tagValue);
                     break;
                 case AGILITY_TAG:
-                    playerAgility += int.Parse(tagValue);
+                    player.agility += int.Parse(tagValue);
                     break;
                 case CHARISMA_TAG:
-                    playerCharisma+= int.Parse(tagValue);
+                    player.charisma += int.Parse(tagValue);
+                    break;
+                case CHANGEFILE_TAG:
+                    fileManager.fileName += 1;
+                    fileManager.SaveFile(fileManager);
+                    inkJSON = Resources.Load<TextAsset>("Events/" + tagValue);
+                    EnterDialogueMode(inkJSON);
                     break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
@@ -278,6 +289,8 @@ public class DialogueManager : MonoBehaviour
     {
         currentStory.ChooseChoiceIndex(choiceIndex);
         print("Make choice" + choiceIndex);
+        print(choicesText[choiceIndex].text);
+        fileManager.travelogue += "#" + choicesText[choiceIndex].text;
         ContinueStory();
     }
 
@@ -293,6 +306,7 @@ public class DialogueManager : MonoBehaviour
             switch (clickedObject.tag)
             {
                 case "Choices":
+                    Debug.Log("ddd");
                     int choiceIndex = Array.IndexOf(choices, clickedObject);
                     return choiceIndex;
             }

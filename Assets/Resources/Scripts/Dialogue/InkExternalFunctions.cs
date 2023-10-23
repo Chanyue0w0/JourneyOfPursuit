@@ -10,6 +10,22 @@ using UnityEditor.PackageManager;
 
 public class InkExternalFunctions
 {
+    public void BindAll(Story story, List<Ink.Runtime.Path> events, int strength, int agility, int charisma)
+    {
+        BindPushEvent(story, events);
+        BindGetEvent(story, events);
+        BindClearEvent(story, events);
+        BindDiceResult(story, strength, agility, charisma);
+    }
+
+    public void UnBindAll(Story story)
+    {
+        UnbindPushEvent(story);
+        UnbindGetEvent(story);
+        UnbindClearEvent(story);
+        UnbindDiceResult(story);
+    }
+
     public void BindPushEvent(Story story, List<Ink.Runtime.Path> events)
     {
         story.BindExternalFunction("PushEvent", (Ink.Runtime.Path a) =>
