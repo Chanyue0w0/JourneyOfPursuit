@@ -51,11 +51,6 @@ public class Getstory : MonoBehaviour
     }
     
     void ClickRightButton(){
-        /*
-        to-do list
-        1.beware file changing
-        2.check varible
-        */
         if(fileindex<tales.Count&&textindex<textlist.Count&&fileindex>=-1&&textindex>=-1){
             textindex++;
             if(textindex==textlist.Count&&fileindex==tales.Count-1){
@@ -129,13 +124,6 @@ public class Getstory : MonoBehaviour
         StreamReader r = new StreamReader(Path);
         string json = r.ReadToEnd();
         var desjson = JsonConvert.DeserializeObject<storys>(json);
-
-        /*
-        to-do list
-        load one file and save to a list...ok
-            (1)find when to change page
-            (2)when to change image
-        */
         //read file text and image
         var tempsave = (desjson.travelogue).Split('#');
         foreach(var words in tempsave){
