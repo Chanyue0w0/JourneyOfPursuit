@@ -5,7 +5,6 @@ EXTERNAL ClearEvent()
 // (難度, strength/agility/charisma)
 EXTERNAL DiceResult(a,b)
 
-
 ~ ClearEvent()
 ~ PushEvent(->main1)
 ~ PushEvent(->main2)
@@ -13,10 +12,12 @@ EXTERNAL DiceResult(a,b)
 ~ temp event = GetEvent()
 -> event
 
+
 === main1 ===
 You encounter an elder elf #portrait:Elf1/faceImage #speaker:Narrator
     +[fight]
         ~ temp res = DiceResult(20, "strength")
+        #rolling:2
         {res: 
             Victorious, you strip them of their clothes in triumph #strength:1
         -else: 
@@ -31,6 +32,7 @@ You encounter an elder elf #portrait:Elf1/faceImage #speaker:Narrator
 You encounter an elven maiden. #portrait:Elf2/faceImage #speaker:Narrator
     +[fight]
         ~ temp res = DiceResult(20, "strength")
+        #rolling:2
         {res: 
             Victorious, you strip them of their clothes in triumph #strength:1
         -else: 
@@ -45,6 +47,7 @@ You encounter an elven maiden. #portrait:Elf2/faceImage #speaker:Narrator
 You encounter a human. #portrait:Human1/faceImage #speaker:Narrator
     +[fight]
         ~ temp res = DiceResult(20, "strength")
+        #rolling:2
         {res: 
             Victorious, you strip them of their clothes in triumph #strength:1
         -else: 
@@ -58,5 +61,6 @@ You encounter a human. #portrait:Human1/faceImage #speaker:Narrator
 === street ===
 ~ ClearEvent()
 Walk to the street #background:witches #speaker:Narrator
-You start feeling hungry and look for something to eat #changefile:StoryTest
+You start feeling hungry and look for something to eat 
+a#changefile:StoryTest
     -> END

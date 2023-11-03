@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Ink.Runtime;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor.PackageManager;
 
-public class InkExternalFunctions
+public class InkExternalFunctions : MonoBehaviour
 {
     public void BindAll(Story story, List<Ink.Runtime.Path> events, int strength, int agility, int charisma)
     {
@@ -83,6 +85,10 @@ public class InkExternalFunctions
         {
             System.Random random = new System.Random(DateTime.Now.Millisecond);
             int ranNum = random.Next(0, 20231022) % 20 + 1;
+
+            DiceManager.GetInstance().gameObject.SetActive(true);
+            DiceManager.GetInstance().anim.SetInteger("DiceResult", ranNum);
+
             Debug.Log("Type: " + type + " Dice: " + ranNum + " Strength: " + strength + " Agility: " + agility + " Charisma: " + charisma + " DifficultyLevel: " + difficultyLevel);
 
             if (type == "strength")

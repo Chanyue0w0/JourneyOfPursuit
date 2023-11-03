@@ -9,6 +9,7 @@ public class PlayerState
     public int strength;
     public int agility;
     public int charisma;
+    public string[] playerStatus;
 
     public PlayerState()
     {
