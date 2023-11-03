@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Arts/Characters/Dice/Black.mat.meta
 guid: 6b0fea83c85fd3d4099c0bc737c56c8d
+========
+guid: b3410f9c3118fcd40841b0baeebbced5
+>>>>>>>> 5b8314e72dcb53bfd535caea5bae62de2d3ccf33:Assets/CTMP.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000
