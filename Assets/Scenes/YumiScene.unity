@@ -160,8 +160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: -67}
-  m_SizeDelta: {x: 81.7982, y: 20.6987}
+  m_AnchoredPosition: {x: -19.9427, y: -68.2628}
+  m_SizeDelta: {x: 43.9129, y: 21.5406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485171605
 MonoBehaviour:
@@ -282,8 +282,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0000107, y: -46.3013}
-  m_SizeDelta: {x: 81.7982, y: 20.6987}
+  m_AnchoredPosition: {x: -19.9427, y: -46.7222}
+  m_SizeDelta: {x: 43.9129, y: 21.5406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &943555155
 MonoBehaviour:
@@ -425,10 +425,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Setting
+  m_text: "\u8A2D\u5B9A"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
+  m_sharedMaterial: {fileID: -5365963624843092436, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -539,8 +539,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0000107, y: -87.6987}
-  m_SizeDelta: {x: 81.7982, y: 20.6987}
+  m_AnchoredPosition: {x: -5.2095, y: -89.8034}
+  m_SizeDelta: {x: 73.3793, y: 21.5406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1126520276
 MonoBehaviour:
@@ -682,10 +682,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue
+  m_text: "\u7E7C\u7E8C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
+  m_sharedMaterial: {fileID: -5365963624843092436, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -817,10 +817,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Start
+  m_text: "\u958B\u59CB"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
+  m_sharedMaterial: {fileID: -5365963624843092436, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -952,10 +952,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Overview
+  m_text: "\u65C5\u7A0B\u56DE\u9867"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
+  m_sharedMaterial: {fileID: -5365963624843092436, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1294,8 +1294,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0000107, y: -108.3974}
-  m_SizeDelta: {x: 81.7982, y: 20.6987}
+  m_AnchoredPosition: {x: -19.9427, y: -111.344}
+  m_SizeDelta: {x: 43.9129, y: 21.5406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2019851396
 MonoBehaviour:
@@ -1437,10 +1437,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Journey of Pursuit
+  m_text: "\u8FFD\u5922\u4E4B\u65C5"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
+  m_sharedMaterial: {fileID: -5365963624843092436, guid: 0da0997a8ac5a48b6bad076591e194a7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1470,7 +1470,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1565,7 +1565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.49411768, g: 0.49411768, b: 0.49411768, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

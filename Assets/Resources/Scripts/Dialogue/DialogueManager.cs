@@ -9,9 +9,16 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEngine.SearchService;
 using Ink.Parsed;
+using System.IO;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class DialogueManager : MonoBehaviour
 {
+    [Header("Params")]
+    [SerializeField] private float typingSpeed = 0.06f;
+    [SerializeField] private bool diceIsRolling = false;
+    [SerializeField] private bool letterIsTyping = false;
+
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TextMeshProUGUI dialogueText;
@@ -27,17 +34,22 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Player Statements")]
     [SerializeField] private TextMeshProUGUI playerHealthPointText;
-    [SerializeField] private int playerHP;
+    [SerializeField] private TextMeshProUGUI playerStateText;
+    /*[SerializeField] private int playerHP;
     [SerializeField] private int playerMorality;
     [SerializeField] private int playerStrength;
     [SerializeField] private int playerAgility;
-    [SerializeField] private int playerCharisma;
+    [SerializeField] private int playerCharisma;*/
+    private PlayerState player;
 
     // Maybe store in other place will be better?
     [Header("Variable bind with ink")]
     [SerializeField] private List<Ink.Runtime.Path> randomEvents;
 
+    private FileManager fileManager;
+
     private Ink.Runtime.Story currentStory;
+    private Coroutine displayLineCoroutine;
 
     public bool dialogueIsPlaying { get; private set; }
     public bool choicesIsMaking { get; private set; }
@@ -52,6 +64,8 @@ public class DialogueManager : MonoBehaviour
     private const string STRENGTH_TAG = "strength";
     private const string AGILITY_TAG = "agility";
     private const string CHARISMA_TAG = "charisma";
+    private const string CHANGEFILE_TAG = "changefile";
+    private const string ROLLING_TAG = "rolling";
 
     private InkExternalFunctions inkExternalFunctions;
 
@@ -66,13 +80,11 @@ public class DialogueManager : MonoBehaviour
         inkExternalFunctions = new InkExternalFunctions();
 
         // Should find a better position to initialize these variables 
-        inkJSON = Resources.Load<TextAsset>("Events/StoryTestWithName");
-        playerHP = 100;
-        playerMorality = 0;
-        playerStrength = 10;
-        playerAgility = 10;
-        playerCharisma = 10;
-        playerHealthPointText.text = "Player HP: " + playerHP.ToString();
+        inkJSON = Resources.Load<TextAsset>("Events/Aoa");
+        player = new PlayerState();
+        fileManager = new FileManager();
+        playerHealthPointText.text = "Player HP: " + player.HP.ToString();
+        playerStateText.text = "Strength:" + player.strength.ToString() + " Agility:" + player.agility.ToString() + " Charisma:" + player.charisma.ToString();
         randomEvents = new List<Ink.Runtime.Path>();
     }
 
@@ -84,10 +96,11 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         dialogueIsPlaying = false;
-        //dialoguePanel.SetActive(false);
-
+        
         // get all of the choices text
         choicesText = new TextMeshProUGUI[choices.Length];
+
+        DiceManager.GetInstance().gameObject.SetActive(false);
 
         int index = 0;
         foreach (GameObject choice in choices)
@@ -112,13 +125,15 @@ public class DialogueManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             int click = ClickOn();
-            print("Mouse click on " + click);
             if (click <= choices.Length && click >= 0)
             {
-                print("Make choices");
                 MakeChoice(click);
             }
-            else if (!choicesIsMaking)
+            else if (letterIsTyping)
+            {
+                letterIsTyping = false;
+            }
+            else if (!choicesIsMaking && !diceIsRolling)
             {
                 print("Continue Story");
                 ContinueStory();
@@ -136,10 +151,11 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(true);
 
         // Bind with ink functions
-        inkExternalFunctions.BindPushEvent(currentStory, randomEvents);
+        inkExternalFunctions.BindAll(currentStory, randomEvents, player.strength, player.agility, player.charisma);
+        /*inkExternalFunctions.BindPushEvent(currentStory, randomEvents);
         inkExternalFunctions.BindGetEvent(currentStory, randomEvents);
         inkExternalFunctions.BindClearEvent(currentStory, randomEvents);
-        inkExternalFunctions.BindDiceResult(currentStory, playerStrength, playerAgility, playerCharisma);
+        inkExternalFunctions.BindDiceResult(currentStory, player.strength, player.agility, player.charisma);*/
 
         ContinueStory();
     }
@@ -147,10 +163,11 @@ public class DialogueManager : MonoBehaviour
     private void ExitDialogueMode()
     {
         // Unbind with ink functions
-        inkExternalFunctions.UnbindPushEvent(currentStory);
+        inkExternalFunctions.UnBindAll(currentStory);
+        /*inkExternalFunctions.UnbindPushEvent(currentStory);
         inkExternalFunctions.UnbindGetEvent(currentStory);
         inkExternalFunctions.UnbindClearEvent(currentStory);
-        inkExternalFunctions.UnbindDiceResult(currentStory);
+        inkExternalFunctions.UnbindDiceResult(currentStory);*/
 
         dialogueIsPlaying = false;
         //dialoguePanel.SetActive(false);
@@ -162,7 +179,11 @@ public class DialogueManager : MonoBehaviour
         if (currentStory.canContinue)
         {
             // set text for the current dialogue line
-            dialogueText.text = currentStory.Continue();
+            if (displayLineCoroutine != null)
+            {
+                StopCoroutine(displayLineCoroutine);
+            }
+            displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue())); 
 
             // display choices, if any, for this dialogue line
             DisplayChoices();
@@ -174,6 +195,57 @@ public class DialogueManager : MonoBehaviour
         {
             ExitDialogueMode();
         }
+    }
+
+    private IEnumerator DisplayLine(string line)
+    {
+        // Empty the dialogue text
+        dialogueText.text = "";
+        letterIsTyping = true;
+
+        // display each letter one at a time
+        for (int i = 0; i < line.Length; i++)
+        {
+            if (!letterIsTyping)
+            {
+                dialogueText.text = line;
+                break;
+            }
+
+            if (line[i] == '<')
+            {
+                dialogueText.text += "\n";
+                i += 3;
+            }
+            else
+            {
+                dialogueText.text += line[i];
+                yield return new WaitForSeconds(typingSpeed);
+            }
+        }
+
+        /*foreach (char letter in line.ToCharArray())
+        {
+            // if the submit button is pressed, finish up displaying the line right away
+            if (!letterIsTyping)
+            {
+                dialogueText.text = line;
+                break;
+            }
+
+            if (letter == '<')
+            {
+                dialogueText.text += '\n';
+            }
+            else
+            {
+                dialogueText.text += letter;
+                yield return new WaitForSeconds(typingSpeed);
+            }
+        }*/
+
+        letterIsTyping = false;
+        fileManager.travelogue += "#" + dialogueText.text;
     }
 
     private void HandleTags(List<string> currentTags)
@@ -200,31 +272,56 @@ public class DialogueManager : MonoBehaviour
                     break;
                 case PORTRAIT_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/Characters/" + tagValue);
+                    fileManager.travelogue += "#changeImage";
+                    fileManager.imagePath += "#" + "Arts/Characters/" + tagValue;
                     break;
                 case HEALTHPOINT_TAG:
-                    playerHP += int.Parse(tagValue);
-                    playerHealthPointText.text = "Player HP:" + playerHP.ToString();
+                    player.HP += int.Parse(tagValue);
+                    playerHealthPointText.text = "Player HP:" + player.HP.ToString();
                     break;
                 case MORALITY_TAG:
-                    playerMorality += int.Parse(tagValue);
+                    player.morality += int.Parse(tagValue);
                     break;
                 case BACKGROUND_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/BackGround/" + tagValue);
+                    fileManager.travelogue += "#changeImage";
+                    fileManager.imagePath += "#" + "Arts/BackGround/" + tagValue;
                     break;
                 case STRENGTH_TAG:
-                    playerStrength += int.Parse(tagValue);
+                    player.strength += int.Parse(tagValue);
+                    playerStateText.text = "Strength:" + player.strength.ToString() + " Agility:" + player.agility.ToString() + " Charisma:" + player.charisma.ToString();
                     break;
                 case AGILITY_TAG:
-                    playerAgility += int.Parse(tagValue);
+                    player.agility += int.Parse(tagValue);
+                    playerStateText.text = "Strength:" + player.strength.ToString() + " Agility:" + player.agility.ToString() + " Charisma:" + player.charisma.ToString();
                     break;
                 case CHARISMA_TAG:
-                    playerCharisma+= int.Parse(tagValue);
+                    player.charisma += int.Parse(tagValue);
+                    playerStateText.text = "Strength:" + player.strength.ToString() + " Agility:" + player.agility.ToString() + " Charisma:" + player.charisma.ToString();
+                    break;
+                case CHANGEFILE_TAG:
+                    fileManager.fileName += 1;
+                    fileManager.SaveFile(fileManager);
+                    inkJSON = Resources.Load<TextAsset>("Events/" + tagValue);
+                    EnterDialogueMode(inkJSON);
+                    break;
+                case ROLLING_TAG:
+                    StartCoroutine(DiceRollingAnimation());
                     break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
             }
         }
+    }
+
+    public IEnumerator DiceRollingAnimation()
+    {
+        diceIsRolling = true;
+        yield return new WaitForSeconds(2);
+        diceIsRolling = false;
+        DiceManager.GetInstance().gameObject.SetActive(false);
+        ContinueStory();
     }
 
     private void DisplayChoices()
@@ -246,8 +343,6 @@ public class DialogueManager : MonoBehaviour
             choicesIsMaking = false;
         }
             
-
-
         int index = 0;
         // enable and initialize the choices up to the amount of choices for this line of dialogue
         foreach (Ink.Runtime.Choice choice in currentChoices)
@@ -261,13 +356,12 @@ public class DialogueManager : MonoBehaviour
         {
             choices[i].gameObject.SetActive(false);
         }
-
         StartCoroutine(SelectFirstChoice());   
     }
 
     private IEnumerator SelectFirstChoice()
     {
-        // Event SYstem requires we clear it first, than wait
+        // Event System requires we clear it first, than wait
         // for at least on frame before we set  the current selected object.
         EventSystem.current.SetSelectedGameObject(null);
         yield return new WaitForEndOfFrame();
@@ -278,6 +372,8 @@ public class DialogueManager : MonoBehaviour
     {
         currentStory.ChooseChoiceIndex(choiceIndex);
         print("Make choice" + choiceIndex);
+        print(choicesText[choiceIndex].text);
+        fileManager.travelogue += "#" + choicesText[choiceIndex].text;
         ContinueStory();
     }
 
@@ -293,6 +389,7 @@ public class DialogueManager : MonoBehaviour
             switch (clickedObject.tag)
             {
                 case "Choices":
+                    Debug.Log("ddd");
                     int choiceIndex = Array.IndexOf(choices, clickedObject);
                     return choiceIndex;
             }
