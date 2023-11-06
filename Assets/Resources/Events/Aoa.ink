@@ -1,11 +1,11 @@
 INCLUDE globals.ink
 
-// (->knot) 就是path
 EXTERNAL PushEvent(a)
 EXTERNAL GetEvent()
 EXTERNAL ClearEvent()
-// (難度, strength/agility/charisma)
 EXTERNAL DiceResult(a,b)
+
+{ player_name != "": -> final}
 
 當主角在陌生的巷子中醒來時<br>，他感到極度困惑。他的大腦一片空白，無法回憶起自己是誰，他是如何來到這個地方的。慌張中，他注意到手中緊握著一條精美的項鍊，項鍊上掛著一個小小的寶石。 #background:kingdom_street #speaker:Narrator
 主角緊抓著這條項鍊，他感到一種奇怪的親切感，似乎這項鍊與他的過去有某種聯繫。他陷入一個內心掙扎，不知道應該將這條項鍊戴在脖子上，還是放進口袋中。 #background:kingdom_gem 
@@ -16,6 +16,7 @@ EXTERNAL DiceResult(a,b)
         他思考著，決定將項鍊繫在脖子上，這樣他可以隨時查看它，或者如果有人認出項鍊，或許能提供一些關於他過去的線索。
         -> a 
     +[放進口袋]
+        ~ player_name = "Leah"
         主角決定將手中的項鍊輕輕放進口袋中，這樣他可以隨時取出來查看，同時也不必讓項鍊引起他人的注意。他感到自己的心情稍稍平靜了一些，儘管仍然對自己失去記憶感到困惑。
         主角選擇將項鍊謹慎地放進口袋，希望這樣可以保持低調。然而，在這個陌生的巷子中，他的警戒心卻被一個狡猾的小偷盯上了。當主角感到一陣涼風掠過身旁時，他立刻明白發生了什麼。
         小偷在一瞬間巧妙地偷走了主角的項鍊，然後急忙轉身消失在人群中。主角決定跟蹤小偷，不僅是為了追回項鍊，更是為了保護他唯一的線索。

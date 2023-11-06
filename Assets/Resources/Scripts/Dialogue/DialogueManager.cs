@@ -10,7 +10,7 @@ using System;
 using UnityEngine.SearchService;
 using Ink.Parsed;
 using System.IO;
-using Unity.VisualScripting.Antlr3.Runtime;
+using Unity.VisualScripting.Antlr3.Runtime; 
 
 public class DialogueManager : MonoBehaviour
 {
@@ -18,6 +18,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private float typingSpeed = 0.06f;
     [SerializeField] private bool diceIsRolling = false;
     [SerializeField] private bool letterIsTyping = false;
+
+    [Header("Load Globals JSON")]
+    [SerializeField] private TextAsset loadGlobalsJSON;
 
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialoguePanel;
@@ -33,13 +36,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextAsset inkJSON;
 
     [Header("Player Statements")]
-    [SerializeField] private TextMeshProUGUI playerHealthPointText;
-    [SerializeField] private TextMeshProUGUI playerStateText;
-    /*[SerializeField] private int playerHP;
-    [SerializeField] private int playerMorality;
-    [SerializeField] private int playerStrength;
-    [SerializeField] private int playerAgility;
-    [SerializeField] private int playerCharisma;*/
+    [SerializeField] private GameObject playerStatePanel;
+    [SerializeField] private UnityEngine.UI.Text healthPointText;
+    [SerializeField] private UnityEngine.UI.Text moneyText;
+    [SerializeField] private UnityEngine.UI.Text strengthText;
+    [SerializeField] private UnityEngine.UI.Text agilityText;
+    [SerializeField] private UnityEngine.UI.Text charismaText;
     private PlayerState player;
 
     // Maybe store in other place will be better?
@@ -60,6 +62,7 @@ public class DialogueManager : MonoBehaviour
     private const string PORTRAIT_TAG = "portrait";
     private const string BACKGROUND_TAG = "background";
     private const string HEALTHPOINT_TAG = "health";
+    private const string MONEY_TAG = "money";
     private const string MORALITY_TAG = "morality";
     private const string STRENGTH_TAG = "strength";
     private const string AGILITY_TAG = "agility";
@@ -68,6 +71,9 @@ public class DialogueManager : MonoBehaviour
     private const string ROLLING_TAG = "rolling";
 
     private InkExternalFunctions inkExternalFunctions;
+    private DialogueVariables dialogueVariables;
+
+    private const string saveStoryKey = "INK_STORY";
 
     private void Awake()
     {
@@ -78,14 +84,15 @@ public class DialogueManager : MonoBehaviour
         instance = this;
 
         inkExternalFunctions = new InkExternalFunctions();
+        dialogueVariables = new DialogueVariables(loadGlobalsJSON);
 
         // Should find a better position to initialize these variables 
-        inkJSON = Resources.Load<TextAsset>("Events/Aoa");
         player = new PlayerState();
         fileManager = new FileManager();
-        playerHealthPointText.text = "Player HP: " + player.HP.ToString();
-        playerStateText.text = "Strength:" + player.strength.ToString() + " Agility:" + player.agility.ToString() + " Charisma:" + player.charisma.ToString();
         randomEvents = new List<Ink.Runtime.Path>();
+        inkJSON = Resources.Load<TextAsset>("Events/Aoa");
+        player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+        
     }
 
     public static DialogueManager GetInstance()
@@ -124,20 +131,6 @@ public class DialogueManager : MonoBehaviour
         // handle continuing to the next line in the dialogue when submit is pressed
         if (Input.GetMouseButtonDown(0))
         {
-            int click = ClickOn();
-            if (click <= choices.Length && click >= 0)
-            {
-                MakeChoice(click);
-            }
-            else if (letterIsTyping)
-            {
-                letterIsTyping = false;
-            }
-            else if (!choicesIsMaking && !diceIsRolling)
-            {
-                print("Continue Story");
-                ContinueStory();
-            }
         }
 
     }
@@ -150,6 +143,8 @@ public class DialogueManager : MonoBehaviour
         choicesIsMaking = false;
         dialoguePanel.SetActive(true);
 
+        dialogueVariables.StartListening(currentStory);
+
         // Bind with ink functions
         inkExternalFunctions.BindAll(currentStory, randomEvents, player.strength, player.agility, player.charisma);
         /*inkExternalFunctions.BindPushEvent(currentStory, randomEvents);
@@ -157,11 +152,25 @@ public class DialogueManager : MonoBehaviour
         inkExternalFunctions.BindClearEvent(currentStory, randomEvents);
         inkExternalFunctions.BindDiceResult(currentStory, player.strength, player.agility, player.charisma);*/
 
+        // Save Game Test
+        /*if (PlayerPrefs.HasKey(saveStoryKey))
+        {
+            Debug.Log("has key");
+            string jsonState = PlayerPrefs.GetString(saveStoryKey);
+            currentStory.state.LoadJson(jsonState);
+        }
+        else
+        {
+            ContinueStory();
+        }*/
+
         ContinueStory();
     }
 
     private void ExitDialogueMode()
     {
+        dialogueVariables.StopListening(currentStory);
+
         // Unbind with ink functions
         inkExternalFunctions.UnBindAll(currentStory);
         /*inkExternalFunctions.UnbindPushEvent(currentStory);
@@ -275,10 +284,6 @@ public class DialogueManager : MonoBehaviour
                     fileManager.travelogue += "#changeImage";
                     fileManager.imagePath += "#" + "Arts/Characters/" + tagValue;
                     break;
-                case HEALTHPOINT_TAG:
-                    player.HP += int.Parse(tagValue);
-                    playerHealthPointText.text = "Player HP:" + player.HP.ToString();
-                    break;
                 case MORALITY_TAG:
                     player.morality += int.Parse(tagValue);
                     break;
@@ -287,17 +292,25 @@ public class DialogueManager : MonoBehaviour
                     fileManager.travelogue += "#changeImage";
                     fileManager.imagePath += "#" + "Arts/BackGround/" + tagValue;
                     break;
+                case HEALTHPOINT_TAG:
+                    player.HP += int.Parse(tagValue);
+                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    break;
+                case MONEY_TAG:
+                    player.money += int.Parse(tagValue);
+                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    break;
                 case STRENGTH_TAG:
                     player.strength += int.Parse(tagValue);
-                    playerStateText.text = "Strength:" + player.strength.ToString() + " Agility:" + player.agility.ToString() + " Charisma:" + player.charisma.ToString();
+                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     break;
                 case AGILITY_TAG:
                     player.agility += int.Parse(tagValue);
-                    playerStateText.text = "Strength:" + player.strength.ToString() + " Agility:" + player.agility.ToString() + " Charisma:" + player.charisma.ToString();
+                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     break;
                 case CHARISMA_TAG:
                     player.charisma += int.Parse(tagValue);
-                    playerStateText.text = "Strength:" + player.strength.ToString() + " Agility:" + player.agility.ToString() + " Charisma:" + player.charisma.ToString();
+                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     break;
                 case CHANGEFILE_TAG:
                     fileManager.fileName += 1;
@@ -373,28 +386,57 @@ public class DialogueManager : MonoBehaviour
         currentStory.ChooseChoiceIndex(choiceIndex);
         print("Make choice" + choiceIndex);
         print(choicesText[choiceIndex].text);
-        fileManager.travelogue += "#" + choicesText[choiceIndex].text;
+        fileManager.travelogue += "^" + choicesText[choiceIndex].text;
         ContinueStory();
     }
 
-    private int ClickOn()
+    public void PlayerStateTrigger()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        playerStatePanel.SetActive(!playerStatePanel.activeSelf);
+    }
 
-        if (Physics.Raycast(ray, out hit))
+    public void ClickOnDialoguePanel()
+    {
+        if (letterIsTyping)
         {
-            GameObject clickedObject = hit.collider.gameObject;
+            letterIsTyping = false;
+        }
+        else if (!choicesIsMaking && !diceIsRolling)
+        {
+            print("Continue Story");
+            ContinueStory();
+        }
+    }
 
-            switch (clickedObject.tag)
-            {
-                case "Choices":
-                    Debug.Log("ddd");
-                    int choiceIndex = Array.IndexOf(choices, clickedObject);
-                    return choiceIndex;
-            }
+    public Ink.Runtime.Object GetVariableState(string variableName)
+    {
+        Ink.Runtime.Object variableValue = null;
+        dialogueVariables.variables.TryGetValue(variableName, out variableValue);
+        if (variableValue == null)
+        {
+            Debug.LogWarning("Ink variable was found to be null: " + variableName);
+        }
+        return variableValue;
+    }
+
+    private void SaveStoryState()
+    {
+        if (currentStory != null)
+        {
+            PlayerPrefs.SetString(saveStoryKey, currentStory.state.ToJson());
+        }
+    }
+
+    // This method will get called anytime the application exits.
+    // Depending on game, may want to save variable state in other places.
+    public void OnApplicationQuit()
+    {
+        if (dialogueVariables != null)
+        {
+            dialogueVariables.SaveVariables();
         }
 
-        return -1;
+        // Save Game Test
+        SaveStoryState();
     }
 }   

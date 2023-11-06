@@ -1,1 +1,1 @@
-VAR steal = false
+VAR player_name = ""
