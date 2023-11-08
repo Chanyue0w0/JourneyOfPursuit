@@ -1,0 +1,28 @@
+Font: Unknown  Style: Unknown
+Point Size: 325   SP/PD Ratio: 1.5%
+
+Characters included: 0/16
+Missing characters: 16
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+ID: 38283	Hex: 958B	Char [開]
+ID: 22987	Hex: 59CB	Char [始]
+ID: 32380	Hex: 7E7C	Char [繼]
+ID: 32396	Hex: 7E8C	Char [續]
+ID: 26053	Hex: 65C5	Char [旅]
+ID: 31243	Hex: 7A0B	Char [程]
+ID: 22238	Hex: 56DE	Char [回]
+ID: 39015	Hex: 9867	Char [顧]
+ID: 35373	Hex: 8A2D	Char [設]
+ID: 23450	Hex: 5B9A	Char [定]
+ID: 9679	Hex: 25CF	Char [●]
+ID: 9675	Hex: 25CB	Char [○]
+ID: 9670	Hex: 25C6	Char [◆]
+ID: 9671	Hex: 25C7	Char [◇]
+ID: 9632	Hex: 25A0	Char [■]
+ID: 9633	Hex: 25A1	Char [□]
+
+Characters excluded from packing:
+----------------------------------------
