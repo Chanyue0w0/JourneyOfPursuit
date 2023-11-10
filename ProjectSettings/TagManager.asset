@@ -5,7 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Choices
+<<<<<<< Updated upstream
   - Dialogue
+=======
+  - DialoguePanel
+  - PlayerState
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX

@@ -37,12 +37,26 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     [Header("Player Statements")]
     [SerializeField] private GameObject playerStatePanel;
+<<<<<<< Updated upstream
     [SerializeField] private UnityEngine.UI.Text healthPointText;
     [SerializeField] private UnityEngine.UI.Text moneyText;
     [SerializeField] private UnityEngine.UI.Text strengthText;
     [SerializeField] private UnityEngine.UI.Text agilityText;
     [SerializeField] private UnityEngine.UI.Text charismaText;
     //private PlayerState player;
+=======
+    [SerializeField] private TextMeshProUGUI playerHealthPointText;
+    [SerializeField] private TextMeshProUGUI playerMoneyText;
+    [SerializeField] private TextMeshProUGUI playerStrengthText;
+    [SerializeField] private TextMeshProUGUI playerAgilityText;
+    [SerializeField] private TextMeshProUGUI playerCharismaText;
+    /*[SerializeField] private int playerHP;
+    [SerializeField] private int playerMorality;
+    [SerializeField] private int playerStrength;
+    [SerializeField] private int playerAgility;
+    [SerializeField] private int playerCharisma;*/
+    private PlayerState player;
+>>>>>>> Stashed changes
 
     // Maybe store in other place will be better?
     [Header("Variable bind with ink")]
@@ -101,6 +115,14 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         // Should find a better position to initialize these variables 
         //player = new PlayerState();
         fileManager = new FileManager();
+<<<<<<< Updated upstream
+=======
+        playerHealthPointText.text = "HP: " + player.HP.ToString();
+        playerMoneyText.text = "Money: " + player.money.ToString();
+        playerStrengthText.text = "Strength: " + player.strength.ToString();
+        playerAgilityText.text = "Agility: " + player.agility.ToString();
+        playerCharismaText.text = "Charisma: " + player.charisma.ToString();
+>>>>>>> Stashed changes
         randomEvents = new List<Ink.Runtime.Path>();
         //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
         //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
@@ -204,6 +226,26 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         // handle continuing to the next line in the dialogue when submit is pressed
         if (Input.GetMouseButtonDown(0))
         {
+<<<<<<< Updated upstream
+=======
+            int click = ClickOn();
+            if (click <= choices.Length && click >= 0)
+            {
+                MakeChoice(click);
+            }
+            else if (click == 4)
+            {
+                if (letterIsTyping)
+                {
+                    letterIsTyping = false;
+                }
+                else if (!choicesIsMaking && !diceIsRolling)
+                {
+                    ContinueStory();
+                }
+            }
+            
+>>>>>>> Stashed changes
         }
 
     }
@@ -260,6 +302,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     {
         if (currentStory.canContinue)
         {
+            print("Can Continue");
             // set text for the current dialogue line
             if (displayLineCoroutine != null)
             {
@@ -356,6 +399,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                 case PORTRAIT_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/Characters/" + tagValue);
                     fileManager.travelogue += "#changeImage";
+<<<<<<< Updated upstream
                     fileManager.imagePathForStory += "#" + "Arts/Characters/" + tagValue;
                     // save test
                     imagePath = "Arts/Characters/" + tagValue;
@@ -363,6 +407,9 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                 case MORALITY_TAG:
                     //player.morality += int.Parse(tagValue);
                     morality += int.Parse(tagValue);
+=======
+                    fileManager.imagePath += "#" + "Arts/Characters/" + tagValue;
+>>>>>>> Stashed changes
                     break;
                 case BACKGROUND_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/BackGround/" + tagValue);
@@ -383,7 +430,19 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                     money += int.Parse(tagValue);
                     UpdatePlayerState();
                     break;
+                case MORALITY_TAG:
+                    player.morality += int.Parse(tagValue);
+                    break;
+                case HEALTHPOINT_TAG:
+                    player.HP += int.Parse(tagValue);
+                    playerHealthPointText.text = "HP: " + player.HP.ToString();
+                    break;
+                case MONEY_TAG:
+                    player.money += int.Parse(tagValue);
+                    playerMoneyText.text = "Money: " + player.money.ToString();
+                    break;
                 case STRENGTH_TAG:
+<<<<<<< Updated upstream
                     //player.strength += int.Parse(tagValue);
                     //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     strength += int.Parse(tagValue);
@@ -400,6 +459,18 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                     //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     charisma += int.Parse(tagValue);
                     UpdatePlayerState();
+=======
+                    player.strength += int.Parse(tagValue);
+                    playerStrengthText.text = "Strength: " + player.strength.ToString();
+                    break;
+                case AGILITY_TAG:
+                    player.agility += int.Parse(tagValue);
+                    playerAgilityText.text = "Agility: " + player.agility.ToString();
+                    break;
+                case CHARISMA_TAG:
+                    player.charisma += int.Parse(tagValue);
+                    playerCharismaText.text = "Charisma: " + player.charisma.ToString();
+>>>>>>> Stashed changes
                     break;
                 case CHANGEFILE_TAG:
                     fileManager.fileName += 1;
@@ -480,7 +551,10 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     {
         currentStory.ChooseChoiceIndex(choiceIndex);
         print("Make choice" + choiceIndex);
+<<<<<<< Updated upstream
         print(choicesText[choiceIndex].text);
+=======
+>>>>>>> Stashed changes
         fileManager.travelogue += "^" + choicesText[choiceIndex].text;
         ContinueStory();
     }
@@ -503,6 +577,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         }
     }
 
+<<<<<<< Updated upstream
     public Ink.Runtime.Object GetVariableState(string variableName)
     {
         Ink.Runtime.Object variableValue = null;
@@ -529,6 +604,18 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         if (dialogueVariables != null)
         {
             dialogueVariables.SaveVariables();
+=======
+            switch (clickedObject.tag)
+            {
+                case "Choices":
+                    int choiceIndex = Array.IndexOf(choices, clickedObject);
+                    return choiceIndex;
+                case "DialoguePanel":
+                    return 4;
+                case "PlayerState":
+                    return 5;
+            }
+>>>>>>> Stashed changes
         }
 
         // Save Game Test

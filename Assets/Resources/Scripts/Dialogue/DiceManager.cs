@@ -26,9 +26,5 @@ public class DiceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(1))
-        {
-            anim.SetInteger("DiceResult", 1);
-        }
     }
 }
