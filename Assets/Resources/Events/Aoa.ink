@@ -1,14 +1,8 @@
 INCLUDE globals.ink
 
-EXTERNAL PushEvent(a)
-EXTERNAL GetEvent()
-EXTERNAL ClearEvent()
-EXTERNAL DiceResult(a,b)
 
-{ player_name != "": -> final}
-
-當主角在陌生的巷子中醒來時<br>，他感到極度困惑。他的大腦一片空白，無法回憶起自己是誰，他是如何來到這個地方的。慌張中，他注意到手中緊握著一條精美的項鍊，項鍊上掛著一個小小的寶石。 #background:kingdom_street #speaker:Narrator
-主角緊抓著這條項鍊，他感到一種奇怪的親切感，似乎這項鍊與他的過去有某種聯繫。他陷入一個內心掙扎，不知道應該將這條項鍊戴在脖子上，還是放進口袋中。 #background:kingdom_gem 
+當主角在陌生的巷子中醒來時<br>，他感到極度困惑。他的大腦一片空白，無法回憶起自己是誰，他是如何來到這個地方的。慌張中，他注意到手中緊握著一條精美的項鍊，項鍊上掛著一個小小的寶石。#background:kingdom_street #speaker:Narrator
+主角緊抓著這條項鍊，他感到一種奇怪的親切感，似乎這項鍊與他的過去有某種聯繫。他陷入一個內心掙扎，不知道應該將這條項鍊戴在脖子上，還是放進口袋中。 #background:kingdom_gem #health:-10
     +[戴在脖子上]
         ~ PushEvent(->randomEvent1)
         ~ PushEvent(->randomEvent2)
@@ -58,7 +52,7 @@ EXTERNAL DiceResult(a,b)
 === final ===
 ~ ClearEvent()
 天氣晴朗 
-a#changefile:Bob
+a#strength:45 #changefile:Bob
     -> END
         
         

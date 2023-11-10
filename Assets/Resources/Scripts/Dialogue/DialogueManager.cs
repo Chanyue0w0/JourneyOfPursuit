@@ -12,7 +12,7 @@ using Ink.Parsed;
 using System.IO;
 using Unity.VisualScripting.Antlr3.Runtime; 
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour, IDataPersistence
 {
     [Header("Params")]
     [SerializeField] private float typingSpeed = 0.06f;
@@ -42,7 +42,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Text strengthText;
     [SerializeField] private UnityEngine.UI.Text agilityText;
     [SerializeField] private UnityEngine.UI.Text charismaText;
-    private PlayerState player;
+    //private PlayerState player;
 
     // Maybe store in other place will be better?
     [Header("Variable bind with ink")]
@@ -57,6 +57,18 @@ public class DialogueManager : MonoBehaviour
     public bool choicesIsMaking { get; private set; }
 
     private static DialogueManager instance;
+
+    // Save test
+    private int HP = -1;
+    private int money = -1;
+    private int morality = -1;
+    private int strength = -1;
+    private int agility = -1;
+    private int charisma = -1;
+
+    private string imagePath;
+    private string storyPath;
+    private string dialogueFinishedText;
 
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
@@ -87,23 +99,48 @@ public class DialogueManager : MonoBehaviour
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
 
         // Should find a better position to initialize these variables 
-        player = new PlayerState();
+        //player = new PlayerState();
         fileManager = new FileManager();
         randomEvents = new List<Ink.Runtime.Path>();
-        inkJSON = Resources.Load<TextAsset>("Events/Aoa");
-        player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+        //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
+        //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+        //UpdatePlayerState();
         
     }
 
-    public static DialogueManager GetInstance()
+    public void LoadData(GameData data)
     {
-        return instance;
-    }
+        // For Game
+        this.HP = data.HP;
+        this.money = data.money;
+        this.morality = data.morality;
+        this.strength = data.strength;
+        this.agility = data.agility;
+        this.charisma = data.charisma;
 
-    private void Start()
-    {
+        this.dialogueText.text = data.dialogueText;
+
+        storyPath = data.storyPath;
+        inkJSON = Resources.Load<TextAsset>(data.storyPath);
+
+        if (data.imagePath != "")
+        {
+            this.displayNameText.text = data.displayNameText;
+            imagePath = data.imagePath;
+            portraitImage.sprite = Resources.Load<Sprite>(data.imagePath);
+        }
+        UpdatePlayerState();
+
+        diceIsRolling = data.diceRolling;
+
+        // For Story
+        this.fileManager.travelogue = data.travelogue;
+        this.fileManager.imagePathForStory = data.imagePathForStory;
+        this.fileManager.fileName = data.fileName;
+
+        // Start Game
         dialogueIsPlaying = false;
-        
+
         // get all of the choices text
         choicesText = new TextMeshProUGUI[choices.Length];
 
@@ -116,7 +153,43 @@ public class DialogueManager : MonoBehaviour
             index++;
         }
 
-        EnterDialogueMode(inkJSON);
+        EnterDialogueMode(inkJSON, false);
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.HP = this.HP;
+        data.money = this.money;
+        data.morality = this.morality;
+        data.strength = this.strength;
+        data.agility = this.agility;
+        data.charisma = this.charisma;
+
+        data.displayNameText = this.displayNameText.text;
+        //data.dialogueText = this.dialogueText.text;
+        data.dialogueText = this.dialogueFinishedText;
+        data.imagePath = this.imagePath;
+        data.storyPath = this.storyPath;
+
+        data.diceRolling = this.diceIsRolling;
+
+        data.travelogue = this.fileManager.travelogue;
+        data.imagePathForStory = this.fileManager.imagePathForStory;
+        data.fileName = this.fileManager.fileName;
+    }
+
+
+    public static DialogueManager GetInstance()
+    {
+        return instance;
+    }
+
+    private void Start()
+    {
+        
+
+        //
+        //EnterDialogueMode(inkJSON, false);   
     }
 
     private void Update()
@@ -135,36 +208,36 @@ public class DialogueManager : MonoBehaviour
 
     }
 
-    public void EnterDialogueMode(TextAsset inkJSON)
+    public void EnterDialogueMode(TextAsset inkJSON, bool changeFile)
     {
         // Ink.Runtime.Story
         currentStory = new Ink.Runtime.Story(inkJSON.text);
         dialogueIsPlaying = true;
         choicesIsMaking = false;
         dialoguePanel.SetActive(true);
-
         dialogueVariables.StartListening(currentStory);
 
         // Bind with ink functions
-        inkExternalFunctions.BindAll(currentStory, randomEvents, player.strength, player.agility, player.charisma);
-        /*inkExternalFunctions.BindPushEvent(currentStory, randomEvents);
-        inkExternalFunctions.BindGetEvent(currentStory, randomEvents);
-        inkExternalFunctions.BindClearEvent(currentStory, randomEvents);
-        inkExternalFunctions.BindDiceResult(currentStory, player.strength, player.agility, player.charisma);*/
-
-        // Save Game Test
-        /*if (PlayerPrefs.HasKey(saveStoryKey))
+        // inkExternalFunctions.BindAll(currentStory, randomEvents, player.strength, player.agility, player.charisma);
+        inkExternalFunctions.BindAll(currentStory, randomEvents, strength, agility, charisma);
+       
+        if (PlayerPrefs.HasKey(saveStoryKey) && !changeFile)
         {
             Debug.Log("has key");
             string jsonState = PlayerPrefs.GetString(saveStoryKey);
             currentStory.state.LoadJson(jsonState);
+
+            if (diceIsRolling)
+            {
+                diceIsRolling = false;
+                ContinueStory();
+            }
+            DisplayChoices();
         }
         else
         {
             ContinueStory();
-        }*/
-
-        ContinueStory();
+        }
     }
 
     private void ExitDialogueMode()
@@ -211,6 +284,7 @@ public class DialogueManager : MonoBehaviour
         // Empty the dialogue text
         dialogueText.text = "";
         letterIsTyping = true;
+        dialogueFinishedText = line;
 
         // display each letter one at a time
         for (int i = 0; i < line.Length; i++)
@@ -282,41 +356,61 @@ public class DialogueManager : MonoBehaviour
                 case PORTRAIT_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/Characters/" + tagValue);
                     fileManager.travelogue += "#changeImage";
-                    fileManager.imagePath += "#" + "Arts/Characters/" + tagValue;
+                    fileManager.imagePathForStory += "#" + "Arts/Characters/" + tagValue;
+                    // save test
+                    imagePath = "Arts/Characters/" + tagValue;
                     break;
                 case MORALITY_TAG:
-                    player.morality += int.Parse(tagValue);
+                    //player.morality += int.Parse(tagValue);
+                    morality += int.Parse(tagValue);
                     break;
                 case BACKGROUND_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/BackGround/" + tagValue);
                     fileManager.travelogue += "#changeImage";
-                    fileManager.imagePath += "#" + "Arts/BackGround/" + tagValue;
+                    fileManager.imagePathForStory += "#" + "Arts/BackGround/" + tagValue;
+                    // save test
+                    imagePath = "Arts/BackGround/" + tagValue;
                     break;
                 case HEALTHPOINT_TAG:
-                    player.HP += int.Parse(tagValue);
-                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    //player.HP += int.Parse(tagValue);
+                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    HP += int.Parse(tagValue);
+                    UpdatePlayerState();
                     break;
                 case MONEY_TAG:
-                    player.money += int.Parse(tagValue);
-                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    //player.money += int.Parse(tagValue);
+                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    money += int.Parse(tagValue);
+                    UpdatePlayerState();
                     break;
                 case STRENGTH_TAG:
-                    player.strength += int.Parse(tagValue);
-                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    //player.strength += int.Parse(tagValue);
+                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    strength += int.Parse(tagValue);
+                    UpdatePlayerState();
                     break;
                 case AGILITY_TAG:
-                    player.agility += int.Parse(tagValue);
-                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    //player.agility += int.Parse(tagValue);
+                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    agility += int.Parse(tagValue);
+                    UpdatePlayerState();
                     break;
                 case CHARISMA_TAG:
-                    player.charisma += int.Parse(tagValue);
-                    player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    //player.charisma += int.Parse(tagValue);
+                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
+                    charisma += int.Parse(tagValue);
+                    UpdatePlayerState();
                     break;
                 case CHANGEFILE_TAG:
                     fileManager.fileName += 1;
                     fileManager.SaveFile(fileManager);
-                    inkJSON = Resources.Load<TextAsset>("Events/" + tagValue);
-                    EnterDialogueMode(inkJSON);
+                    storyPath = "Events/" + tagValue;
+                    inkJSON = Resources.Load<TextAsset>(storyPath);
+                    /*if (PlayerPrefs.HasKey(saveStoryKey))
+                    {
+                        PlayerPrefs.DeleteKey(saveStoryKey);
+                    }*/
+                    EnterDialogueMode(inkJSON, true);
                     break;
                 case ROLLING_TAG:
                     StartCoroutine(DiceRollingAnimation());
@@ -349,6 +443,7 @@ public class DialogueManager : MonoBehaviour
 
         if (currentChoices.Count > 0)
         {
+            Debug.Log("current story has choices");
             choicesIsMaking = true;
         }
         else
@@ -438,5 +533,15 @@ public class DialogueManager : MonoBehaviour
 
         // Save Game Test
         SaveStoryState();
+    }
+
+    // Save Game Test
+    public void UpdatePlayerState()
+    {
+        healthPointText.text = "HP: " + HP.ToString();
+        moneyText.text = "Money: " + money.ToString();
+        strengthText.text = "Strength: " + strength.ToString();
+        agilityText.text = "Agility: " + agility.ToString();
+        charismaText.text = "Charisma: " + charisma.ToString();
     }
 }   
