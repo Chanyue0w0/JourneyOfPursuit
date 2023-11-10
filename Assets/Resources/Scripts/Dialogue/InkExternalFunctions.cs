@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor.PackageManager;
 
-public class InkExternalFunctions : MonoBehaviour
+public class InkExternalFunctions
 {
     public void BindAll(Story story, List<Ink.Runtime.Path> events, int strength, int agility, int charisma)
     {

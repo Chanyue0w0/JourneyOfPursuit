@@ -1,0 +1,16 @@
+{
+    "HP": 100,
+    "money": 0,
+    "morality": 0,
+    "strength": 10,
+    "agility": 10,
+    "charisma": 10,
+    "dialogueText": "當主角在陌生的巷子中醒來時<br>，他感到極度困惑。他的大腦一片空白，無法回憶起自己是誰，他是如何來到這個地方的。慌張中，他注意到手中緊握著一條精美的項鍊，項鍊上掛著一個小小的寶石。\n",
+    "displayNameText": "Narrator",
+    "imagePath": "Arts/BackGround/kingdom_street",
+    "storyPath": "Events/Aoa",
+    "diceRolling": false,
+    "fileName": 0,
+    "travelogue": "#changeImage#當主角在陌生的巷子中醒來時<br>，他感到極度困惑。他的大腦一片空白，無法回憶起自己是誰，他是如何來到這個地方的。慌張中，他注意到手中緊握著一條精美的項鍊，項鍊上掛著一個小小的寶石。\n",
+    "imagePathForStory": "#Arts/BackGround/kingdom_street"
+}

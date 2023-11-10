@@ -1,11 +1,7 @@
-// (->knot) 就是path
-EXTERNAL PushEvent(a)
-EXTERNAL GetEvent()
-EXTERNAL ClearEvent()
-// (難度, strength/agility/charisma)
-EXTERNAL DiceResult(a,b)
+INCLUDE globals.ink
 
 In BOB
+我他{player_name}
 
 ~ PushEvent(->event2)
 ~ PushEvent(->event3)

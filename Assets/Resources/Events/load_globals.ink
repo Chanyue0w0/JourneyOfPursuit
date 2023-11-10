@@ -1,0 +1,2 @@
+INCLUDE globals.ink
+
