@@ -8,13 +8,13 @@ public class FileManager
 {
     public int fileName;
     public string travelogue;
-    public string imagePath;
+    public string imagePathForStory;
 
     public FileManager()
     {
         fileName = 0;
         travelogue = "";
-        imagePath = "";
+        imagePathForStory = "";
     }
 
     public void SaveFile(FileManager fileManger)
@@ -23,7 +23,7 @@ public class FileManager
         string path = Application.dataPath + "/Resources/journeys/" + fileName.ToString() + ".json";
         System.IO.File.WriteAllText(path, json);
         travelogue = "";
-        imagePath = "";
+        imagePathForStory = "";
     }
 
 }
