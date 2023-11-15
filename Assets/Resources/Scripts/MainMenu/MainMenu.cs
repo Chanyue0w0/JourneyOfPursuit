@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour
     [Header("Menu Buttons")]
     [SerializeField] private Button newGameButton;
     [SerializeField] private Button continueGameButton;
+    [SerializeField] private Button recallButton;
+    [SerializeField] private Button setButton;
 
     private void Start()
     {
@@ -17,6 +19,7 @@ public class MainMenu : MonoBehaviour
             continueGameButton.interactable = false;
         }
     }
+
     public void OnNewGameClicked()
     {
         DisablMenuButtons();
@@ -33,6 +36,18 @@ public class MainMenu : MonoBehaviour
         // load the next scene - which will in turn load the game because of 
         // OnSceneLoaded() in the DataPersistenceManager
         SceneManager.LoadSceneAsync("LeahScene");
+    }
+
+    public void OnSetClicked()  //  no set scene
+    {
+        DisablMenuButtons();
+        SceneManager.LoadSceneAsync("");
+    }
+
+    public void OnRecallClicked()
+    {
+        DisablMenuButtons();
+        SceneManager.LoadSceneAsync("Shuangwei");
     }
 
     private void DisablMenuButtons()
