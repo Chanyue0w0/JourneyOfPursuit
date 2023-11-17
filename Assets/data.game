@@ -1,16 +1,16 @@
 {
     "HP": 100,
     "money": 0,
-    "morality": 1,
-    "strength": 10,
+    "morality": 0,
+    "strength": 11,
     "agility": 10,
     "charisma": 10,
-    "dialogueText": "forest\n",
-    "displayNameText": "???\n",
-    "imagePath": "Arts/Characters/Node1(Born)/necklace",
-    "storyPath": "Events/Forest",
+    "dialogueText": "Victorious, you strip them of their clothes in triumph\n",
+    "displayNameText": "Narrator",
+    "imagePath": "Arts/Characters/Elf1/faceImage",
+    "storyPath": "Events/StoryTestWithName",
     "diceRolling": false,
-    "fileName": 1,
-    "travelogue": "#forest\n",
-    "imagePathForStory": ""
+    "fileName": 0,
+    "travelogue": "#changeImage#You encounter an elder elf\n^fight#\n",
+    "imagePathForStory": "#Arts/Characters/Elf1/faceImage"
 }

@@ -37,7 +37,7 @@ public class GameData
         dialogueText = "";
         displayNameText = "";
         imagePath = "";
-        storyPath = "Events/Kindom_ver2";
+        storyPath = "Events/StoryTestWithName";
 
         diceRolling = false;
 
