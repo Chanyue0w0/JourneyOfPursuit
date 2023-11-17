@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
+using System.IO;
 
 public class MainMenu : MonoBehaviour
 {
@@ -19,6 +21,22 @@ public class MainMenu : MonoBehaviour
     }
     public void OnNewGameClicked()
     {
+        // Story system
+        string basePath = ".//Assets/Resources/journeys";
+        var files = System.IO.Directory.GetDirectories(basePath);
+        int currentFileSize = files.Length;
+        string folderPath = Path.Combine(basePath, (currentFileSize + 1).ToString());
+
+        if (!System.IO.Directory.Exists(folderPath))
+        {
+            System.IO.Directory.CreateDirectory(folderPath);
+            Debug.Log("Create file " + folderPath);
+        }
+        else
+        {
+            Debug.Log("Files existed " + folderPath);
+        }
+
         DisablMenuButtons();
         // create a new game - which will initialize our game data
         DataPersistentManager.instance.NewGame();
