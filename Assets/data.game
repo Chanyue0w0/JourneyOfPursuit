@@ -1,16 +1,16 @@
 {
     "HP": 100,
     "money": 0,
-    "morality": 0,
+    "morality": 1,
     "strength": 10,
     "agility": 10,
     "charisma": 10,
-    "dialogueText": "一番思考後，我決定將項鍊繫在脖子上，這樣就可以隨時查看它，或者如果有人認出項鍊，或許從他那兒聽到些過去的線索。\n",
+    "dialogueText": "forest\n",
     "displayNameText": "???\n",
-    "imagePath": "",
-    "storyPath": "Events/try1",
+    "imagePath": "Arts/Characters/Node1(Born)/necklace",
+    "storyPath": "Events/Forest",
     "diceRolling": false,
-    "fileName": 0,
-    "travelogue": "#當我醒來時，發現自己躺在一個狹窄陰暗的小巷弄裡。<br>”這裡是……?”\n#我感到一陣混亂。緩慢起身，晃了晃腦袋，試圖理清現在的情況。\n^環顧周圍#這個地方對我來說是完全陌生的，如同迷宮般的小巷向四周延伸，高聳的牆壁阻擋了大部分的日光，牆壁的縫隙間充滿了苔蘚，能感受到這裡的溼氣頗重。遠處似乎有個市集，依稀能聽到模糊的喧鬧聲。<br>\n#我試著回想有關自己的一切，但記憶卻一片模糊。我不知道我是怎麼到達這個小巷的，也不記得自己的名字或背景。茫然如巨獸般將我吞噬。\n^check self#摸了摸自身，在褲子的口袋中發現幾枚陳舊的銅幣。”至少我待會能填飽肚子。”<br>更令我感到驚奇的是，從上衣的口袋中，我找到了一串項鍊！上面鑲嵌著一顆巨大的紅寶石。這個紅寶石散發著深紅色的光芒，閃爍著神秘的魅力。我不禁猜想這個寶石的價值和來歷。<br>”為何他會出現在我身上?”\n^戴在脖子上",
+    "fileName": 1,
+    "travelogue": "#forest\n",
     "imagePathForStory": ""
 }
