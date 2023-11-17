@@ -37,7 +37,7 @@ public class GameData
         dialogueText = "";
         displayNameText = "";
         imagePath = "";
-        storyPath = "Events/Aoa";
+        storyPath = "Events/Kindom";
 
         diceRolling = false;
 
