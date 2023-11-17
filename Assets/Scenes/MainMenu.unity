@@ -316,11 +316,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-<<<<<<< HEAD
-  m_text: "\u958B\u59CB\n"
-=======
   m_text: "\xB7\u958B\u59CB"
->>>>>>> origin/Yumi_1110
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: be6899183dd2a458dbd77035a38b2325, type: 2}
   m_sharedMaterial: {fileID: 8960920539581947531, guid: be6899183dd2a458dbd77035a38b2325, type: 2}
