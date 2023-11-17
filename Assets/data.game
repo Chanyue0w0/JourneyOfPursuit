@@ -1,16 +1,16 @@
 {
     "HP": 100,
     "money": 0,
-    "morality": 1,
+    "morality": 0,
     "strength": 10,
     "agility": 10,
     "charisma": 10,
-    "dialogueText": "接下來，他伸手一抓，一隻活蹦亂跳的小兔子出現在他的手上，將兔子朝天空一拋，再一彈指，兔子變成了鳥兒，在空中盤旋了一圈後，降落在一個觀看表演的孩子頭上。孩子們的眼睛閃閃發亮，雀躍的又叫又跳。\n",
+    "dialogueText": "",
     "displayNameText": "???\n",
-    "imagePath": "Arts/Characters/Event9(Street Artist(X))/bird",
+    "imagePath": "Arts/Characters/Node1(Born)/alley",
     "storyPath": "Events/Kindom",
     "diceRolling": false,
     "fileName": 0,
-    "travelogue": "#changeImage#當我醒來時，發現自己躺在一個狹窄陰暗的小巷弄裡。<br>”這裡是……?”\n#我感到一陣混亂。緩慢起身，晃了晃腦袋，試圖理清現在的情況。\n#^環顧周圍#這個地方對我來說是完全陌生的，如同迷宮般的小巷向四周延伸，高聳的牆壁阻擋了大部分的日光，牆壁的縫隙間充滿了苔蘚，能感受到這裡的溼氣頗重。遠處似乎有個市集，依稀能聽到模糊的喧鬧聲。\n^檢視自己#changeImage#摸了摸自身，在褲子的口袋中發現幾枚陳舊的銅幣。”至少我待會能填飽肚子。”<br>更令我感到驚奇的是，從上衣的口袋中，我找到了一串項鍊！上面鑲嵌著一顆巨大的紅寶石。這個紅寶石散發著深紅色的光芒，閃爍著神秘的魅力。我不禁猜想這個寶石的價值和來歷。<br>”為何他會出現在我身上?”\n#緊抓著這條項鍊，我感到一種奇怪的親切感，在這陌生的環境中給了我一絲親切感。似乎這項鍊與我的過去有某種聯繫。<br>”要把它放哪呢？戴起來，還是放進口袋中？”我想著。\n^戴在脖子上#一番思考後，我決定將項鍊繫在脖子上，這樣就可以隨時查看它，或者如果有人認出項鍊，或許從他那兒聽到些過去的線索。\n#changeImage#我繼續沿著陌生的巷子漫步，留意著每一個細節，希望能找到一些線索，解開自己的記憶之謎。經過一把路旁的躺椅時，突然感覺到一雙眼睛正注視著我。<br>轉頭一看，發現一位年邁的老者坐在躺椅上，眼神深邃，充滿智慧。老者的表情安詳，似乎對我這位從未見過的陌生人感到興趣。\n^禮貌詢問#\n#有些好奇，於是我走到老者面前，微微鞠躬，然後輕聲問道：\"對不起，先生，我失去了記憶，我不知道我是誰，我是如何來到這裡的。您能幫助我嗎？”<br>老者緩緩地轉動頭，一抹微笑浮現在他的嘴角，但他的回答卻令人困惑，\"年輕人，有時候，目光是一扇窗戶，它讓我們看到過去，也讓我們窺見未來。\"\n#我皺起了眉頭，試圖理解老者的話語，但這似乎更增加了謎團。我再次問道，\"您說的過去和未來，是什麼意思呢？\"<br>老者的目光再次注視遠方，他回答說，\"每一個人都有自己的故事，年輕人，有時候，我們的過去和未來在我們的眼神中都能找到答案。\"\n#還想再詢問，老者卻已閉眼睡去。\n^離開#changeImage^離開#我離開了酒吧。\n#changeImage#陣陣喧嘩聲伴著幾聲驚呼，原來是有個街頭藝人正在進行一場引人注目的魔法表演。\n#changeImage#他站在一個小舞台上，周圍擺滿了好奇的觀眾。他舉起手中的法杖，開始念咒語，一道炫目的火焰噴射而出，形成了壯觀的火焰圈。\n#changeImage#觀眾們歡呼鼓掌，而街頭藝人的表演還在繼續。火焰炸開，變成玫瑰花瓣散落在空中，讓花瓣飄落到觀眾面前，使眾人置身於飛舞的花海中。\n#changeImage#接下來，他伸手一抓，一隻活蹦亂跳的小兔子出現在他的手上，將兔子朝天空一拋，再一彈指，兔子變成了鳥兒，在空中盤旋了一圈後，降落在一個觀看表演的孩子頭上。孩子們的眼睛閃閃發亮，雀躍的又叫又跳。\n",
-    "imagePathForStory": "#Arts/Characters/Node1(Born)/alley#Arts/Characters/Node1(Born)/necklace#Arts/Characters/Node1(Born)/oldman#Arts/Characters/Event2(Bar)/bar#Arts/Characters/Event9(Street Artist(X))/magician#Arts/Characters/Event9(Street Artist(X))/fire#Arts/Characters/Event9(Street Artist(X))/petal#Arts/Characters/Event9(Street Artist(X))/bird"
+    "travelogue": "#changeImage#當我醒來時，發現自己躺在一個狹窄陰暗的小巷弄裡。<br>”這裡是……?”\n#我感到一陣混亂。緩慢起身，晃了晃腦袋，試圖理清現在的情況。\n#",
+    "imagePathForStory": "#Arts/Characters/Node1(Born)/alley"
 }
