@@ -36,12 +36,12 @@ public class MainMenu : MonoBehaviour
             System.IO.Directory.CreateDirectory(folderPath);
             Debug.Log("Create file " + folderPath);
 
-              startTestTxt.text = "Create file ";
+            startTestTxt.text = "Create file ";
         }
         else
         {
             Debug.Log("Files existed " + folderPath);
-              startTestTxt.text = "Files existed ";
+            startTestTxt.text = "Files existed ";
         }
 
         //DisablMenuButtons();
@@ -49,14 +49,14 @@ public class MainMenu : MonoBehaviour
         DataPersistentManager.instance.NewGame();
         // load the gameplay scene - which will in turn save the game because of 
         // OnSceneUnloaded() in the DataPersistenceManager
-        startTestTxt.text = "LeahScene";
+        startTestTxt.text += "LeahScene";
         SceneManager.LoadSceneAsync("LeahScene");
         
     }
 
     public void OnContinueGameClicked()
     {
-        DisablMenuButtons();
+        //DisablMenuButtons();
         // load the next scene - which will in turn load the game because of 
         // OnSceneLoaded() in the DataPersistenceManager
         SceneManager.LoadSceneAsync("LeahScene");
@@ -64,13 +64,13 @@ public class MainMenu : MonoBehaviour
 
     public void OnSetClicked()  //  no set scene
     {
-        DisablMenuButtons();
+        //DisablMenuButtons();
         SceneManager.LoadSceneAsync("");
     }
 
     public void OnRecallClicked()
     {
-        DisablMenuButtons();
+        //DisablMenuButtons();
         SceneManager.LoadSceneAsync("Shuangwei");
     }
 
