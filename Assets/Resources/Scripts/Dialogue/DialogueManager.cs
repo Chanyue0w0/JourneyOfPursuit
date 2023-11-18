@@ -87,6 +87,12 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     private const string saveStoryKey = "INK_STORY";
 
+    private void OnEnable()
+    {
+        Debug.Log("In OnEnable");
+        debug("In OnEnable");
+    }
+
     private void Awake()
     {
         if (instance != null)
@@ -105,11 +111,21 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
         //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
         //UpdatePlayerState();
-        
+
+        debug("Awake done.");
+        Debug.Log("Awake done.");
+    }
+
+    private void Start()
+    {
+        Debug.Log("In Start");
+        debug("In Start");
     }
 
     public void LoadData(GameData data)
     {
+        debug("LoadData1");
+        Debug.Log("LoadData1");
         // For Game
         this.HP = data.HP;
         this.money = data.money;
@@ -122,6 +138,9 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
         storyPath = data.storyPath;
         inkJSON = Resources.Load<TextAsset>(data.storyPath);
+
+        debug("LoadData2");
+        Debug.Log("LoadData2");
 
         if (data.imagePath != "")
         {
@@ -184,26 +203,12 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         return instance;
     }
 
-    private void Start()
-    {
-        
-
-        //
-        //EnterDialogueMode(inkJSON, false);   
-    }
-
     private void Update()
     {
         // return right away if dialouge isn't playing
         if (!dialogueIsPlaying) 
         {
             return;
-        }
-
-        // *** Create a bool variable MakingChoices
-        // handle continuing to the next line in the dialogue when submit is pressed
-        if (Input.GetMouseButtonDown(0))
-        {
         }
 
     }
@@ -543,5 +548,10 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         strengthText.text = "Strength: " + strength.ToString();
         agilityText.text = "Agility: " + agility.ToString();
         charismaText.text = "Charisma: " + charisma.ToString();
+    }
+
+    public void debug(string s)
+    {
+        dialogueText.text += s;
     }
 }   

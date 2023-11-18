@@ -59,8 +59,10 @@ public class DataPersistentManager : MonoBehaviour
 
     public void NewGame()
     {
-        this.gameData = new GameData();
+        Debug.Log("New Game");
         PlayerPrefs.DeleteAll();
+        this.gameData = new GameData();
+        //DialogueManager.GetInstance().debug("New game done.");
     }
 
     public void LoadGame()
@@ -78,6 +80,7 @@ public class DataPersistentManager : MonoBehaviour
         // if no data can be loaded, dont't continue
         if (this.gameData == null)
         {
+            DialogueManager.GetInstance().debug("2");
             Debug.Log("No data was found. A New Game needs to be started before data can be loaded.");
             return;
         }
@@ -85,6 +88,8 @@ public class DataPersistentManager : MonoBehaviour
         //push the loaded data to all other scripts that need it
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
+            DialogueManager.GetInstance().debug("3");
+            Debug.Log("Load gameeee");
             dataPersistenceObj.LoadData(gameData);
         }
 
@@ -124,5 +129,10 @@ public class DataPersistentManager : MonoBehaviour
     public bool HasGameData()
     {
         return gameData != null;
+    }
+
+    public GameData GetGameData()
+    {
+        return gameData;
     }
 }
