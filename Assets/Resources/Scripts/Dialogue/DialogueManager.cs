@@ -119,7 +119,6 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private void Start()
     {
         Debug.Log("In Start");
-        debug("In Start");
     }
 
     public void LoadData(GameData data)
