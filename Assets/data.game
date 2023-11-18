@@ -11,6 +11,6 @@
     "storyPath": "Events/Kindom_ver2",
     "diceRolling": false,
     "fileName": 0,
-    "travelogue": "#changeImage",
+    "travelogue": "#changeImage#當我醒來時，發現自己躺在一個狹窄陰暗的小巷弄裡。<br>”這裡是……?”\n",
     "imagePathForStory": "#Arts/Characters/Node1(Born)/alley"
 }
