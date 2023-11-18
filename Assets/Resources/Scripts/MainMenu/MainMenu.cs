@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button continueGameButton;
     [SerializeField] private Button recallButton;
     [SerializeField] private Button setButton;
+    public Text startTestTxt;
 
     private void Start()
     {
@@ -34,18 +35,23 @@ public class MainMenu : MonoBehaviour
         {
             System.IO.Directory.CreateDirectory(folderPath);
             Debug.Log("Create file " + folderPath);
+
+              startTestTxt.text = "Create file ";
         }
         else
         {
             Debug.Log("Files existed " + folderPath);
+              startTestTxt.text = "Files existed ";
         }
 
-        DisablMenuButtons();
+        //DisablMenuButtons();
         // create a new game - which will initialize our game data
         DataPersistentManager.instance.NewGame();
         // load the gameplay scene - which will in turn save the game because of 
         // OnSceneUnloaded() in the DataPersistenceManager
+        startTestTxt.text = "LeahScene";
         SceneManager.LoadSceneAsync("LeahScene");
+        
     }
 
     public void OnContinueGameClicked()
