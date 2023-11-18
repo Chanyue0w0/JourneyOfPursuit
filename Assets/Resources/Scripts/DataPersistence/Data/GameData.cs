@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +36,7 @@ public class GameData
         dialogueText = "";
         displayNameText = "";
         imagePath = "";
-        storyPath = "Events/StoryTestWithName";
+        storyPath = "Events/Kindom_ver2";
 
         diceRolling = false;
 
