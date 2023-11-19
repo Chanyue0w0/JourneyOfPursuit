@@ -196,6 +196,11 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
             return;
         }
 
+        if (!diceIsRolling)
+        {
+            DiceManager.GetInstance().gameObject.SetActive(false);
+        }
+
     }
 
     public void EnterDialogueMode(TextAsset inkJSON, bool changeFile)
