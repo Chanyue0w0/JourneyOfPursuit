@@ -10,7 +10,9 @@ using System;
 using UnityEngine.SearchService;
 using Ink.Parsed;
 using System.IO;
-using Unity.VisualScripting.Antlr3.Runtime; 
+using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine.SceneManagement;
+using Unity.Mathematics;
 
 public class DialogueManager : MonoBehaviour, IDataPersistence
 {
@@ -58,6 +60,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     private static DialogueManager instance;
 
+    public int diceNum = 1;
+
     // Save test
     private int HP = -1;
     private int money = -1;
@@ -87,12 +91,6 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     private const string saveStoryKey = "INK_STORY";
 
-    private void OnEnable()
-    {
-        Debug.Log("In OnEnable");
-        debug("In OnEnable");
-    }
-
     private void Awake()
     {
         if (instance != null)
@@ -111,20 +109,11 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
         //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
         //UpdatePlayerState();
-
-        debug("Awake done.");
-        Debug.Log("Awake done.");
     }
 
-    private void Start()
-    {
-        Debug.Log("In Start");
-    }
 
     public void LoadData(GameData data)
     {
-        debug("LoadData1");
-        Debug.Log("LoadData1");
         // For Game
         this.HP = data.HP;
         this.money = data.money;
@@ -137,9 +126,6 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
         storyPath = data.storyPath;
         inkJSON = Resources.Load<TextAsset>(data.storyPath);
-
-        debug("LoadData2");
-        Debug.Log("LoadData2");
 
         if (data.imagePath != "")
         {
@@ -264,6 +250,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     {
         if (currentStory.canContinue)
         {
+            DiceManager.GetInstance().gameObject.SetActive(false);
             // set text for the current dialogue line
             if (displayLineCoroutine != null)
             {
@@ -429,6 +416,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     public IEnumerator DiceRollingAnimation()
     {
         diceIsRolling = true;
+        DiceManager.GetInstance().gameObject.SetActive(true);
+        DiceManager.GetInstance().anim.SetInteger("DiceResult", diceNum);
         yield return new WaitForSeconds(2);
         diceIsRolling = false;
         DiceManager.GetInstance().gameObject.SetActive(false);
@@ -528,7 +517,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     // This method will get called anytime the application exits.
     // Depending on game, may want to save variable state in other places.
-    public void OnApplicationQuit()
+    public void OnApplicationPause()
     {
         if (dialogueVariables != null)
         {
@@ -552,5 +541,15 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     public void debug(string s)
     {
         dialogueText.text += s;
+    }
+
+    public void MainMenuClicked()
+    {
+        if (!diceIsRolling)
+        {
+            SceneManager.LoadSceneAsync("MainMenu");
+            SaveStoryState();
+            DataPersistentManager.instance.SaveGame();
+        } 
     }
 }   

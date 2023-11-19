@@ -80,7 +80,6 @@ public class DataPersistentManager : MonoBehaviour
         // if no data can be loaded, dont't continue
         if (this.gameData == null)
         {
-            DialogueManager.GetInstance().debug("2");
             Debug.Log("No data was found. A New Game needs to be started before data can be loaded.");
             return;
         }
@@ -113,7 +112,7 @@ public class DataPersistentManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
-    private void OnApplicationQuit()
+    private void OnApplicationPause()
     {
         SaveGame();
     }

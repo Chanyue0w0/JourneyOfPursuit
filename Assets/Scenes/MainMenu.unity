@@ -1995,6 +1995,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 65694602581307681, guid: 78fb2f463df67e34cb2cc8673efd98c0, type: 3}
+      propertyPath: fileName
+      value: data.txt
+      objectReference: {fileID: 0}
     - target: {fileID: 65694602581307694, guid: 78fb2f463df67e34cb2cc8673efd98c0, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2333,7 +2337,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1581886822
 RectTransform:
   m_ObjectHideFlags: 0

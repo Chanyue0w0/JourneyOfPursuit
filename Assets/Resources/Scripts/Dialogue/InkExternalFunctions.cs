@@ -85,8 +85,8 @@ public class InkExternalFunctions
             System.Random random = new System.Random(DateTime.Now.Millisecond);
             int ranNum = random.Next(0, 20231022) % 20 + 1;
 
-            DiceManager.GetInstance().gameObject.SetActive(true);
-            DiceManager.GetInstance().anim.SetInteger("DiceResult", ranNum);
+            DialogueManager.GetInstance().diceNum = ranNum;
+            //DiceManager.GetInstance().anim.SetInteger("DiceResult", ranNum);
 
             Debug.Log("Type: " + type + " Dice: " + ranNum + " Strength: " + strength + " Agility: " + agility + " Charisma: " + charisma + " DifficultyLevel: " + difficultyLevel);
 

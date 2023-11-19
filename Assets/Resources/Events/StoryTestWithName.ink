@@ -5,12 +5,18 @@ EXTERNAL ClearEvent()
 // (難度, strength/agility/charisma)
 EXTERNAL DiceResult(a,b)
 
+我坐在酒吧吧台上，享受著酒吧的氛圍，但也意識到我需要找到一份工作來維持自己的生計。他轉向酒吧的老闆，一位看似經驗豐富的男子，微笑著詢問是否有機會可以應徵工作。#portrait:Event2(Bar)/boss
+~ temp res = DiceResult(20, "charisma")
+#rolling:2
+
 ~ ClearEvent()
 ~ PushEvent(->main1)
 ~ PushEvent(->main2)
 ~ PushEvent(->main3)
 ~ temp event = GetEvent()
 -> event
+
+
 
 
 === main1 ===

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using UnityEngine.Android;
 
 public class MainMenu : MonoBehaviour
 {
@@ -21,15 +22,26 @@ public class MainMenu : MonoBehaviour
         {
             continueGameButton.interactable = false;
         }
+        
+        if (!Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite))
+        {
+            Permission.RequestUserPermission(Permission.ExternalStorageWrite);
+        }
     }
 
     public void OnNewGameClicked()
     {
+        DisablMenuButtons();
         // Story system
         string basePath = Application.persistentDataPath;
         var files = System.IO.Directory.GetDirectories(basePath);
         int currentFileSize = files.Length;
         string folderPath = Path.Combine(basePath, (currentFileSize + 1).ToString());
+
+        // Test
+        StreamWriter st = File.CreateText(Application.persistentDataPath + "test.txt");
+        st.Write("Leah My Limerence");
+        st.Close();
 
         if (!System.IO.Directory.Exists(folderPath))
         {
@@ -43,7 +55,7 @@ public class MainMenu : MonoBehaviour
             Debug.Log("Files existed " + folderPath);
             startTestTxt.text += "Files existed ";
         }
-        //DisablMenuButtons();
+        
         // create a new game - which will initialize our game data
         DataPersistentManager.instance.NewGame();
         // load the gameplay scene - which will in turn save the game because of 

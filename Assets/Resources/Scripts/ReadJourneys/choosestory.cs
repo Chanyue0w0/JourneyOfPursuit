@@ -32,7 +32,7 @@ public class choosestory : MonoBehaviour
     }
     void Start()
     {   
-        var files = Directory.GetDirectories(".//Assets/Resources/journeys");
+        var files = Directory.GetDirectories(Application.persistentDataPath);
         foreach (var file in files)
         {
             string temp = file.ToString();
