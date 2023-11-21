@@ -37,8 +37,8 @@ public class choosestory : MonoBehaviour
         {
             string temp = file.ToString();
             filepath.Add(file);
-            var tempsave = temp.Split("/");
-            tales.Add(tempsave[5]);
+            var tempsave = temp.Split("\\");
+            tales.Add(tempsave[1]);
         }
         pageindex = 0;
         for(int i = 0;i<findmin(6,tales.Count);i++){

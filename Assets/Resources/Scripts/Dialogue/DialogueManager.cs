@@ -74,6 +74,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private string storyPath;
     private string dialogueFinishedText;
 
+    private string currMusic;
+
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string BACKGROUND_TAG = "background";
@@ -85,6 +87,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private const string CHARISMA_TAG = "charisma";
     private const string CHANGEFILE_TAG = "changefile";
     private const string ROLLING_TAG = "rolling";
+    private const string MUSIC_TAG = "music";
 
     private InkExternalFunctions inkExternalFunctions;
     private DialogueVariables dialogueVariables;
@@ -109,6 +112,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
         //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
         //UpdatePlayerState();
+
+        StartCoroutine(WaitForOtherInstance());
     }
 
 
@@ -141,6 +146,10 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         this.fileManager.travelogue = data.travelogue;
         this.fileManager.imagePathForStory = data.imagePathForStory;
         this.fileManager.fileName = data.fileName;
+
+        // Music
+        this.currMusic = data.currMusic;
+        DialogSystem.GetInstance().SwitchBGM(currMusic);
 
         // Start Game
         dialogueIsPlaying = false;
@@ -180,6 +189,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         data.travelogue = this.fileManager.travelogue;
         data.imagePathForStory = this.fileManager.imagePathForStory;
         data.fileName = this.fileManager.fileName;
+
+        data.currMusic = this.currMusic;
     }
 
 
@@ -411,6 +422,10 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                 case ROLLING_TAG:
                     StartCoroutine(DiceRollingAnimation());
                     break;
+                case MUSIC_TAG:
+                    currMusic = tagValue;
+                    DialogSystem.GetInstance().SwitchBGM(tagValue); 
+                    break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
@@ -556,5 +571,13 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
             SaveStoryState();
             DataPersistentManager.instance.SaveGame();
         } 
+    }
+
+    private System.Collections.IEnumerator WaitForOtherInstance()
+    {
+        yield return new WaitUntil(() => DialogSystem.GetInstance() != null);
+
+        // 在這裡 OtherMonoBehaviour 已經被實例化
+        Debug.Log("OtherMonoBehaviour is now available!");
     }
 }   

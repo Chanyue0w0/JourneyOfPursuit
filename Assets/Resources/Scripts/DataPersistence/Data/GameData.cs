@@ -24,6 +24,8 @@ public class GameData
     public string travelogue;
     public string imagePathForStory;
 
+    public string currMusic;
+
     public GameData()
     {
         HP = 100;
@@ -43,5 +45,7 @@ public class GameData
         fileName = 0;
         travelogue = "";
         imagePathForStory = "";
+
+        currMusic = "kingdom";
     }
 }
