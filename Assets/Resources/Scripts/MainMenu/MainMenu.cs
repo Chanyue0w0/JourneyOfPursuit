@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using UnityEngine.Android;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -16,13 +17,17 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button setButton;
     public Text startTestTxt;
 
+    [Header("For Test")]
+    [SerializeField] private TMP_InputField password;
+    [SerializeField] private TMP_InputField chapter;
+
     private void Start()
     {
         if (!DataPersistentManager.instance.HasGameData())
         {
             continueGameButton.interactable = false;
         }
-        
+
         if (!Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite))
         {
             Permission.RequestUserPermission(Permission.ExternalStorageWrite);
@@ -55,9 +60,16 @@ public class MainMenu : MonoBehaviour
             Debug.Log("Files existed " + folderPath);
             startTestTxt.text += "Files existed ";
         }
-        
+
         // create a new game - which will initialize our game data
-        DataPersistentManager.instance.NewGame();
+        if (password.text == "55688")
+        {
+            DataPersistentManager.instance.NewGame(chapter.text);
+        }
+        else
+        {
+            DataPersistentManager.instance.NewGame("kingdom");
+        }
         // load the gameplay scene - which will in turn save the game because of 
         // OnSceneUnloaded() in the DataPersistenceManager
         SceneManager.LoadSceneAsync("LeahScene");

@@ -74,6 +74,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private string storyPath;
     private string dialogueFinishedText;
 
+    private string currBGM;
     private string currMusic;
 
     private const string SPEAKER_TAG = "speaker";
@@ -87,6 +88,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private const string CHARISMA_TAG = "charisma";
     private const string CHANGEFILE_TAG = "changefile";
     private const string ROLLING_TAG = "rolling";
+    private const string BGM_TAG = "bgm";
     private const string MUSIC_TAG = "music";
 
     private InkExternalFunctions inkExternalFunctions;
@@ -105,8 +107,6 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         inkExternalFunctions = new InkExternalFunctions();
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
 
-        // Should find a better position to initialize these variables 
-        //player = new PlayerState();
         fileManager = new FileManager();
         randomEvents = new List<Ink.Runtime.Path>();
         //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
@@ -128,6 +128,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         this.charisma = data.charisma;
 
         this.dialogueText.text = data.dialogueText;
+        this.dialogueFinishedText = data.dialogueText;
 
         storyPath = data.storyPath;
         inkJSON = Resources.Load<TextAsset>(data.storyPath);
@@ -148,8 +149,10 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         this.fileManager.fileName = data.fileName;
 
         // Music
+        this.currBGM = data.currBGM;
+        DialogSystem.GetInstance().SwitchBGM(currBGM, data.BGMTime);
         this.currMusic = data.currMusic;
-        DialogSystem.GetInstance().SwitchBGM(currMusic);
+        DialogSystem.GetInstance().SwitchMusic(currMusic, data.musicTime);
 
         // Start Game
         dialogueIsPlaying = false;
@@ -190,6 +193,9 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         data.imagePathForStory = this.fileManager.imagePathForStory;
         data.fileName = this.fileManager.fileName;
 
+        data.BGMTime = DialogSystem.GetInstance().BGM.time;
+        data.currBGM = this.currBGM;
+        data.musicTime = DialogSystem.GetInstance().MUSIC.time;
         data.currMusic = this.currMusic;
     }
 
@@ -202,7 +208,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private void Update()
     {
         // return right away if dialouge isn't playing
-        if (!dialogueIsPlaying) 
+        if (!dialogueIsPlaying)
         {
             return;
         }
@@ -226,7 +232,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         // Bind with ink functions
         // inkExternalFunctions.BindAll(currentStory, randomEvents, player.strength, player.agility, player.charisma);
         inkExternalFunctions.BindAll(currentStory, randomEvents, strength, agility, charisma);
-       
+
         if (PlayerPrefs.HasKey(saveStoryKey) && !changeFile)
         {
             Debug.Log("has key");
@@ -272,7 +278,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
             {
                 StopCoroutine(displayLineCoroutine);
             }
-            displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue())); 
+            displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue()));
 
             // display choices, if any, for this dialogue line
             DisplayChoices();
@@ -364,47 +370,34 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/Characters/" + tagValue);
                     fileManager.travelogue += "#changeImage";
                     fileManager.imagePathForStory += "#" + "Arts/Characters/" + tagValue;
-                    // save test
                     imagePath = "Arts/Characters/" + tagValue;
                     break;
                 case MORALITY_TAG:
-                    //player.morality += int.Parse(tagValue);
                     morality += int.Parse(tagValue);
                     break;
                 case BACKGROUND_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/BackGround/" + tagValue);
                     fileManager.travelogue += "#changeImage";
                     fileManager.imagePathForStory += "#" + "Arts/BackGround/" + tagValue;
-                    // save test
                     imagePath = "Arts/BackGround/" + tagValue;
                     break;
                 case HEALTHPOINT_TAG:
-                    //player.HP += int.Parse(tagValue);
-                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     HP += int.Parse(tagValue);
                     UpdatePlayerState();
                     break;
                 case MONEY_TAG:
-                    //player.money += int.Parse(tagValue);
-                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     money += int.Parse(tagValue);
                     UpdatePlayerState();
                     break;
                 case STRENGTH_TAG:
-                    //player.strength += int.Parse(tagValue);
-                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     strength += int.Parse(tagValue);
                     UpdatePlayerState();
                     break;
                 case AGILITY_TAG:
-                    //player.agility += int.Parse(tagValue);
-                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     agility += int.Parse(tagValue);
                     UpdatePlayerState();
                     break;
                 case CHARISMA_TAG:
-                    //player.charisma += int.Parse(tagValue);
-                    //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
                     charisma += int.Parse(tagValue);
                     UpdatePlayerState();
                     break;
@@ -422,9 +415,13 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                 case ROLLING_TAG:
                     StartCoroutine(DiceRollingAnimation());
                     break;
+                case BGM_TAG:
+                    currBGM = tagValue;
+                    DialogSystem.GetInstance().SwitchBGM(tagValue, 0);
+                    break;
                 case MUSIC_TAG:
                     currMusic = tagValue;
-                    DialogSystem.GetInstance().SwitchBGM(tagValue); 
+                    DialogSystem.GetInstance().SwitchMusic(tagValue, 0);
                     break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
@@ -463,7 +460,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         {
             choicesIsMaking = false;
         }
-            
+
         int index = 0;
         // enable and initialize the choices up to the amount of choices for this line of dialogue
         foreach (Ink.Runtime.Choice choice in currentChoices)
@@ -477,7 +474,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         {
             choices[i].gameObject.SetActive(false);
         }
-        StartCoroutine(SelectFirstChoice());   
+        StartCoroutine(SelectFirstChoice());
     }
 
     private IEnumerator SelectFirstChoice()
@@ -570,7 +567,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
             SceneManager.LoadSceneAsync("MainMenu");
             SaveStoryState();
             DataPersistentManager.instance.SaveGame();
-        } 
+        }
     }
 
     private System.Collections.IEnumerator WaitForOtherInstance()
@@ -580,4 +577,4 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         // 在這裡 OtherMonoBehaviour 已經被實例化
         Debug.Log("OtherMonoBehaviour is now available!");
     }
-}   
+}

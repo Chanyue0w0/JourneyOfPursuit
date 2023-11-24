@@ -24,9 +24,12 @@ public class GameData
     public string travelogue;
     public string imagePathForStory;
 
+    public float BGMTime;
+    public string currBGM;
+    public float musicTime;
     public string currMusic;
 
-    public GameData()
+    public GameData(string chapter)
     {
         HP = 100;
         money = 0;
@@ -38,7 +41,7 @@ public class GameData
         dialogueText = "";
         displayNameText = "";
         imagePath = "";
-        storyPath = "Events/Kindom_ver2";
+        storyPath = "Events/" + chapter;
 
         diceRolling = false;
 
@@ -46,6 +49,9 @@ public class GameData
         travelogue = "";
         imagePathForStory = "";
 
-        currMusic = "kingdom";
+        currBGM = "forest";
+        BGMTime = 0;
+        currMusic = "none";
+        musicTime = 0;
     }
 }

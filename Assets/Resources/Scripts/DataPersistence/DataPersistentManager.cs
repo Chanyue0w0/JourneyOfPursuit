@@ -57,11 +57,11 @@ public class DataPersistentManager : MonoBehaviour
         SaveGame();
     }
 
-    public void NewGame()
+    public void NewGame(string chapter)
     {
         Debug.Log("New Game");
         PlayerPrefs.DeleteAll();
-        this.gameData = new GameData();
+        this.gameData = new GameData(chapter);
         //DialogueManager.GetInstance().debug("New game done.");
     }
 
@@ -74,7 +74,7 @@ public class DataPersistentManager : MonoBehaviour
         // start a new game if the data is null and we're configured to initialize data for debugging purposes
         if (this.gameData == null && initializeDataIfNull)
         {
-            NewGame();
+            NewGame("kingdom");
         }
 
         // if no data can be loaded, dont't continue
