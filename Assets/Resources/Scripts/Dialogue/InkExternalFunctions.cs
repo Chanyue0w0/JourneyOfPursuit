@@ -83,8 +83,8 @@ public class InkExternalFunctions
         story.BindExternalFunction("DiceResult", (int difficultyLevel, string type) =>
         {
             System.Random random = new System.Random(DateTime.Now.Millisecond);
-            //int ranNum = random.Next(0, 20231022) % 20 + 1;
-            int ranNum = 7;
+            int ranNum = random.Next(0, 20231022) % 20 + 1;
+
             DialogueManager.GetInstance().diceNum = ranNum;
             //DiceManager.GetInstance().anim.SetInteger("DiceResult", ranNum);
 
