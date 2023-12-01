@@ -11,9 +11,10 @@ using Newtonsoft.Json;
 
 
 public class storys{
+    public int FolderName;
     public int fileName;
     public string travelogue;
-    public string imagePath;
+    public string imagePathForStory;
 }
 
 public class Getstory : MonoBehaviour
@@ -214,7 +215,7 @@ public class Getstory : MonoBehaviour
                 textlist.Add(a);
             }
         }
-        tempsave = (desjson.imagePath).Split('#');
+        tempsave = (desjson.imagePathForStory).Split('#');
         foreach(var pic in tempsave){
             //string b = ".//Assets/resources/"+pic;
             if(pic!="")
