@@ -3483,8 +3483,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1585852382}
   - component: {fileID: 1585852381}
-  - component: {fileID: 1585852380}
-  - component: {fileID: 1585852383}
   - component: {fileID: 1585852384}
   m_Layer: 0
   m_Name: Main Camera
@@ -3493,14 +3491,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1585852380
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1585852379}
-  m_Enabled: 1
 --- !u!20 &1585852381
 Camera:
   m_ObjectHideFlags: 0
@@ -3559,26 +3549,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1585852383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1585852379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fc88a8ab2d06a94086f338b9724040e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BGM: {fileID: 0}
-  bgmKingdom: {fileID: 0}
-  bgmForest: {fileID: 0}
-  bgmDesert: {fileID: 0}
-  bgmSnow: {fileID: 0}
-  bgmFinal: {fileID: 0}
-  MUSIC: {fileID: 0}
-  Music: {fileID: 0}
 --- !u!82 &1585852384
 AudioSource:
   m_ObjectHideFlags: 0

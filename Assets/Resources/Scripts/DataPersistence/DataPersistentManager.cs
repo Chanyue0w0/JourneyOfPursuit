@@ -74,7 +74,7 @@ public class DataPersistentManager : MonoBehaviour
         // start a new game if the data is null and we're configured to initialize data for debugging purposes
         if (this.gameData == null && initializeDataIfNull)
         {
-            NewGame("kingdom");
+            NewGame("Kingdom");
         }
 
         // if no data can be loaded, dont't continue
