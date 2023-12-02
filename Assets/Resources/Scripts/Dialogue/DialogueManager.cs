@@ -46,11 +46,15 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     [SerializeField] private UnityEngine.UI.Text charismaText;
     //private PlayerState player;
 
+    [Header("Music Test")]
+    [SerializeField] private GameObject dialogueManager;
+
     // Maybe store in other place will be better?
     [Header("Variable bind with ink")]
     [SerializeField] private List<Ink.Runtime.Path> randomEvents;
 
     private FileManager fileManager;
+    private DialogSystem dialogueSystem;
 
     private Ink.Runtime.Story currentStory;
     private Coroutine displayLineCoroutine;
@@ -108,12 +112,13 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
 
         fileManager = new FileManager();
+        dialogueSystem = new DialogSystem(dialogueManager);
         randomEvents = new List<Ink.Runtime.Path>();
         //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
         //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
         //UpdatePlayerState();
 
-        StartCoroutine(WaitForOtherInstance());
+        //StartCoroutine(WaitForOtherInstance());
     }
 
 
@@ -150,9 +155,9 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
         // Music
         this.currBGM = data.currBGM;
-        DialogSystem.GetInstance().SwitchBGM(currBGM, data.BGMTime);
+        dialogueSystem.SwitchBGM(currBGM, data.BGMTime);
         this.currMusic = data.currMusic;
-        DialogSystem.GetInstance().SwitchMusic(currMusic, data.musicTime);
+        dialogueSystem.SwitchMusic(currMusic, data.musicTime);
 
         // Start Game
         dialogueIsPlaying = false;
@@ -193,9 +198,9 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         data.imagePathForStory = this.fileManager.imagePathForStory;
         data.fileName = this.fileManager.fileName;
 
-        data.BGMTime = DialogSystem.GetInstance().BGM.time;
+        data.BGMTime = dialogueSystem.BGM.time;
         data.currBGM = this.currBGM;
-        data.musicTime = DialogSystem.GetInstance().MUSIC.time;
+        data.musicTime = dialogueSystem.MUSIC.time;
         data.currMusic = this.currMusic;
     }
 
@@ -266,6 +271,15 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         dialogueIsPlaying = false;
         //dialoguePanel.SetActive(false);
         dialogueText.text = "";
+
+
+        // End add form here
+        fileManager.fileName += 1;
+        fileManager.SaveFile(fileManager);
+
+        SceneManager.LoadSceneAsync("MainMenu");
+        PlayerPrefs.DeleteAll();
+        File.Delete(Application.persistentDataPath + "/data.txt");
     }
 
     private void ContinueStory()
@@ -417,11 +431,11 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                     break;
                 case BGM_TAG:
                     currBGM = tagValue;
-                    DialogSystem.GetInstance().SwitchBGM(tagValue, 0);
+                    dialogueSystem.SwitchBGM(tagValue, 0);
                     break;
                 case MUSIC_TAG:
                     currMusic = tagValue;
-                    DialogSystem.GetInstance().SwitchMusic(tagValue, 0);
+                    dialogueSystem.SwitchMusic(tagValue, 0);
                     break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
@@ -570,11 +584,11 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         }
     }
 
-    private System.Collections.IEnumerator WaitForOtherInstance()
+    /*private System.Collections.IEnumerator WaitForOtherInstance()
     {
         yield return new WaitUntil(() => DialogSystem.GetInstance() != null);
 
         // 在這裡 OtherMonoBehaviour 已經被實例化
         Debug.Log("OtherMonoBehaviour is now available!");
-    }
+    }*/
 }

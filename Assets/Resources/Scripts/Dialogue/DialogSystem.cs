@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 
 
-public class DialogSystem : MonoBehaviour
+public class DialogSystem
 {
     public AudioSource BGM;
     public AudioClip bgmKingdom;
@@ -20,9 +20,7 @@ public class DialogSystem : MonoBehaviour
     public AudioSource MUSIC;
     public AudioClip Music;
 
-    private static DialogSystem instance;
-
-    private void Awake()
+    public DialogSystem(GameObject gameObject)
     {
         BGM = gameObject.AddComponent<AudioSource>();
         BGM.loop = true;
@@ -32,14 +30,6 @@ public class DialogSystem : MonoBehaviour
 
         bgmKingdom = Resources.Load<AudioClip>("Musics/forest");
         bgmForest = Resources.Load<AudioClip>("Musics/forest");
-        //bgmDesert = Resources.Load<AudioClip>("Musics/desert");
-        //bgmSnow = Resources.Load<AudioClip>("Musics/snow");
-        //bgmFinal = Resources.Load<AudioClip>("Musics/final");
-
-        if (instance == null)
-        {
-            instance = this;
-        }
     }
 
     // 切換使用的音樂
@@ -105,11 +95,6 @@ public class DialogSystem : MonoBehaviour
             MUSIC.time = musicTime;
             MUSIC.Play();
         }
-    }
-
-    public static DialogSystem GetInstance()
-    {
-        return instance;
     }
 }
 
