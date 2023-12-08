@@ -81,7 +81,7 @@ public class DataPersistentManager : MonoBehaviour
         if (this.gameData == null)
         {
             Debug.Log("No data was found. A New Game needs to be started before data can be loaded.");
-            return;
+            return; 
         }
 
         //push the loaded data to all other scripts that need it
