@@ -11,6 +11,12 @@ using Unity.VisualScripting.FullSerializer;
 
 public class InkExternalFunctions
 {
+    public int randvalue = 0;
+    public string typeD;
+    public int strengthD;
+    public int agilityD;
+    public int charismaD;
+    public int difficultyLevelD;
     public void BindAll(Story story, List<Ink.Runtime.Path> events, int strength, int agility, int charisma)
     {
         BindPushEvent(story, events);
@@ -84,11 +90,18 @@ public class InkExternalFunctions
         {
             System.Random random = new System.Random(DateTime.Now.Millisecond);
             int ranNum = random.Next(0, 20231022) % 20 + 1;
+            randvalue = ranNum;
+            typeD = type;
+            strengthD = strength;
+            agilityD = agility;
+            charismaD = charisma;
+            difficultyLevelD = difficultyLevel;
 
             DialogueManager.GetInstance().diceNum = ranNum;
             //DiceManager.GetInstance().anim.SetInteger("DiceResult", ranNum);
 
             Debug.Log("Type: " + type + " Dice: " + ranNum + " Strength: " + strength + " Agility: " + agility + " Charisma: " + charisma + " DifficultyLevel: " + difficultyLevel);
+
 
             if (type == "strength")
             {
@@ -111,5 +124,4 @@ public class InkExternalFunctions
     {
         story.UnbindExternalFunction("DiceResult");
     }
-
 }

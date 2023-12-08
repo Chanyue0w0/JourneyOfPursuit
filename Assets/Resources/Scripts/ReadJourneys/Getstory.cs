@@ -139,8 +139,7 @@ public class Getstory : MonoBehaviour
                 if(textlist[textindex]=="changeImage"&&textindex!=0){
                     picindex--;
                     picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
-                    textindex--;
-                    
+                    textindex--; 
                 }
                 string clearelement = "";
                 Textlabel.text = clearelement;
@@ -196,9 +195,15 @@ public class Getstory : MonoBehaviour
             GetTextFromFile(tales[0]);
             //show initial text and picture
             Textlabel.text = clearelement;
-            Textlabel.text += textlist[1];
-            picture.sprite = Resources.Load<Sprite>(imglist[0]);
-            
+            if(textlist[0]=="changeImage"){
+                Textlabel.text += textlist[1];
+                picture.sprite = Resources.Load<Sprite>(imglist[0]);
+            }
+            else{
+                Textlabel.text += textlist[0];
+                textindex = 0;
+                picindex = -1;
+            }
             sieve=1;   
         }
     }
