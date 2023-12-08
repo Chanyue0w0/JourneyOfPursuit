@@ -13,6 +13,7 @@ using System.IO;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine.SceneManagement;
 using Unity.Mathematics;
+using System.Threading;
 
 public class DialogueManager : MonoBehaviour, IDataPersistence
 {
@@ -95,6 +96,17 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private const string BGM_TAG = "bgm";
     private const string MUSIC_TAG = "music";
 
+
+    //Dice Panel
+    [Header("Dice Panel")]
+    public GameObject DicePanel;
+    public UnityEngine.UI.Text  ShowType;
+    public UnityEngine.UI.Text ShowDifficulty;
+    public UnityEngine.UI.Text  ShowResult;
+    public UnityEngine.UI.Text  ShowFinalResult;
+    public Button confirmbutton;
+    private bool closeconfirmbutton = false;
+
     private InkExternalFunctions inkExternalFunctions;
     private DialogueVariables dialogueVariables;
 
@@ -119,9 +131,13 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         //UpdatePlayerState();
 
         //StartCoroutine(WaitForOtherInstance());
+        confirmbutton.onClick.AddListener(exitfrompanel);
     }
-
-
+    void exitfrompanel()
+    {
+        DicePanel.SetActive(false);
+        closeconfirmbutton = true;
+    }
     public void LoadData(GameData data)
     {
         // For Game
@@ -173,6 +189,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
         }
+
 
         EnterDialogueMode(inkJSON, false);
     }
@@ -236,6 +253,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
         // Bind with ink functions
         // inkExternalFunctions.BindAll(currentStory, randomEvents, player.strength, player.agility, player.charisma);
+        
         inkExternalFunctions.BindAll(currentStory, randomEvents, strength, agility, charisma);
 
         if (PlayerPrefs.HasKey(saveStoryKey) && !changeFile)
@@ -446,14 +464,52 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     public IEnumerator DiceRollingAnimation()
     {
+        //shoe dice panel
+        DicePanel.SetActive(true);
         diceIsRolling = true;
         DiceManager.GetInstance().gameObject.SetActive(true);
         DiceManager.GetInstance().anim.SetInteger("DiceResult", diceNum);
+        ShowDiceResult(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
         yield return new WaitForSeconds(2);
         diceIsRolling = false;
+        closeconfirmbutton = false;
+        DicePanel.SetActive(false);
         DiceManager.GetInstance().gameObject.SetActive(false);
         ContinueStory();
     }
+
+    //
+    public void ShowDiceResult(string type,int ranNum,int strength,int agility,int charisma,int difficultyLevel)
+    {
+        int sum = 0;
+        ShowType.text = type;
+        ShowDifficulty.text = difficultyLevel.ToString();
+        if(type == "strength")
+        {
+            sum = ranNum+strength;
+            ShowResult.text = ranNum.ToString() + " + " + strength.ToString() + " = " + sum.ToString();
+        }
+        else if(type == "agility")
+        {
+            sum = ranNum+agility;
+            ShowResult.text = ranNum.ToString() + " + " + agility.ToString() + " = " + sum.ToString();
+        }
+        else
+        {
+            sum = ranNum + charisma;
+            ShowResult.text = ranNum.ToString() + " + " + charisma.ToString() + " = " + sum.ToString();
+        }
+
+        if(sum>=difficultyLevel)
+        {
+            ShowFinalResult.text = "æˆåŠŸ";
+        }
+        else
+        {
+            ShowFinalResult.text = "å¤±æ•—";
+        }
+    }
+
 
     private void DisplayChoices()
     {
@@ -588,7 +644,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     {
         yield return new WaitUntil(() => DialogSystem.GetInstance() != null);
 
-        // ¦b³o¸Ì OtherMonoBehaviour ¤w¸g³Q¹ê¨Ò¤Æ
+        // ï¿½bï¿½oï¿½ï¿½ OtherMonoBehaviour ï¿½wï¿½gï¿½Qï¿½ï¿½Ò¤ï¿½
         Debug.Log("OtherMonoBehaviour is now available!");
     }*/
 }
