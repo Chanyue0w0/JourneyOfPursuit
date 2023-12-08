@@ -28,8 +28,11 @@ public class DialogSystem
         MUSIC = gameObject.AddComponent<AudioSource>();
         MUSIC.loop = true;
 
-        bgmKingdom = Resources.Load<AudioClip>("Musics/forest");
+        bgmKingdom = Resources.Load<AudioClip>("Musics/kingdom");
         bgmForest = Resources.Load<AudioClip>("Musics/forest");
+        bgmDesert = Resources.Load<AudioClip>("Musics/desert");
+        bgmSnow = Resources.Load<AudioClip>("Musics/snow");
+        bgmFinal = Resources.Load<AudioClip>("Musics/final");
     }
 
     // 切換使用的音樂
@@ -53,6 +56,12 @@ public class DialogSystem
             case "final":
                 PlayBGM(bgmFinal, musicTime);
                 break;
+            case "stop":
+                BGM.Pause();
+                break;
+            case "go":
+                BGM.Play();
+                break;
             default:
                 Debug.Log("SwitchBGM name error");
                 break;
@@ -74,9 +83,13 @@ public class DialogSystem
     public void SwitchMusic(string music, float musicTime)
     {
         Debug.Log("In SwitchMusic " + music);
-        if (music == "none")
+        if (music == "stop")
         {
-            MUSIC.Stop();
+            MUSIC.Pause();
+        }
+        else if (music == "go")
+        {
+            MUSIC.Play();
         }
         else
         {

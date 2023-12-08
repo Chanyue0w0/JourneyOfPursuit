@@ -68,7 +68,7 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
-            DataPersistentManager.instance.NewGame("kingdom");
+            DataPersistentManager.instance.NewGame("Kingdom");
         }
         // load the gameplay scene - which will in turn save the game because of 
         // OnSceneUnloaded() in the DataPersistenceManager
