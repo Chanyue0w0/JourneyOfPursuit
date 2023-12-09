@@ -1,5 +1,6 @@
 INCLUDE globals.ink
 
+//1209
 //set random events
 ~ClearEvent()
 ~ PushEvent(->event4)
@@ -9,6 +10,8 @@ INCLUDE globals.ink
 ~ PushEvent(->event8)
 ~ PushEvent(->event9)
 ~ PushEvent(->event10)
+~ PushEvent(->event11)
+~ PushEvent(->event12)
 ~ temp random1 = GetEvent()
 ~ temp random2 = GetEvent()
 ~ temp random3 = GetEvent()
@@ -46,7 +49,7 @@ INCLUDE globals.ink
 ~ temp dog7 = GetEvent()
 
 /////////////////////////////////////////////////////////////////////
-#portrait:Node1_Born/alley #music:Awaken
+#portrait:Node1_Born/alley #bgm:stop #music:Awaken
 你醒來時，發現自己躺在一個狹窄陰暗的小巷弄裡，”這裡是……?”你感到一陣混亂。緩慢起身，晃了晃腦袋，試圖理清現在的情況。”我剛剛應該在......等等，我原本在哪裡?”你嘗試回想，卻一無所獲。
 +[檢視自身]
 你穿的衣服沾滿了黑灰，邊角還有些燒焦的痕跡。從口袋裡翻出了一條項鍊。正中心鑲著一顆紅寶石，看起來價值不斐。<br>你對它的存在感到困惑，卻莫名地對它有著熟悉感，似是並非第一次看到它。#portrait:Node1_Born/necklace
@@ -97,7 +100,7 @@ INCLUDE globals.ink
 //random events
 
 ===first_guy===
-出了巷子，你看到一個人坐在箱子上休息，看起來是搬箱子的工人。#portrait:Node1_2FirstGuy/guy_on_box #music:none #bgm:kingdom
+出了巷子，你看到一個人坐在箱子上休息，看起來是搬箱子的工人。#portrait:Node1_2FirstGuy/guy_on_box #music:stop #bgm:kingdom
 “看你的衣服，你不是王城的人吧?怎麼會從那條巷子裡出來?”他打量一番，說道。<br>“我...我也不知道，我一醒來就在這裡了。”你告訴他你的情況。<br>他又打量了你一陣子，而後擺了擺手。
 “你可以到布告欄去看看，城裡的大小事都會刊登在那裏。或者你也可以去找衛兵，你瞧，那邊就站著一個，也許他能幫你一些忙。再往前走一段路會看到一間酒吧，也許昨天在那喝太醉了，才會什麼都不記得。或者……如果運氣好的話，你會遇到吟遊詩人，他見多識廣，也許會知道些甚麼。”
 他隨手拔起路邊的雜草，讓葉片浮在左手掌心，右手手指輕點，雜草隨之翻摺成各種形狀。<br>“你怎麼辦到的?”你驚訝道。//#portrait:Node1_2FirstGuy/trick
@@ -113,21 +116,20 @@ INCLUDE globals.ink
 ->street
 
 ===event1===
-#portrait:Event1_Notice/Notice_near
 ~ Times = Times + 1
-你來到的布告欄前。查看張貼的公告。
+你來到布告欄前。<br>查看張貼的公告。#portrait:Event1_Notice/Notice_near//無法呼叫圖片
 ->notice
 ===notice===
     *[公告一]
-        國王巡街，人潮眾多，請勿推擠踩踏。
+        國王巡街，人潮眾多，請勿推擠踩踏。#portrait:Event1_Notice/Notice_near
         ->notice
     *[公告二]
-        森林近期發生異變，請勿靠近。
+        森林近期發生異變，請勿靠近。#portrait:Event1_Notice/Notice_near
         ->notice
+//    *[公告三]
+//        晚禱過後請勿在街上遊蕩，會有衛兵巡邏。#portrait:Event1_Notice/Notice_near
+//        ->notice
     *[公告三]
-        晚禱過後請勿在街上遊蕩，會有衛兵巡邏。
-        ->notice
-    *[公告四]
         "尋寵啟示"<br> “我家的萊斯走丟了！在城門附近走失，請有發現人一定要通知我！拜託拜託！一定獻上最高的謝意給找到牠的好心人！”#portrait:Event1_Notice/dog
         這張單子上印了張狗狗的照片，一身純白的長毛，脖子上還戴著綠寶石項圈。
         ++[協助尋找]
@@ -142,19 +144,19 @@ INCLUDE globals.ink
 ===choice===
 +++[到樹叢看看]
 ~ dog = dog + 1
-#portrait:Event1_Notice/grove
+(探頭尋找)#portrait:Event1_Notice/grove
     ->find_dog
 +++[查看附近農舍周圍]
 ~ dog = dog + 1
-#portrait:Event1_Notice/farmhouse
+(探頭尋找)#portrait:Event1_Notice/farmhouse
     ->find_dog
 +++[查看前方的溝渠]
 ~ dog = dog + 1
-#portrait:Event1_Notice/ditch
+(探頭尋找)#portrait:Event1_Notice/ditch
     ->find_dog
 +++[到巷弄找找]
 ~ dog = dog + 1
-#portrait:Event1_Notice/alley
+(探頭尋找)#portrait:Event1_Notice/alley
     ->find_dog
 
 ===event1_find===
@@ -177,6 +179,7 @@ INCLUDE globals.ink
 -5: ->dog5
 -6: ->dog6
 -7: ->dog7
+-else: 你找了很久，還是沒看見狗狗的蹤跡。->street
 }
 
 ===event2===
@@ -215,7 +218,7 @@ INCLUDE globals.ink
     ~temp res = DiceResult(21, "charisma")
     我走到吧檯，找了個位子坐下。調酒師熟練的調起了酒。”新面孔?今天想來點什麼?”她友好的向你搭話。#portrait:Event3_Bar/bartender
     "唉，我也是一肚子疑惑，”你嘆了口氣，”一醒來，發現自己躺在無人的巷子，失去了所有的記憶，發現身上只有個神祕的項鍊……。”<br>興許是酒吧的氣氛所致，你向她分享起了我的茫然。
-    他聽完了你的故事，沉思了一會兒。#rolling:0
+    他聽完了你的故事，沉思了一會兒。#rolling:0  //難度提示
     {res:
         調酒師注視著你，並遞給你一杯飲料，說道："我明白你的感受，朋友。有時生活的困難會讓我們感到無助。這杯飲料是送給你的，希望它能為你帶來一些安慰。不要擔心，我們都曾經需要幫助，這個酒吧是一個友善的地方。如果你需要聊天或者更多的幫助，我們都在這裡。"
         你接過了那杯飲料，感到一股溫暖和希望，”我並不孤單”，這個酒吧成了你在這個陌生城市尋找自我的地方。
@@ -227,12 +230,12 @@ INCLUDE globals.ink
         }
         ->bar
 *[離開]
-    你離開了酒吧。#bgm:go #music:none
+    你離開了酒吧。#bgm:go #music:stop
     ->street
 
 ===event4===
 ~ Times = Times + 1
-一人靠坐在廣場中央的雕像旁，他彈著豎琴，風精靈在他身周隨著歌聲起舞。//#portrait:Event4_Poet/poet
+一人靠坐在廣場中央的雕像旁，他彈著豎琴，風精靈在他身周隨著歌聲起舞。#portrait:Event4_Poet/poet
 “我們的王，唯一的王，<br>他征討四方，他感動上蒼
 ……”<br>音符乘載著他的歌詠，微風將之散布開來，穿梭於街道。
 演奏結束，觀眾們紛紛散去。你上前詢問。<br>“這身衣服……很少見了呀。”他突然說道。<br>“你知道些什麼嗎?”我連忙追問。
@@ -242,14 +245,16 @@ INCLUDE globals.ink
 ===event5===
 ~ Times = Times + 1
 在街上漫步時，一聲微弱的貓叫聲傳進了我的耳中。抬頭朝著聲音的來源看去，有一隻貓咪蹲坐在一棵樹上，不停地喵喵叫，看起來是隻不小心爬了太高，卻下不來的小貓。#portrait:Event5_Cat/cat_tree
-+[爬上樹幫他下來]
++[爬上樹幫他下來(難度21,力量)]
     ~temp res = DiceResult(21, "strength")
-    你決定爬上樹，救下小貓。#rolling: 0
+    你決定爬上樹，救下小貓。
+    #rolling: 0
     {res:
         盡管這棵樹不算矮，但對你來說，爬上它並不難。手腳並用，不一會兒你爬到能搆著小貓的位子，你伸出手，緩緩接近貓咪。
         牠一開始似是有些害怕，見到我伸出手又往後退了幾步。”小貓，別怕，我是來幫你的。”我不斷地安撫牠，牠逐漸冷靜下來。
         你將貓咪放在肩膀上，讓牠抓著你的衣服。你爬下了樹。
         牠跳下你的肩膀，看了你一眼，然後輕快地跑開了，消失在街角。#portrait:Event5_Cat/cat_street
+        ->street
     -else:
         “呃……現在該怎麼辦呢？”
         也許是因為餓了太久，爬到半途，你的手就沒力了。原先只有貓咪卡在樹上，現在連你也加入待救援的行列。
@@ -272,14 +277,14 @@ INCLUDE globals.ink
 
 ===event6===
 ~ Times = Times + 1
-看他的打扮像是個巫師，他在路邊鋪了張地毯，幾顆石頭圍成了一個奇怪的圖形，而水晶球被放在中間，他口中唸唸有詞。看起來是個占卜的巫師。”年輕人，你正在迷惘吧?要不要給你一些建議啊?”他突然向我搭話。#portrait:Event6(Divination)/divination
+看他的打扮像是個巫師，他在路邊鋪了張地毯，幾顆石頭圍成了一個奇怪的圖形，而水晶球被放在中間，他口中唸唸有詞。看起來是個占卜的巫師。”年輕人，你正在迷惘吧?要不要給你一些建議啊?”他突然向我搭話。#portrait:Event6_Divination/divination
 +[無視]
     “感覺就是來招搖撞騙的”我想著。於是裝作沒有聽到，快速離開。
     ->street
     
-+[占卜]
++[占卜(難度11,力量)]
     ~temp res = DiceResult(11, "power")
-    “它怎麼知道?"我有些吃驚。”你要如何幫我?<br>“過來坐著”依言走了過去。手正要放到水晶球上時，他一把撥開我的手。<br>“怎麼了嗎?” 我問道。<br>他手指搓了搓，”你以為不用代價的嗎?”<br>翻了個白眼，”我是不是誤上了賊船了”掏出口袋中的金幣，交到了占卜師的手上。<br>    “嘿嘿，這樣才對嘛”，他滿足的砸了砸嘴。#portrait:Event6(Divination)/crystal
+    “它怎麼知道?"我有些吃驚。”你要如何幫我?<br>“過來坐著”依言走了過去。手正要放到水晶球上時，他一把撥開我的手。<br>“怎麼了嗎?” 我問道。<br>他手指搓了搓，”你以為不用代價的嗎?”<br>翻了個白眼，”我是不是誤上了賊船了”掏出口袋中的金幣，交到了占卜師的手上。<br>    “嘿嘿，這樣才對嘛”，他滿足的砸了砸嘴。#portrait:Event6_Divination/crystal
     ”來吧，手放上來。我跟你說啊，這可是歷史悠久的寶物，從我師父的師傅…”<br>“好了別廢話，快開始吧。”我不耐煩的說道。<br>“現在的年輕人啊…”它開始唸起了咒語。<br>一咬牙，它從一旁的袋子裡抓出了個盒子，裡頭躺著顆紅寶石。占卜師將它放進了那一堆石頭中，原先劇烈震盪的水晶球稍微平靜了下來。<br>看著那顆紅寶石，身上的項鍊有了反應。#rolling: 0
     {res:
         黑氣從原本剔透的水晶球冒出，震開了我和占卜師的手掌。<br>占卜師滿頭大汗，它怪叫到”你...你到底是誰!”我都使用了這顆寶石了!
@@ -288,7 +293,8 @@ INCLUDE globals.ink
     -else:
         突然間，項鍊發出了一道紅光，射進了水晶球中，原本不穩定的水晶球頓時平靜了下來。水晶球裡映出的是一團紅光，它四周圍繞著數以萬計的生物。<br>"那是…古老種族們，連傳輸中的種族都有。”占卜師突然說道。”你來頭不小啊。”他的臉色蒼白，看來剛剛的突發事件讓他受了些傷。
         +[幫助他]
-            “有我能幫上忙的嗎?畢竟是我害你受傷的。”<br>他苦笑道：”不用了，你若真的感到過意不去，不如替我祈禱吧。”<br>我有些愧疚，我閉上眼誠心祈禱”希望，他的傷能盡快好起來。”
+            “有我能幫上忙的嗎?畢竟是我害你受傷的。”
+            他苦笑道：”不用了，你若真的感到過意不去，不如替我祈禱吧。”<br>我有些愧疚，我閉上眼誠心祈禱”希望，他的傷能盡快好起來。”
             #health:-5
             (他的臉色好了許多)<br>“這顆石頭也給你吧，在未來的旅途，你會用到它的。”它將紅寶石遞給了我。<br> 剛接過它，一道紅光從項鍊中射出，紅寶石不見了，而項鍊中的紅光似乎又更亮了一些。<br>
             他一臉驚奇，"看來，我的選擇沒有錯。"他滿意的點了點頭。<br>說完話，他收拾了一地的行李，轉身離去。
@@ -370,7 +376,7 @@ INCLUDE globals.ink
 ===event11_buy===
 (選擇購買哪個)
     *[寶石(price: 60coins)]#portrait:Event11_Vendor/germ
-        ++[殺價(price -10 coins)]
+        ++[殺價(price -10 coins)(難度25,魅力)]
             ~temp res = DiceResult(25, "charisma")
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
             {res:
@@ -385,7 +391,7 @@ INCLUDE globals.ink
             你成功買到了寶石。
             ->event11_buy
     *[藥水(price: 30 coins)]#portrait:Event11_Vendor/potion
-        ++[殺價(price -10 coins)]
+        ++[殺價(price -10 coins)(難度25,魅力)]
             ~temp res2 = DiceResult(25, "charisma")
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
             {res:    
@@ -402,7 +408,7 @@ INCLUDE globals.ink
             
         
     *[護腕(price: 50 coins)]#portrait:Event11_Vendor/wristband
-        ++[殺價(price -10 coins)]
+        ++[殺價(price -10 coins)(難度25,魅力)]
             ~temp res3 = DiceResult(25, "charisma")
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
             {res:    
@@ -455,7 +461,7 @@ INCLUDE globals.ink
 國王艾德里克坐在華麗的馬車中，臉上掛著微笑，突然轉頭朝我看了一眼，若有所思，似乎他對我身上的紅寶石項鍊產生了興趣。
 國王的目光在我身上停留了片刻，然後他緩緩地移開了視線，繼續觀望前方。這個瞬間讓我感到一陣莫名的壓力，彷彿國王在某種方式的默認中尋找到了我身上的秘密。#portrait:Node2_KingDemonstration/king
 我繼續緊握著項鍊，心中充滿了疑惑和好奇。
-隨著國王和公主的隊伍繼續前進，漸行漸遠，我留在原地，看著他們消失在遠方的街道上。我的心中充滿了疑問和好奇，這串紅寶石項鍊似乎是我的指引，但我不知道應該前往何處。#portrait:Node2_KingDemonstration/army_leave #music:none
+隨著國王和公主的隊伍繼續前進，漸行漸遠，我留在原地，看著他們消失在遠方的街道上。我的心中充滿了疑問和好奇，這串紅寶石項鍊似乎是我的指引，但我不知道應該前往何處。#portrait:Node2_KingDemonstration/army_leave #music:stop
 ->Node3
 
 ===Node3===
@@ -465,7 +471,8 @@ INCLUDE globals.ink
 跟著他的步伐，你們離開了人流，到了一條小巷。
 他脫下連帽，”這一屆的繼承人也真是的，連被跟蹤了都不知道。”他抱怨道，然後看著我。<br>“為什麼這一屆的繼承人會出現在這裡？”他語氣有些急促，且帶著些許責備。#portrait:Node3_ToForest/helper
 我向他說明我失去記憶的事情。”嗯......這事情有些奇怪。”他沉思了一會兒。<br>“總之，我們先離開王城吧，這裡不安全。跟我來，我帶你離開這裡。”
-#changefile:Forest #music:none
+(你們離開王城)
+#changefile:Forest #music:stop 
 ->END
 
 ===street===
@@ -479,7 +486,7 @@ INCLUDE globals.ink
 ->random3
 -3:在街上隨意的走著。#portrait:Street_View/Street_3
 ->random4
--4: ->Node2
+-else: ->Node2
 
 }
 

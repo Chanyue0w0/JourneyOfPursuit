@@ -1,5 +1,6 @@
 INCLUDE globals.ink
 
+//1209
 //go into the village
 ~ClearEvent()
 ~ PushEvent(->girl_on_tree)
@@ -42,9 +43,9 @@ INCLUDE globals.ink
 ~ temp statue3 = GetEvent()
 
 
-你們抵達了一處空地，前方是一大片森林。#portrait:ToForest/first #bgm:stop #bgm:forest
+你們抵達了一處空地，前方是一大片森林。#portrait:ToForest/first #bgm:go #bgm:forest
 “就把你送到這裡吧，”他說。”接下來的旅途，必須由你自己走完。去找精靈的部落吧，那裡需要你。”少年說道。<br>“要怎麼去?”你滿頭問號。
-“拿著這個”，不理會你的問題，他又遞給你一個小袋子，逕直說道，”裡面裝的是爆炸石，用力丟出去就會爆炸，給你自保用。”<br>“欸不是……”#portrait:ToForest/bag
+“拿著這個”，不理會你的問題，他又遞給你一個小袋子，逕直說道，”裡面裝的是爆炸石，用力丟出去就會爆炸，給你自保用。”<br>“欸不是……”#portrait:ToForest/bag 
 “祝你順利。”留下這句話，隨著幾句咒語響起，他的身影逐漸淡去。
 “我根本什麼都不記得，能不能交代清楚再離開啊。”你喃喃抱怨道。
 “是說，易爆物都不用有些防護措施的嗎?”你看著手中的小袋子，有些無語。
@@ -75,13 +76,13 @@ INCLUDE globals.ink
     ->deer_dis
 
 ===hunt_group===
-“嘶嘶嘶。”一陣陣高頻的聲音響徹雲霄。<br>“那是什麼聲音?”我四處張望。
+“嘶嘶嘶。”一陣陣高頻的聲音響徹雲霄。<br>“那是什麼聲音?”我四處張望。#music:Battle #bmg:stop
 +[上前查看]
-    沒過多久，你發現了聲音來源。//#portrait:ToForest/surround
+    沒過多久，你發現了聲音來源。#portrait:ToForest/surround
     一群尖耳的精靈被數十隻巨大蟲子包圍。<br?那些蟲子渾身漆黑，肢體上覆蓋著堅硬的外殼，散發出微微的金屬光澤;他們的爪子呈曲線狀，有且有著毒液在尖端滴下;頭部呈現怪異的形狀，被拉的極度長，且表面布滿了複眼。
     精靈們被蟲群包圍，健壯的戰士在最外圍，手持長槍和蟲子們對峙，一名手持長杖的年邁精靈站在正中心，似是在維持著守護他們的防護罩;但蟲群不斷的敲擊防護罩，防護罩已然開始搖晃。
     巨大蟲子還在不斷趕來。
-    ++[幫忙] 
+    ++[幫忙(難度23,敏捷)] 
     ~temp res = DiceResult(23, "agility")
         “這是什麼狀況......。”你被這情景嚇到了。<br>一名精靈戰士和你對到眼。他有些驚訝，但隨即示意你趕緊離開這危險的地方。
         “難道，我什麼都幫不了嗎?”你自問道。<br>你想到了方才少年給你的爆炸石。<br>“如果我用這些爆炸石引開那些蟲子的注意，他們就能趁機逃離包圍圈了吧。”
@@ -92,7 +93,7 @@ INCLUDE globals.ink
             眼見蟲群已亂，精靈們也開始反攻。你繼續亂丟爆炸石。<br>一邊丟，你一邊慶幸：”還好剛剛沒有不小心摔到他。這威力連有硬殼的蟲子都擋不住，何況是我。”
             直到最後一隻蟲子退去，你緊繃的神經才放鬆下來。你直接坐倒在地，腦袋開始暈眩。”怎麼這麼暈啊。”你想著。
             <br>低頭一看，原來方才大腿被劃傷了，大量失血，方才精神緊繃時未意識到。
-            “果然，還是有些衝動了。”你喃喃自語，隨後失去意識。//#portrait:ToForest/blackscene
+            “果然，還是有些衝動了。”你喃喃自語，隨後失去意識。#portrait:ToForest/black
             ->bed
         -else:    
             你將爆炸石丟向為首的那隻巨大蟲子。”咚。”爆炸石敲到蟲子的硬殼，輕輕彈開。
@@ -119,7 +120,7 @@ INCLUDE globals.ink
 它步履優雅地穿越樹木之間，身旁的花草彷彿為它讓路，微風輕拂著牠的毛髮。牠是這片樹林的主宰。
 似是注意到你的注視，他停下來看著你，目光相遇瞬間，一種溫暖而寧靜的感覺湧上心頭。
 “我應該跟著他。”即使沒有言語，你卻理解了他想告訴你的事。
-跟隨著她的步伐，一處村落出現在眼前。#bgm:go #music:none
+跟隨著她的步伐，一處村落出現在眼前。#bgm:go #music:stop
 ->entrance
 
 ===deer_dis===
@@ -129,13 +130,13 @@ INCLUDE globals.ink
 似是注意到你的注視，他停下來看著你，你感受到牠深邃的眼眸中閃現出一絲責備的神色。這種眼神彷彿能夠窺見你的靈魂，讓你感到一股無形的壓力，彷彿你的某些行為或思維受到了神鹿的審視。
 他轉過頭，繼續走著。
 “我應該跟著他。”即使沒有言語，你卻理解了他想告訴我的事。
-跟隨著她的步伐，一處村落出現在眼前。#bgm:go #music:none
+跟隨著她的步伐，一處村落出現在眼前。#bgm:go #music:stop
 ->entrance
 
 ===bed===
 再次恢復意識，你發現自己正躺在床上，身上的傷口已經被妥善處理過了。
 環顧周遭的環境，"這裡應該就是精靈村落了吧。"你默默地向著。
-你掀開門簾，打算四處走走。
+你掀開門簾，打算四處走走。#portrait:Village/bedroom
 ->entrance
 
 //village
@@ -205,8 +206,8 @@ INCLUDE globals.ink
 ->female_elf
 
 ===female_elf===
-“這已經是第幾批了。”又是一批傷痕累累的隊伍迎面而來。那些都是在前線受重傷的戰士。<br>身邊不時傳來幾聲怒哼，除了對敵人的怒意外，更多的是看見同族被重傷的憤怒。
-哀傷的精靈坐在樹梢上，她歌唱著，頌唱出對傷兵們的不捨，還有對前線戰士的祝福。#portrait:Others/femaleelf #music:none #music:Lament
+“這已經是第幾批了。”又是一批傷痕累累的隊伍迎面而來。那些都是在前線受重傷的戰士。<br>身邊不時傳來幾聲怒哼，除了對敵人的怒意外，更多的是看見同族被重傷的憤怒。#music:stop #music:Lament
+哀傷的精靈坐在樹梢上，她歌唱著，頌唱出對傷兵們的不捨，還有對前線戰士的祝福。#portrait:Others/femaleelf 
 聽到了歌聲，你有些失神。
 “印象中，我也曾聽過這般哀傷的歌聲。”
 一道聲音在腦中響起：
@@ -219,10 +220,10 @@ INCLUDE globals.ink
 ===fight_order===
 你繼續跟著隊伍前行。
 +[依序前往戰場]
-#music:none #music:Battle
+#bgm:stop #music:Battle
 ->lake
 +[直奔母樹]
-#music:none #music:Battle
+#bgm:stop #music:Battle
 ->mother_tree
 
 ===lake===
@@ -232,6 +233,7 @@ INCLUDE globals.ink
     ->lake_roll
   
 ===lake_roll===
++[(難度15,力量)]
     ~temp res = DiceResult(15, "strength")
     #rolling:0
         {res:
@@ -251,10 +253,16 @@ INCLUDE globals.ink
     ->statue
 ===lake_none===
 這裡甚麼都沒有。
-->lake_
++[繼續探索]
+    ->lake_
++[前往下個戰場]
+    ->statue
 ===lake_yap===
     一枚徽章掉落在此，上頭的刻紋有些熟悉。<br>“這不是王城的標誌嗎?”你驚訝的想道。#portrait:Others/badge
-->lake_
++[繼續探索]
+    ->lake_
++[前往下個戰場]
+    ->statue
 ===lake_===
 ~ Lake = Lake + 1
 {Lake:
@@ -264,14 +272,17 @@ INCLUDE globals.ink
     ->lake2
 -3: 你翻找附近草叢。#portrait:Others/grass3
     ->lake3
--4: ->statue
+-else: 精靈戰士催促著你前往下個戰場。
+    +[前往下個戰場]
+    ->statue
 }
 
 ===statue===
 你們抵達了擺有精靈雕像的空地。#portrait:Statue/statue
-枯萎者們盤據著一尊精靈雕像，為首的那隻看到你們前來，挑釁似的朝你們噴了幾口毒霧。//#portrait:Statue/poisonfog
+枯萎者們盤據著一尊精靈雕像，為首的那隻看到你們前來，挑釁似的朝你們噴了幾口毒霧。#portrait:Statue/poisonfog
 ->statue_roll
 ===statue_roll
++[(難度15,力量)]
 ~temp res = DiceResult(15, "strength")
 #rolling:0
     {res:
@@ -283,18 +294,25 @@ INCLUDE globals.ink
     }
 ===statue_win===
     狂風驟起，將毒霧遠遠吹離我們。隨後變換為滾滾風刃，將枯萎者們撕裂，劃開戰場。//#portrait:Statue/wind
-    +[探索]
+    +[四處探索]
     ->statue_
     +[前往下一個戰場]
     ->spiritual_place
 ===statue_none===
 這裡空無一物。
++[繼續探索]
+    ->statue_
++[前往下個戰場]
+    ->spiritual_place
 ->statue_
 ===statue_yap===
     翻開草叢，你發現一個神祕石盤，它半插在土中，表面刻有交錯的紋路。#portrait:Others/plate
     +[收起]
     你收起了它。
-        ->spiritual_place
+        ++[繼續探索]
+            ->statue_
+        ++[前往下個戰場]
+            ->spiritual_place
     +[髒東西，不拿]
     你看了一眼，選擇無視它。
         ->spiritual_place
@@ -307,15 +325,18 @@ INCLUDE globals.ink
     ->statue2
 -3: 你翻找附近草叢。#portrait:Others/grass3
     ->statue3
--4: ->spiritual_place
+-else: 精靈戰士催促著你前往下個戰場。
+    +[前往下個戰場]
+    ->spiritual_place
 }
 
 ===spiritual_place===
-你們來到了精靈族聖地。<br>然而，綠意不再，應該充滿威嚴的此處已被枯萎者弄得面目全非。//#portrait:Others/ancestor
+你們來到了精靈族聖地。<br>然而，綠意不再，應該充滿威嚴的此處已被枯萎者弄得面目全非。#portrait:Others/ancestor
 看到祖地被這樣踐踏，一同過來的精靈族戰士難掩心中怒意，大聲吶喊後直奔戰場。
 看著眼前的一切，你莫名感到悲傷。<br>“你們甘於被外族如此踐踏嗎?站起來吧，和你們的後輩一起抵抗吧!”握著項鍊，你朝空中吶喊。
 ->spiritual_roll
 ===spiritual_roll===
++[(難度15,力量)]
 ~temp res = DiceResult(15, "strength")
 #rolling:0
     {res:
@@ -338,6 +359,7 @@ INCLUDE globals.ink
     “你可有聽到你的子民們的聲音，精靈族的母親，你何以忍受的了。”<br>緊握著項鍊，你在心中默念著。
     ->tree_rolling1
 ===tree_rolling1===
++[(難度15,力量)]
 ~temp res = DiceResult(15, "strength")
 #rolling:0
     {res:
@@ -355,6 +377,7 @@ INCLUDE globals.ink
     “你甘於此嗎?”你再次問道。
 ->tree_rolling2
 ===tree_rolling2===
++[(難度15,力量)]
 ~temp res = DiceResult(15, "strength")
 #rolling:0
     {res:
@@ -367,7 +390,7 @@ INCLUDE globals.ink
     }
     
 ===ending===
-枯萎者們撤退了，精靈村莊恢復了和平。//#portrait:MotherTree/cheer #music:none #music:Victory
+枯萎者們撤退了，精靈村莊恢復了和平。#bgm:stop #music:Victory #portrait:MotherTree/cheer 
 “母樹雖然傷痕累累，但至少，我們奪回了她。”眾精靈傳唱道。
 在不久的將來，它的根將再次深入大地，重現以往的光榮。
 他們慶祝的同時，你默默來到母樹身邊。<br>你知道你有能力修復它。
@@ -383,7 +406,7 @@ INCLUDE globals.ink
 ===leave_forest===
 方才，你已經告訴了村長你在王城的經歷，包含那個帶你過來的少年。#portrait:Village/master
 村長的臉龐顯得沉重，她的眼神充滿了擔憂。她走到我身旁，遙遙指著東方，"也許，你的所有疑問都能從矮人那裡得知。能將具有強大力量的寶石加工成項鍊的，鐵定只有他們。"
-"但是，"村長接著說，"旅人啊，前往矮人的城堡勢必會經過沙漠，而那是一條危險的道路。<br>或許，他們能告訴你更多有關項鍊的信息、找回失去的記憶。又或者，你會在那裡喪命。"//#portrait:MotherTree/goodbye
+"但是，"村長接著說，"旅人啊，前往矮人的城堡勢必會經過沙漠，而那是一條危險的道路。<br>或許，他們能告訴你更多有關項鍊的信息、找回失去的記憶。又或者，你會在那裡喪命。"#portrait:MotherTree/goodbye
 "無論是酷熱的陽光或是無情的風沙，任何一項在沙漠裡的事物都能輕易剝奪你的生命。請小心，旅人，我希望你能平安返回，帶著項鍊的真相和你的記憶。”
 "對了，"村長突然想起些什麼，"外圍的小動物們發現，有人在森林外圍徘迴，可能是來追著你來的。"他警告我。
 "他們，跟到這裡了嗎......"你有些不安。
