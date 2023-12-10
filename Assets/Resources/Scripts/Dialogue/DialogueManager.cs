@@ -45,6 +45,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     [SerializeField] private UnityEngine.UI.Text strengthText;
     [SerializeField] private UnityEngine.UI.Text agilityText;
     [SerializeField] private UnityEngine.UI.Text charismaText;
+    [SerializeField] private UnityEngine.UI.Text moralityText;
     //private PlayerState player;
 
     [Header("Music Test")]
@@ -630,6 +631,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         strengthText.text = "Strength: " + strength.ToString();
         agilityText.text = "Agility: " + agility.ToString();
         charismaText.text = "Charisma: " + charisma.ToString();
+        moralityText.text = "Morality: " + morality.ToString();
     }
 
     public void debug(string s)
@@ -646,12 +648,4 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
             DataPersistentManager.instance.SaveGame();
         }
     }
-
-    /*private System.Collections.IEnumerator WaitForOtherInstance()
-    {
-        yield return new WaitUntil(() => DialogSystem.GetInstance() != null);
-
-        // �b�o�� OtherMonoBehaviour �w�g�Q��Ҥ�
-        Debug.Log("OtherMonoBehaviour is now available!");
-    }*/
 }
