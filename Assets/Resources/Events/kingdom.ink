@@ -471,8 +471,8 @@ INCLUDE globals.ink
 跟著他的步伐，你們離開了人流，到了一條小巷。
 他脫下連帽，”這一屆的繼承人也真是的，連被跟蹤了都不知道。”他抱怨道，然後看著我。<br>“為什麼這一屆的繼承人會出現在這裡？”他語氣有些急促，且帶著些許責備。#portrait:Node3_ToForest/helper
 我向他說明我失去記憶的事情。”嗯......這事情有些奇怪。”他沉思了一會兒。<br>“總之，我們先離開王城吧，這裡不安全。跟我來，我帶你離開這裡。”
-(你們離開王城)
-#changefile:Forest #music:stop 
+(你們離開王城)#music:stop
+#changefile:Forest  
 ->END
 
 ===street===
