@@ -471,23 +471,13 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         DiceManager.GetInstance().gameObject.SetActive(true);
         DiceManager.GetInstance().anim.SetInteger("DiceResult", diceNum);
         ShowDiceResult(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
-<<<<<<< HEAD
-        //yield return new WaitForSeconds(2);
-
-        while(!closeconfirmbutton)
-        {
-            yield return null;
-        }
 
 
-=======
-        
         while (!closeconfirmbutton)
         {
             yield return null;
         }
         
->>>>>>> DiceBranch
         diceIsRolling = false;
         closeconfirmbutton = false;
         DicePanel.SetActive(false);
