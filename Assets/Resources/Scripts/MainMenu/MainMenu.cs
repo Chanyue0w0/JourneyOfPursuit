@@ -68,11 +68,14 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
+            Debug.Log("999");
             DataPersistentManager.instance.NewGame("Kingdom");
+            Debug.Log("999");
         }
         // load the gameplay scene - which will in turn save the game because of 
         // OnSceneUnloaded() in the DataPersistenceManager
         SceneManager.LoadSceneAsync("LeahScene");
+        Debug.Log("999");
     }
 
     public void OnContinueGameClicked()
