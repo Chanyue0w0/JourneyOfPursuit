@@ -9,36 +9,39 @@ using UnityEngine.EventSystems;
 using Newtonsoft;
 using Newtonsoft.Json;
 
-
+//和json檔一樣配置的structure，用於抓資料的時候能抓到一樣的東西
 public class storys{
-    public int FolderName;
-    public int fileName;
-    public string travelogue;
-    public string imagePathForStory;
+    public int FolderName;//資料夾名稱（這裡沒用到）
+    public int fileName;//檔案名稱（這裡沒用到）
+    public string travelogue;//劇情
+    public string imagePathForStory;//各個圖片位置
 }
 
 public class Getstory : MonoBehaviour
 {
-    public Text Textlabel;
-    public Button rbutton;
-    public Button lbutton;
-    public Button ebutton;
-    public Button[] showtrigger = new Button[6];
-    public Image picture;
-
-    public GameObject storywindow;
-    public GameObject choosewindow;
-    public Text fileaddress;
-    public string showtext;//
-    List<string> tales = new List<string>();//save story files
-    string[] allfile;//all the files in journey folders
-    public int fileindex = 0;//the number of temp file
-    public int textindex = 1;//the number of temp text
-    public int picindex = 0;
-    List<string> textlist = new List<string>();//save texts in one file
-    List<string> imglist = new List<string>();//save images in one file
-
-    public int sieve = 0;
+    [Header("遊戲內物件")]
+    public Text Textlabel;//顯示文字
+    public Text fileaddress;//紀錄這個故事的資料夾位置
+    public Button rbutton;//向右翻的按鈕
+    public Button lbutton;//向左翻的按鈕
+    public Button ebutton;//退到選擇故事清單的按鈕
+    public Button[] showtrigger = new Button[6];//用來確認按了哪一個按鈕
+    public Image picture;//顯示圖片
+    public GameObject choosewindow;//選擇故事的canvus
+    public GameObject storywindow;//看故事的canvus
+    
+    [Header("紀錄資料用的list")]
+    string[] allfile;//用來暫存這個故事資料夾裡有的檔案
+    List<string> tales = new List<string>();//紀錄下這個故事裡有幾個檔案
+    List<string> textlist = new List<string>();//這個檔案裡的所有劇情
+    List<string> imglist = new List<string>();//這個檔案裡的所有圖片
+    
+    [Header("有的沒的index")]
+    public int fileindex = 0;//現在到哪一個檔案
+    public int textindex = 1;//現在到哪一段劇情（同一檔案）
+    public int picindex = 0;//現在在哪張圖片
+    public int sieve = 0;//重新讀故事資料夾的開關，確保update()裡的程式只跑一次
+    
     private void Start(){
         rbutton.onClick.AddListener(ClickRightButton);
         lbutton.onClick.AddListener(ClickLeftButton);
@@ -50,41 +53,54 @@ public class Getstory : MonoBehaviour
         showtrigger[4].onClick.AddListener(changestory);
         showtrigger[5].onClick.AddListener(changestory);
     }
+    
+    //無用途:只是用來放在button listener後面的函式
     void changestory(){
     }
     
+    //處理用"#"分開的資料裡面有沒有"changeImage"或"^選項"
+    void CheckContentsInTheTextlist(){
+        //如果內容包含"內文^選項"
+        if(textlist[textindex].Contains('^')){
+            var tempsave = (textlist[textindex]).Split('^');
+            List<string> smalllist = new List<string>();
+            foreach(var part in tempsave){
+                smalllist.Add(part);
+            }
+            Textlabel.text += (smalllist[0]+"\r\n「你選擇"+smalllist[1]+"」");
+        }
+        else{
+            //只有內文
+            Textlabel.text = textlist[textindex];
+        }
+    }
+    
+    //按下向右翻頁
     void ClickRightButton(){
+        //確認可不可以再向右翻
         if(fileindex<tales.Count&&textindex<textlist.Count&&fileindex>=-1&&textindex>=-1){
             textindex++;
+            //當到檔案及故事的最後時
             if(textindex==textlist.Count&&fileindex==tales.Count-1){
                 Textlabel.text = "THE END.";                
             }
+            //當要換下一個檔案時
             else if(textindex==textlist.Count){
-                //text and pic initialize
+                //初始化文字和圖片
                 textlist.Clear();
                 imglist.Clear();
                 textindex = 1;
                 picindex = 0;
                 
                 fileindex++;
-                //read new file
+                //向後換新檔案
                 GetTextFromFile(tales[fileindex]);
-                //
                 string clearelement = "";
                 Textlabel.text = clearelement;
-                if(textlist[textindex].Contains("^")){
-                    var tempsave = (textlist[textindex]).Split('^');
-                    List<string> smalllist = new List<string>();
-                    foreach(var part in tempsave){
-                        smalllist.Add(part);
-                    }
-                    Textlabel.text += (smalllist[0]+"\r\n\"你選擇"+smalllist[1]+"\"");
-                }
-                else{
-                    Textlabel.text = textlist[textindex];
-                }
+                CheckContentsInTheTextlist();
                 picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
             }
+            //正常換頁（同檔案）
             else{
                 if(textlist[textindex]=="changeImage"){
                     picindex++;
@@ -93,24 +109,18 @@ public class Getstory : MonoBehaviour
                 }
                 string clearelement = "";
                 Textlabel.text = clearelement;
-                if(textlist[textindex].Contains("^")){
-                    var tempsave = (textlist[textindex]).Split('^');
-                    List<string> smalllist = new List<string>();
-                    foreach(var part in tempsave){
-                        smalllist.Add(part);
-                    }
-                    Textlabel.text += (smalllist[0]+"\r\n\"你選擇"+smalllist[1]+"\"");
-                }
-                else{
-                    Textlabel.text = textlist[textindex];
-                }
-                showtext = textlist[textindex];
+                CheckContentsInTheTextlist();
+
             }
         }
     }
+    
+    //按下向左翻頁
     void ClickLeftButton(){
+        //確認可不可以再向左翻
         if(!(textindex==1&&fileindex==0)){
             textindex--;
+            //當到了劇情的最前面，但不是最前面的檔案時
             if(textindex==0&&fileindex!=0){
                 //text and pic initialize
                 textlist.Clear();
@@ -122,20 +132,12 @@ public class Getstory : MonoBehaviour
                 picindex = imglist.Count-1;
                 string clearelement = "";
                 Textlabel.text = clearelement;
-                if(textlist[textindex].Contains("^")){
-                    var tempsave = (textlist[textindex]).Split('^');
-                    List<string> smalllist = new List<string>();
-                    foreach(var part in tempsave){
-                        smalllist.Add(part);
-                    }
-                    Textlabel.text += (smalllist[0]+"\r\n\"你選擇"+smalllist[1]+"\"");
-                }
-                else{
-                    Textlabel.text = textlist[textindex];
-                }
+                CheckContentsInTheTextlist();
                 picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
             }
+            //正常換頁（同檔案）
             else{
+                //當textlist的內容是changeImage時就換圖片
                 if(textlist[textindex]=="changeImage"&&textindex!=0){
                     picindex--;
                     picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
@@ -143,30 +145,12 @@ public class Getstory : MonoBehaviour
                 }
                 string clearelement = "";
                 Textlabel.text = clearelement;
-                if(textlist[textindex].Contains("^")){
-                    var tempsave = (textlist[textindex]).Split('^');
-                    List<string> smalllist = new List<string>();
-                    foreach(var part in tempsave){
-                        smalllist.Add(part);
-                    }
-                    Textlabel.text += (smalllist[0]+"\r\n\"你選擇"+smalllist[1]+"\"");
-                }
-                else{
-                    Textlabel.text = textlist[textindex];
-                }
-                showtext = textlist[textindex];
+                CheckContentsInTheTextlist();
             }
         }
-
-        /*
-        if(fileindex<=tales.Count&&fileindex>=1){     
-            fileindex--;    
-            textlist.Clear();
-            GetTextFromFile(tales[fileindex]);
-        }
-        */
-        
     }
+    
+    //按下跳到選擇故事畫面的button後...基本上是各個東西的初始化
     void ClickExitButton(){
         fileaddress.text = "Empty";
         fileindex=0;
@@ -177,11 +161,13 @@ public class Getstory : MonoBehaviour
         sieve = 0;
         textlist.Clear();
         imglist.Clear();
+
         storywindow.SetActive(false);
         choosewindow.SetActive(true);
     }
 
     private void Update(){
+        //當切到這個介面時直接讀去一次資料夾裡的第一個檔案
         if(fileaddress.text!="Empty"&&sieve==0){
             tales.Clear();
             string clearelement = "";
@@ -195,24 +181,27 @@ public class Getstory : MonoBehaviour
             GetTextFromFile(tales[0]);
             //show initial text and picture
             Textlabel.text = clearelement;
+            //
             if(textlist[0]=="changeImage"){
-                Textlabel.text += textlist[1];
-                picture.sprite = Resources.Load<Sprite>(imglist[0]);
+                CheckContentsInTheTextlist();
+                picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
             }
             else{
                 Textlabel.text += textlist[0];
                 textindex = 0;
                 picindex = -1;
             }
+            //
             sieve=1;   
         }
     }
-    //only read file
+    
+    //把檔案裡的資料先讀進來
     private void GetTextFromFile(string Path){
         StreamReader r = new StreamReader(Path);
         string json = r.ReadToEnd();
         var desjson = JsonConvert.DeserializeObject<storys>(json);
-        //read file text and image
+        //read file text(用"#"來分割travelogue)
         var tempsave = (desjson.travelogue).Split('#');
         foreach(var words in tempsave){
             if(words != ""){
@@ -220,40 +209,11 @@ public class Getstory : MonoBehaviour
                 textlist.Add(a);
             }
         }
+        //read image path(用"#"來分割imagePathForStory)
         tempsave = (desjson.imagePathForStory).Split('#');
         foreach(var pic in tempsave){
-            //string b = ".//Assets/resources/"+pic;
             if(pic!="")
                 imglist.Add(pic);
         }
-        /*
-        for(int i = 0;i<textlist.Count;i++){
-            Textlabel.text += textlist[i];
-            Textlabel.text += "\r\n\r\n";
-        }
-        */
     }
 }
-/*
-#changeImage
-#當主角在陌生的巷子中醒來時<br>，他感到極度困惑。他的大腦一片空白，無法回憶起自己是誰，他是如何來到這個地方的。慌張中，他注意到手中緊握著一條精美的項鍊，項鍊上掛著一個小小的寶石。\n
-#changeImage
-#主角緊抓著這條項鍊，他感到一種奇怪的親切感，似乎這項鍊與他的過去有某種聯繫。他陷入一個內心掙扎，不知道應該將這條項鍊戴在脖子上，還是放進口袋中。\n
-
-#戴在脖子上
-
-#他思考著，決定將項鍊繫在脖子上，這樣他可以隨時查看它，或者如果有人認出項鍊，或許能提供一些關於他過去的線索。\n
-#主角繼續沿著陌生的巷子漫步，留意著每一個細節，希望能找到一些線索，解開自己的記憶之謎。當他經過一把路旁的躺椅時，他突然感覺到一雙眼睛注視著他。\n
-#他轉頭一看，發現一位年邁的老者坐在那把躺椅上，眼神深邃，充滿智慧。老者的表情安詳，似乎對這位陌生的主角感到興趣。\n
-
-#詢問
-
-#主角心生一種親切感，認為這位老者或許知道些什麼。走到老者面前，微微鞠躬，然後輕聲問道：\"對不起，先生，我失去了記憶，我不知道我是誰，我是如何來到這裡的。您能幫助我嗎？”\n
-#老者緩緩地轉動頭，一抹微笑浮現在他的嘴角，但他的回答卻令人困惑，\"年輕人，有時候，目光是一扇窗戶，它讓我們看到過去，也讓我們窺見未來。\"\n
-#主角試圖理解老者的話語，但這似乎更增加了謎團。他再次問道，\"您說的過去和未來，是什麼意思呢？\"\n
-#老者的目光再次注視遠方，他回答說，\"每一個人都有自己的故事，年輕人，有時候，我們的過去和未來在我們的眼神中都能找到答案。\"\n
-#還想再詢問，老者卻已閉眼睡去。\n
-
-#離開巷子
-
-*/
