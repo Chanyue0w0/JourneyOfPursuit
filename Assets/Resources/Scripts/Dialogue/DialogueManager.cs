@@ -465,14 +465,14 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     public IEnumerator DiceRollingAnimation()
     {
-        //shoe dice panel
+        //show dice panel
         DicePanel.SetActive(true);
         diceIsRolling = true;
         DiceManager.GetInstance().gameObject.SetActive(true);
         DiceManager.GetInstance().anim.SetInteger("DiceResult", diceNum);
         ShowDiceResult(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
 
-
+        
         while (!closeconfirmbutton)
         {
             yield return null;
