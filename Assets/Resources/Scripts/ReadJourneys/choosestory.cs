@@ -125,7 +125,7 @@ public class choosestory : MonoBehaviour
         //buttonNum = 0 1 2 3 4 5;
         if(pageindex+buttonNum<filepath.Count){
             if(!DeleteMode){
-                savefiledata.text = filepath[buttonNum].fileName;
+                savefiledata.text = filepath[pageindex+buttonNum].fileName;
                 storywindow.SetActive(true);
                 choosewindow.SetActive(false);
             }

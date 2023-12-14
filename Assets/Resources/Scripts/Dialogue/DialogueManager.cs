@@ -472,7 +472,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         DiceManager.GetInstance().anim.SetInteger("DiceResult", diceNum);
         ShowDiceResult(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
 
-        
+        //yield return new WaitForSeconds(3);
         while (!closeconfirmbutton)
         {
             yield return null;
@@ -507,7 +507,13 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
             ShowResult.text = ranNum.ToString() + " + " + charisma.ToString() + " = " + sum.ToString();
         }
 
-        if(sum>=difficultyLevel)
+        if(ranNum==20){
+            ShowFinalResult.text = "大成功";
+        }
+        else if(ranNum==1){
+            ShowFinalResult.text = "大失敗";
+        }
+        else if(sum>=difficultyLevel)
         {
             ShowFinalResult.text = "成功";
         }
