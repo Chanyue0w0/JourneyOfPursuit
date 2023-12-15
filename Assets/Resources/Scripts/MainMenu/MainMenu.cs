@@ -37,11 +37,22 @@ public class MainMenu : MonoBehaviour
     public void OnNewGameClicked()
     {
         DisablMenuButtons();
+
+        // Get current time
+        DateTime currentDateTime = DateTime.Now;
+        int currentYear = currentDateTime.Year;
+        int currentMonth = currentDateTime.Month;
+        int currentDay = currentDateTime.Day;
+        int currentHour = currentDateTime.Hour;
+        int currentMinute = currentDateTime.Minute;
+        int currentSecond = currentDateTime.Second;
+        string currentTime = currentYear.ToString() + currentMonth.ToString() + currentDay.ToString() + currentHour.ToString() + currentMinute.ToString() + currentSecond.ToString();
+
         // Story system
         string basePath = Application.persistentDataPath;
         var files = System.IO.Directory.GetDirectories(basePath);
-        int currentFileSize = files.Length;
-        string folderPath = Path.Combine(basePath, (currentFileSize + 1).ToString());
+        //int currentFileSize = files.Length;
+        string folderPath = Path.Combine(basePath, (currentTime).ToString());
 
         // Test
         StreamWriter st = File.CreateText(Application.persistentDataPath + "test.txt");
@@ -68,14 +79,11 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
-            Debug.Log("999");
-            DataPersistentManager.instance.NewGame("Kingdom");
-            Debug.Log("999");
+            DataPersistentManager.instance.NewGame("kingdom");
         }
         // load the gameplay scene - which will in turn save the game because of 
         // OnSceneUnloaded() in the DataPersistenceManager
         SceneManager.LoadSceneAsync("LeahScene");
-        Debug.Log("999");
     }
 
     public void OnContinueGameClicked()

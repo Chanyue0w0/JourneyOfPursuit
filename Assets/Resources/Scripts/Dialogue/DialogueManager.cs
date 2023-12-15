@@ -278,14 +278,12 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     private void ExitDialogueMode()
     {
+        Debug.LogError("The story ended.");
+
         dialogueVariables.StopListening(currentStory);
 
         // Unbind with ink functions
         inkExternalFunctions.UnBindAll(currentStory);
-        /*inkExternalFunctions.UnbindPushEvent(currentStory);
-        inkExternalFunctions.UnbindGetEvent(currentStory);
-        inkExternalFunctions.UnbindClearEvent(currentStory);
-        inkExternalFunctions.UnbindDiceResult(currentStory);*/
 
         dialogueIsPlaying = false;
         //dialoguePanel.SetActive(false);
