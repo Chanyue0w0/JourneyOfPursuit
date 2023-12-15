@@ -48,7 +48,6 @@ INCLUDE globals.ink
 ~ temp dog6 = GetEvent()
 ~ temp dog7 = GetEvent()
 
--> bar
 
 /////////////////////////////////////////////////////////////////////
 #portrait:Node1_Born/alley #bgm:stop #music:Awaken
