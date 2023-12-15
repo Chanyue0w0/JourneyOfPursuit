@@ -295,7 +295,9 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         fileManager.SaveFile(fileManager);
 
         SceneManager.LoadSceneAsync("MainMenu");
+        float volumeValue = PlayerPrefs.GetFloat("GlobalVolume");
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetFloat("GlobalVolume", volumeValue);
         File.Delete(Application.persistentDataPath + "/data.txt");
     }
 

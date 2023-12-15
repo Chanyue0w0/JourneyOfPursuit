@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using UnityEngine.Android;
 using TMPro;
+using UnityEngine.Assertions.Must;
 
 public class MainMenu : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button recallButton;
     [SerializeField] private Button setButton;
     public Text startTestTxt;
+
+    [Header("Menu Panel")]
+    [SerializeField] private GameObject setPanel;
+    [SerializeField] private GameObject crewPanel;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Button mainmenuButton;
 
     [Header("For Test")]
     [SerializeField] private TMP_InputField password;
@@ -32,6 +39,15 @@ public class MainMenu : MonoBehaviour
         {
             Permission.RequestUserPermission(Permission.ExternalStorageWrite);
         }
+
+        AudioManager.LoadSettings();
+        volumeSlider.value = AudioManager.GlobalVolume;
+        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+
+        setPanel.SetActive(false);
+        crewPanel.SetActive(false);
+        volumeSlider.interactable = false;
+        mainmenuButton.interactable = false;
     }
 
     public void OnNewGameClicked()
@@ -94,10 +110,13 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync("LeahScene");
     }
 
-    public void OnSetClicked()  //  no set scene
+    public void OnSetClicked() 
     {
         DisablMenuButtons();
-        SceneManager.LoadSceneAsync("");
+        setPanel.SetActive(true);
+        crewPanel.SetActive(true);
+        volumeSlider.interactable = true;
+        mainmenuButton.interactable = true;  
     }
 
     public void OnRecallClicked()
@@ -110,5 +129,30 @@ public class MainMenu : MonoBehaviour
     {
         newGameButton.interactable = false;
         continueGameButton.interactable = false;
+        recallButton.interactable = false;
+        setButton.interactable = false;
+    }
+
+    private void EnableMenuButtons()
+    {
+        newGameButton.interactable = true;
+        continueGameButton.interactable = true;
+        recallButton.interactable = true;
+        setButton.interactable = true;
+    }
+
+    private void OnVolumeChanged(float volume)
+    {
+        AudioManager.GlobalVolume = volume;
+        AudioManager.SaveSettings();
+    }
+
+    public void SetPanelClose()
+    {
+        mainmenuButton.interactable = false;
+        crewPanel.SetActive(false);
+        volumeSlider.interactable = false;
+        setPanel.SetActive(false);
+        EnableMenuButtons();
     }
 }
