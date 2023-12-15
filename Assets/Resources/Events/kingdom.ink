@@ -49,6 +49,7 @@ INCLUDE globals.ink
 ~ temp dog7 = GetEvent()
 
 
+->event11
 /////////////////////////////////////////////////////////////////////
 #portrait:Node1_Born/alley #bgm:stop #music:Awaken
 你醒來時，發現自己躺在一個狹窄陰暗的小巷弄裡，”這裡是……?”你感到一陣混亂。緩慢起身，晃了晃腦袋，試圖理清現在的情況。”我剛剛應該在......等等，我原本在哪裡?”你嘗試回想，卻一無所獲。
@@ -395,7 +396,7 @@ INCLUDE globals.ink
         ++[殺價(price -10 coins)(難度25,魅力)]
             ~temp res2 = DiceResult(25, "charisma")
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
-            {res:    
+            {res2:    
                 “當然沒問題!"老闆大氣的擺了擺手，”別說我對你不好，就算你9折吧！”
                 你獲得了藥水，strengt增加了。
                 ->event11_buy
@@ -404,15 +405,13 @@ INCLUDE globals.ink
                 ->street
                 }
         ++[原價購買]
-        你獲得了藥水，strengt增加了。
-        ->event11_buy
-            
-        
+            你獲得了藥水，strengt增加了。
+            ->event11_buy
     *[護腕(price: 50 coins)]#portrait:Event11_Vendor/wristband
         ++[殺價(price -10 coins)(難度25,魅力)]
             ~temp res3 = DiceResult(25, "charisma")
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
-            {res:    
+            {res3:    
                 “當然沒問題!"老闆大氣的擺了擺手，”別說我對你不好，就算你9折吧！”
                 你獲得了護腕，strengt增加了。
                 ->event11_buy
@@ -421,8 +420,8 @@ INCLUDE globals.ink
                 ->street
                 }
         ++[原價購買]
-        你獲得了護腕，strengt增加了。
-        ->event11_buy
+            你獲得了護腕，strengt增加了。
+            ->event11_buy
     *[離開]
     ->street
 
