@@ -34,9 +34,9 @@ public class GameData
         HP = 100;
         money = 0;
         morality = 0;
-        strength = 10;
-        agility = 10;
-        charisma = 10;
+        strength = 0;
+        agility = 0;
+        charisma = 0;
 
         dialogueText = "";
         displayNameText = "";

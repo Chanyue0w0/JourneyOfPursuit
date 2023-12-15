@@ -468,6 +468,17 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         diceIsRolling = true;
         DiceManager.GetInstance().gameObject.SetActive(true);
         DiceManager.GetInstance().anim.SetInteger("DiceResult", diceNum);
+
+        // Save Test
+        if (dialogueVariables != null)
+        {
+            dialogueVariables.SaveVariables();
+        }
+        SaveStoryState();
+        DataPersistentManager.instance.SaveGame();
+
+
+
         ShowDiceResult(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
 
         //yield return new WaitForSeconds(3);
