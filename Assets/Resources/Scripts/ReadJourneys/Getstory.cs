@@ -61,8 +61,6 @@ public class Getstory : MonoBehaviour
     
     //處理用"#"分開的資料裡面有沒有"changeImage"或"^選項"
     void CheckContentsInTheTextlist(){
-        //Debug.Log(textlist[textindex]);
-        //Debug.Log(imglist[texttoimg[textindex]]);
         textlist[textindex] = textlist[textindex].Replace("<br>","\r\n");
         if(textlist[textindex].Contains("^")){
             var tempsave = (textlist[textindex]).Split("^");
@@ -74,11 +72,13 @@ public class Getstory : MonoBehaviour
                 Textlabel.text = smalllist[0]+"\r\n「你選擇："+smalllist[1]+"」";
             else
                 Textlabel.text = "「你選擇："+smalllist[1]+"」";
-            picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
+            if(imglist.Count!=0)    
+                picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
         }
         else{
             Textlabel.text = textlist[textindex];
-            picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
+            if(imglist.Count!=0)  
+                picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
         }
     }
     
