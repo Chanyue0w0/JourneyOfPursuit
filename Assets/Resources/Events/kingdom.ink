@@ -394,7 +394,7 @@ INCLUDE globals.ink
         ++[殺價(price -10 coins)(難度25,魅力)]
             ~temp res2 = DiceResult(25, "charisma")
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
-            {res:    
+            {res2:    
                 “當然沒問題!"老闆大氣的擺了擺手，”別說我對你不好，就算你9折吧！”
                 你獲得了藥水，strengt增加了。
                 ->event11_buy
@@ -411,7 +411,7 @@ INCLUDE globals.ink
         ++[殺價(price -10 coins)(難度25,魅力)]
             ~temp res3 = DiceResult(25, "charisma")
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
-            {res:    
+            {res3:    
                 “當然沒問題!"老闆大氣的擺了擺手，”別說我對你不好，就算你9折吧！”
                 你獲得了護腕，strengt增加了。
                 ->event11_buy
