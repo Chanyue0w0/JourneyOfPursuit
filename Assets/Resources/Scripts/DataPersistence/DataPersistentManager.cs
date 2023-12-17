@@ -60,7 +60,9 @@ public class DataPersistentManager : MonoBehaviour
     public void NewGame(string chapter)
     {
         Debug.Log("New Game");
+        float volumeValue = PlayerPrefs.GetFloat("GlobalVolume");
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetFloat("GlobalVolume", volumeValue);
         this.gameData = new GameData(chapter);
         //DialogueManager.GetInstance().debug("New game done.");
     }

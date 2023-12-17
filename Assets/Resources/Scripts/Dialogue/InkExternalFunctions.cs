@@ -102,8 +102,15 @@ public class InkExternalFunctions
 
             Debug.Log("Type: " + type + " Dice: " + ranNum + " Strength: " + strength + " Agility: " + agility + " Charisma: " + charisma + " DifficultyLevel: " + difficultyLevel);
 
-
-            if (type == "strength")
+            if (ranNum >= 20)
+            {
+                return true;
+            }
+            else if (ranNum <= 1)
+            {
+                return false;
+            }
+            else if (type == "strength")
             {
                 return ranNum + strength >= difficultyLevel;
             }

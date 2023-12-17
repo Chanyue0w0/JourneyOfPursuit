@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using UnityEngine.Android;
 using TMPro;
+using UnityEngine.Assertions.Must;
 
 public class MainMenu : MonoBehaviour
 {
@@ -17,11 +18,18 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button setButton;
     public Text startTestTxt;
 
+    [Header("Menu Panel")]
+    [SerializeField] private GameObject setPanel;
+    [SerializeField] private GameObject crewPanel;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Button mainmenuButton;
+
     [Header("For Test")]
     [SerializeField] private TMP_InputField password;
     [SerializeField] private TMP_InputField chapter;
 
-    public string folderPath;
+
+    public string folderPath = "";
 
     public static MainMenu instance { get; private set; }
 
@@ -35,6 +43,8 @@ public class MainMenu : MonoBehaviour
         }
         instance = this;
 
+
+
         if (!DataPersistentManager.instance.HasGameData())
         {
             continueGameButton.interactable = false;
@@ -44,6 +54,15 @@ public class MainMenu : MonoBehaviour
         {
             Permission.RequestUserPermission(Permission.ExternalStorageWrite);
         }
+
+        AudioManager.LoadSettings();
+        volumeSlider.value = AudioManager.GlobalVolume;
+        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+
+        setPanel.SetActive(false);
+        crewPanel.SetActive(false);
+        volumeSlider.interactable = false;
+        mainmenuButton.interactable = false;
     }
 
     public void OnNewGameClicked()
@@ -66,10 +85,12 @@ public class MainMenu : MonoBehaviour
         //int currentFileSize = files.Length;
         folderPath = Path.Combine(basePath, (currentTime).ToString());
 
+        Debug.LogWarning("FolderPath: " +  folderPath);
+
         // Test
-        StreamWriter st = File.CreateText(Application.persistentDataPath + "test.txt");
-        st.Write("Leah My Limerence");
-        st.Close();
+        //StreamWriter st = File.CreateText(Application.persistentDataPath + "test.txt");
+        //st.Write("Leah My Limerence");
+        //st.Close();
 
         if (!System.IO.Directory.Exists(folderPath))
         {
@@ -106,10 +127,13 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync("LeahScene");
     }
 
-    public void OnSetClicked()  //  no set scene
+    public void OnSetClicked() 
     {
         DisablMenuButtons();
-        SceneManager.LoadSceneAsync("");
+        setPanel.SetActive(true);
+        crewPanel.SetActive(true);
+        volumeSlider.interactable = true;
+        mainmenuButton.interactable = true;  
     }
 
     public void OnRecallClicked()
@@ -122,5 +146,30 @@ public class MainMenu : MonoBehaviour
     {
         newGameButton.interactable = false;
         continueGameButton.interactable = false;
+        recallButton.interactable = false;
+        setButton.interactable = false;
+    }
+
+    private void EnableMenuButtons()
+    {
+        newGameButton.interactable = true;
+        continueGameButton.interactable = true;
+        recallButton.interactable = true;
+        setButton.interactable = true;
+    }
+
+    private void OnVolumeChanged(float volume)
+    {
+        AudioManager.GlobalVolume = volume;
+        AudioManager.SaveSettings();
+    }
+
+    public void SetPanelClose()
+    {
+        mainmenuButton.interactable = false;
+        crewPanel.SetActive(false);
+        volumeSlider.interactable = false;
+        setPanel.SetActive(false);
+        EnableMenuButtons();
     }
 }
