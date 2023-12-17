@@ -21,8 +21,20 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private TMP_InputField password;
     [SerializeField] private TMP_InputField chapter;
 
+    public string folderPath;
+
+    public static MainMenu instance { get; private set; }
+
     private void Start()
     {
+        if (instance != null)
+        {
+            Debug.LogError("Found more than one MainMenu in the scene.");
+            Destroy(this.gameObject);
+            return;
+        }
+        instance = this;
+
         if (!DataPersistentManager.instance.HasGameData())
         {
             continueGameButton.interactable = false;
@@ -52,7 +64,7 @@ public class MainMenu : MonoBehaviour
         string basePath = Application.persistentDataPath;
         var files = System.IO.Directory.GetDirectories(basePath);
         //int currentFileSize = files.Length;
-        string folderPath = Path.Combine(basePath, (currentTime).ToString());
+        folderPath = Path.Combine(basePath, (currentTime).ToString());
 
         // Test
         StreamWriter st = File.CreateText(Application.persistentDataPath + "test.txt");
