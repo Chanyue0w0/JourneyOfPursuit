@@ -43,12 +43,12 @@ public static class AudioManager
         if (PlayerPrefs.HasKey(PlayerPrefsKey))
         {
             globalVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PlayerPrefsKey));
-            ApplyGlobalVolume();
         }
         else
         {
             globalVolume = 1.0f;
-            ApplyGlobalVolume();
         }
+
+        ApplyGlobalVolume(); // 確保在設置 AudioListener 之前應用全局音量
     }
 }
