@@ -416,7 +416,7 @@ INCLUDE globals.ink
 "對了，"村長突然想起些什麼，"外圍的小動物們發現，有人在森林外圍徘迴，可能是來追著你來的。"他警告我。
 "他們，跟到這裡了嗎......"你有些不安。
 (離開森林)
-#changefile:Desert
+#changefile:Desert #music:stop
 ->END
 
 
