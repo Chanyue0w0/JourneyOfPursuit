@@ -93,7 +93,7 @@ INCLUDE globals.ink
 
 
 ===temple1_entrance===
-石門矗立，門板中間布滿了紋路，雖說有些磨損，但大致線條仍是完整的。#bgm:stop#music:Senuth//#portrait:Temple/stonedoor
+石門矗立，門板中間布滿了紋路，雖說有些磨損，但大致線條仍是完整的。#bgm:stop#music:Senuth #portrait:Temple/stonedoor1
 +[嘗試推開(難度21,力量)]
     你嘗試推開這扇門。
     ~temp res = DiceResult(21, "strength")
@@ -146,7 +146,7 @@ INCLUDE globals.ink
 ->desert_path
 
 ===temple2_entrance===
-石門矗立，門板中間布滿了紋路，雖說有些磨損，但大致線條仍是完整的。#bgm:stop#music:Senuth//#portrait:Temple/stonedoor
+石門矗立，門板中間布滿了紋路，雖說有些磨損，但大致線條仍是完整的。#bgm:stop#music:Senuth #portrait:Temple/stonedoor2
 +[嘗試推開(難度21,力量)]
     你嘗試推開這扇門。
     ~temp res = DiceResult(21, "strength")
@@ -199,7 +199,7 @@ INCLUDE globals.ink
 
 
 ===temple3_entrance===
-石門矗立，其中一角已然碎裂；門板中間布滿了紋路，雖說有些磨損，但大致線條仍是完整的。#bgm:stop#music:Senuth//#portrait:Temple/stonedoor
+石門矗立，其中一角已然碎裂；門板中間布滿了紋路，雖說有些磨損，但大致線條仍是完整的。#bgm:stop#music:Senuth #portrait:Temple/stonedoor3
 +[嘗試推開(難度15,力量)]
     你嘗試推開這扇門。
     ~temp res = DiceResult(15, "strength")
@@ -264,8 +264,8 @@ INCLUDE globals.ink
 ===desert_bus
 在無垠的沙漠中，一位孤獨的流浪商人出現在你的視線中。他背負著一個古老的行囊，布滿沙塵的長袍在風中拂動。他的面容隱藏在一頂寬大的斗篷下，只露出一雙深邃的眼眸。#portrait:Surrounding/businessman
 你走近他時，他轉過頭，微微點頭示意。
-“需要補給品嗎?”她聲音有些沙啞的問道。他的臉上刻滿了時光的痕跡，看起來經歷了無數次的風沙洗禮。沙漠的寂靜中，只有他腳步的輕微聲和風沙的呼嘯。
-+[購買]
+“需要補給品嗎?”他聲音有些沙啞的問道。他的臉上刻滿了時光的痕跡，看起來經歷了無數次的風沙洗禮。沙漠的寂靜中，只有他腳步的輕微聲和風沙的呼嘯。
++[購買] 
     流浪商人的攤位上擺滿了各種生存於沙漠的必需品。首先，你注意到他的水囊，裝滿了清澈的淡水，這在沙漠中是無價之寶。旁邊擺放著裝滿各式乾糧和乾果的袋子，作為長時間旅行的糧食選擇。
     此外，他還提供各種防風道具，如厚實的頭巾、風沙罩，以及能夠抵禦太陽灼熱的長袍。這些物品簡單而實用，是在沙漠中生存不可或缺的裝備。
     流浪商人靜靜地站在攤位前，等待著你的選擇。他的眼中透露著經驗豐富的眼光，仿佛他能夠理解你在這片廣袤的沙漠中所需的一切。
@@ -283,19 +283,44 @@ INCLUDE globals.ink
     ->desert_news
     
 ===desert_buy===
+#portrait:Surrounding/businessman
 +[藥水(可以增加各項基礎數值)]
-    ++[力量藥水(+2)]//#portrait:Surrounging/potion_strength
-        你感覺力量增加了。#strength:2
+    ++[力量藥水(+2)$20]#portrait:Surrounding/potion_strength
+        {money < 20:
+        "你的錢不夠了，要換一件商品嗎?"商人問道。
+            ->desert_buy
+        -else:
+        ~money = money - 20
+        你感覺力量增加了。#strength:2 #money:-20
+            ->business_choice
+        }
+    ++[敏捷藥水(+2)$20]#portrait:Surrounding/potion_agility
+        {money < 20:
+        "你的錢不夠了，要換一件商品嗎?"商人問道。
+            ->desert_buy
+        -else:
+        ~money = money - 20
+        你感覺自己速度變快了。#agility:2 #money:-20
+            ->business_choice
+        }
+    ++[魅力藥水(+2)$20]#portrait:Surrounding/potion_charisma
+        {money < 20:
+        "你的錢不夠了，要換一件商品嗎?"商人問道。
+            ->desert_buy
+        -else:
+        ~money = money - 20
+        好像變得更好看了(?)<br>(別想了，這只是錯覺。)#charisma:2 #money:-20
         ->business_choice
-    ++[敏捷藥水(+2)]//#portrait:Surrounging/potion_agility
-        你感覺自己速度變快了。#agility:2
-        ->business_choice
-    ++[魅力藥水(+2)]//#portrait:Surrounging/potion_charisma
-        好像變得更好看了(?)<br>(別想了，這只是錯覺。)#charisma:2
-        ->business_choice
-+[食物(恢復血量)+10]//#portrait:Surrounging/food
-你感覺體力恢復了一些。#health:10
+        }
++[食物(恢復血量)$10]#portrait:Surrounding/food
+    {money < 10:
+    "你的錢不夠了，要換一件商品嗎?"商人問道。
+        ->desert_buy
+    -else:
+        ~money = money - 10
+你感覺體力恢復了一些。#health:10 #money:-10
     ->business_choice
+    }
 +[查看其他選項]
 你詢問商人有沒有其他選擇。
     ->business_choice
@@ -304,12 +329,13 @@ INCLUDE globals.ink
     ->leave
 
 ===desert_news===
+#portrait:Surrounding/businessman
 +[打聽過去]
     “過去哦……”商人抬頭望天若有所思，隨後嘆了口氣。
-    “這裡，曾是最為繁榮、最為多樣的和平之地。”它的眼神看向遠方，似是穿透了時空。//#portrait:Surrounging/peace
+    “這裡，曾是最為繁榮、最為多樣的和平之地。”它的眼神看向遠方，似是穿透了時空。#portrait:Surrounding/peace
     “雖然沒有名義上的王，但大家都跟隨著奈瑟族的引導生活。種族的差異不再是紛亂的藉口。”商人自豪的說道。
     “但是，和平並不長久。”說道這，他的神色黯淡了些許，”一天，奈瑟族被不知名的勢力攻擊了，過往的平衡在一瞬間消失。”
-    “戰亂四起，和平之地變為最殘酷的戰場，廝殺聲不絕於耳。”他抖了一下。//#portrait:Surrounging/war
+    “戰亂四起，和平之地變為最殘酷的戰場，廝殺聲不絕於耳。”他抖了一下。#portrait:Surrounding/war
     “後來是王城介入，在戰場的中心投下一顆毀滅武器，以絕對暴力之姿平定紛亂。”
     “雖說和平了，但環境也毀了，再也回不到過去的美好，奈瑟族的蹤跡也成了謎。”他又重重的嘆了口氣。
     “不提了不提了。”他朝我擺了擺手，結束這個話題。
