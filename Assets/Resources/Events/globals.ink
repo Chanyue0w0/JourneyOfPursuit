@@ -9,7 +9,10 @@ VAR dog = 0
 //var in forest
 VAR Lake = 0
 VAR Statue = 0
-VAR cnt_village = 1
+VAR cnt_village = 0
+
+//var in desert
+VAR Desert = 0
 
 EXTERNAL PushEvent(a)
 EXTERNAL GetEvent()

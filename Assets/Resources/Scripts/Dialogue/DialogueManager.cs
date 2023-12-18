@@ -278,14 +278,12 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     private void ExitDialogueMode()
     {
+        Debug.LogError("The story ended.");
+
         dialogueVariables.StopListening(currentStory);
 
         // Unbind with ink functions
         inkExternalFunctions.UnBindAll(currentStory);
-        /*inkExternalFunctions.UnbindPushEvent(currentStory);
-        inkExternalFunctions.UnbindGetEvent(currentStory);
-        inkExternalFunctions.UnbindClearEvent(currentStory);
-        inkExternalFunctions.UnbindDiceResult(currentStory);*/
 
         dialogueIsPlaying = false;
         //dialoguePanel.SetActive(false);
@@ -297,7 +295,9 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         fileManager.SaveFile(fileManager);
 
         SceneManager.LoadSceneAsync("MainMenu");
+        float volumeValue = PlayerPrefs.GetFloat("GlobalVolume");
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetFloat("GlobalVolume", volumeValue);
         File.Delete(Application.persistentDataPath + "/data.txt");
     }
 
@@ -470,6 +470,17 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         diceIsRolling = true;
         DiceManager.GetInstance().gameObject.SetActive(true);
         DiceManager.GetInstance().anim.SetInteger("DiceResult", diceNum);
+
+        // Save Test
+        if (dialogueVariables != null)
+        {
+            dialogueVariables.SaveVariables();
+        }
+        SaveStoryState();
+        DataPersistentManager.instance.SaveGame();
+
+
+
         ShowDiceResult(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
 
         //yield return new WaitForSeconds(3);
