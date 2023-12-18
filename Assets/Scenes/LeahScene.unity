@@ -367,11 +367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dbb4fa75153fda489e83b9d3ab8a9d6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 240
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dbb4fa75153fda489e83b9d3ab8a9d6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -162
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dbb4fa75153fda489e83b9d3ab8a9d6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -391,15 +391,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dbb4fa75153fda489e83b9d3ab8a9d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 77.29145
+      value: -18.25405
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dbb4fa75153fda489e83b9d3ab8a9d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 168.23318
+      value: 134.00394
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dbb4fa75153fda489e83b9d3ab8a9d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 43.657352
+      value: 106.1289
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dbb4fa75153fda489e83b9d3ab8a9d6, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -3554,7 +3554,7 @@ Animator:
   m_GameObject: {fileID: 1427504831}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1bdc9eb66dce29044bef22ca8dbb5052, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0f260263c05e141bf88653fc035474e6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
