@@ -419,7 +419,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                     UpdatePlayerState();
                     break;
                 case MONEY_TAG:
-                    money = int.Parse(tagValue);
+                    money += int.Parse(tagValue);
                     UpdatePlayerState();
                     break;
                 case STRENGTH_TAG:
