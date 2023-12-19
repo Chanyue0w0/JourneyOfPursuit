@@ -23,6 +23,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject crewPanel;
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private Button mainmenuButton;
+    [SerializeField] private Button switchChapterButton;
 
     [Header("For Test")]
     [SerializeField] private TMP_InputField password;
@@ -63,6 +64,7 @@ public class MainMenu : MonoBehaviour
         crewPanel.SetActive(false);
         volumeSlider.interactable = false;
         mainmenuButton.interactable = false;
+        switchChapterButton.interactable = false;
     }
 
     public void OnNewGameClicked()
@@ -133,7 +135,8 @@ public class MainMenu : MonoBehaviour
         setPanel.SetActive(true);
         crewPanel.SetActive(true);
         volumeSlider.interactable = true;
-        mainmenuButton.interactable = true;  
+        mainmenuButton.interactable = true;
+        switchChapterButton.interactable = true;
     }
 
     public void OnRecallClicked()
@@ -167,9 +170,18 @@ public class MainMenu : MonoBehaviour
     public void SetPanelClose()
     {
         mainmenuButton.interactable = false;
+        switchChapterButton.interactable = false;
+        chapter.gameObject.SetActive(false);
+        password.gameObject.SetActive(false);
         crewPanel.SetActive(false);
         volumeSlider.interactable = false;
         setPanel.SetActive(false);
         EnableMenuButtons();
+    }
+
+    public void SwitchChapter()
+    {
+        chapter.gameObject.SetActive(!chapter.gameObject.activeSelf);
+        password.gameObject.SetActive(!password.gameObject.activeSelf);
     }
 }

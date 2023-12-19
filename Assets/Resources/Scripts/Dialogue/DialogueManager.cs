@@ -647,7 +647,23 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         strengthText.text = "Strength: " + strength.ToString();
         agilityText.text = "Agility: " + agility.ToString();
         charismaText.text = "Charisma: " + charisma.ToString();
-        moralityText.text = "Morality: " + morality.ToString();
+        if (morality >= 0 && morality <= 3)
+        {
+            moralityText.text = "Morality: 邪惡";
+        }
+        else if (morality >= 4 && morality <= 6)
+        {
+            moralityText.text = "Morality: 中立";
+        }
+        else if (morality >= 7 && morality <= 10)
+        {
+            moralityText.text = "Morality: 善良";
+        }
+        else
+        {
+            Debug.LogError("Morality out of range, Morality: " + morality.ToString());
+        }
+        
     }
 
     public void debug(string s)
@@ -657,11 +673,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     public void MainMenuClicked()
     {
-        if (!diceIsRolling)
-        {
-            SceneManager.LoadSceneAsync("MainMenu");
-            SaveStoryState();
-            DataPersistentManager.instance.SaveGame();
-        }
+        SceneManager.LoadSceneAsync("MainMenu");
+        SaveStoryState();
+        DataPersistentManager.instance.SaveGame();
     }
 }
