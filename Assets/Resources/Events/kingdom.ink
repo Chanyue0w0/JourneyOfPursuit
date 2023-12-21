@@ -411,7 +411,8 @@ INCLUDE globals.ink
                 ->street
                 }
         ++[原價購買]
-            你成功買到了寶石。
+            你成功買到了寶石。#money: -30
+                ~money = money - 30
             ->event11_buy
         }
     *[藥水$30]#portrait:Event11_Vendor/potion
@@ -432,7 +433,8 @@ INCLUDE globals.ink
                 ->street
                 }
         ++[原價購買]
-            你獲得了藥水，力量增加了。
+            你獲得了藥水，力量增加了。#money: -30
+                ~money = money - 30
             ->event11_buy
         }
             
@@ -440,6 +442,7 @@ INCLUDE globals.ink
     *[護腕$40]#portrait:Event11_Vendor/wristband
         {money < 40:
         你翻了翻口袋，發現錢不夠。
+        ->event11_buy
         -else:
         ++[殺價(-$10)(難度15,魅力)]
             ~temp res3 = DiceResult(15, "charisma")
@@ -454,7 +457,8 @@ INCLUDE globals.ink
                 ->street
                 }
         ++[原價購買]
-        你獲得了護腕，力量增加了。
+            你獲得了護腕，力量增加了。#money: -40
+                ~money = money - 40
         ->event11_buy
         }
     *[離開]
