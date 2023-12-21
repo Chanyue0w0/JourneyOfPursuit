@@ -393,7 +393,7 @@ INCLUDE globals.ink
 
 ===event11_buy===
 (選擇購買哪個)
-    *[寶石$30]#portrait:Event11_Vendor/germ
+    *[寶石$30(魅力+1)]#portrait:Event11_Vendor/germ
         {money < 30:
         你翻了翻口袋，發現錢不夠。
         ->event11_buy
@@ -403,7 +403,7 @@ INCLUDE globals.ink
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
             {res:
                 “當然沒問題!"老闆大氣的擺了擺手，”別說我對你不好，算你便宜點吧吧！”<br>(價格調降為$25)#money: -25
-                你成功買到了寶石。
+                你成功買到了寶石。#charisma:1
                 ~money = money - 25
                 ->event11_buy
             -else:
@@ -411,11 +411,11 @@ INCLUDE globals.ink
                 ->street
                 }
         ++[原價購買]
-            你成功買到了寶石。#money: -30
+            你成功買到了寶石。#money: -30#charisma:1
                 ~money = money - 30
             ->event11_buy
         }
-    *[藥水$30]#portrait:Event11_Vendor/potion
+    *[藥水$30(力量+1)]#portrait:Event11_Vendor/potion
         {money < 30:
         你翻了翻口袋，發現錢不夠。
         ->event11_buy
@@ -425,7 +425,7 @@ INCLUDE globals.ink
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
             {res2:    
                 “當然沒問題!"老闆大氣的擺了擺手，”別說我對你不好，算你便宜些吧！”<br>(價格調降為$25)#money: -25
-                你獲得了藥水，力量增加了。
+                你獲得了藥水，力量增加了。#strength:1
                 ~money = money - 25
                 ->event11_buy
             -else:                
@@ -433,13 +433,13 @@ INCLUDE globals.ink
                 ->street
                 }
         ++[原價購買]
-            你獲得了藥水，力量增加了。#money: -30
+            你獲得了藥水，力量增加了。#money: -30#strength:1
                 ~money = money - 30
             ->event11_buy
         }
             
         
-    *[護腕$40]#portrait:Event11_Vendor/wristband
+    *[護腕$40(力量+1)]#portrait:Event11_Vendor/wristband
         {money < 40:
         你翻了翻口袋，發現錢不夠。
         ->event11_buy
@@ -449,7 +449,7 @@ INCLUDE globals.ink
             你順著老闆的話，“老闆你看，我是外地來的，而且又是第一次光臨你們店，能不能給點折扣啊！”#rolling:2
             {res3:    
                 “當然沒問題!"老闆大氣的擺了擺手，”別說我對你不好，算你便宜些吧！”<br>(價格調降為$30)#money: -30
-                你獲得了護腕，力量增加了。
+                你獲得了護腕，力量增加了。#strength:1
                 ~money = money - 30
                 ->event11_buy
             -else:                
@@ -457,7 +457,7 @@ INCLUDE globals.ink
                 ->street
                 }
         ++[原價購買]
-            你獲得了護腕，力量增加了。#money: -40
+            你獲得了護腕，力量增加了。#money: -40#strength:1
                 ~money = money - 40
         ->event11_buy
         }
