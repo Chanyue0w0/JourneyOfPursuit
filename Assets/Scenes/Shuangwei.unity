@@ -1936,9 +1936,10 @@ MonoBehaviour:
   choosewindow: {fileID: 2002518544}
   storywindow: {fileID: 785213682}
   fileindex: 0
-  textindex: 1
-  picindex: 0
+  textindex: 0
   sieve: 0
+  texttoimgindex: -1
+  checklistlen: 0
 --- !u!114 &1277584877
 MonoBehaviour:
   m_ObjectHideFlags: 0

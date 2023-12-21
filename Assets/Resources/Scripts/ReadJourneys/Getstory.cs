@@ -34,14 +34,15 @@ public class Getstory : MonoBehaviour
     string[] allfile;//用來暫存這個故事資料夾裡有的檔案
     List<string> tales = new List<string>();//紀錄下這個故事裡有幾個檔案
     List<string> textlist = new List<string>();//這個檔案裡的所有劇情
+    List<int> texttoimg = new List<int>();//紀錄每個text對應到的圖片
     List<string> imglist = new List<string>();//這個檔案裡的所有圖片
     
     [Header("有的沒的index")]
     public int fileindex = 0;//現在到哪一個檔案
-    public int textindex = 1;//現在到哪一段劇情（同一檔案）
-    public int picindex = 0;//現在在哪張圖片
+    public int textindex = 0;//現在到哪一段劇情（同一檔案）
     public int sieve = 0;//重新讀故事資料夾的開關，確保update()裡的程式只跑一次
-    
+    public int texttoimgindex = -1;
+    public int checklistlen = 0;
     private void Start(){
         rbutton.onClick.AddListener(ClickRightButton);
         lbutton.onClick.AddListener(ClickLeftButton);
@@ -60,18 +61,30 @@ public class Getstory : MonoBehaviour
     
     //處理用"#"分開的資料裡面有沒有"changeImage"或"^選項"
     void CheckContentsInTheTextlist(){
-        //如果內容包含"內文^選項"
-        if(textlist[textindex].Contains('^')){
-            var tempsave = (textlist[textindex]).Split('^');
-            List<string> smalllist = new List<string>();
-            foreach(var part in tempsave){
-                smalllist.Add(part);
+        if(textlist.Count!=0){
+            //如果內容包含"內文^選項"
+            textlist[textindex] = textlist[textindex].Replace("<br>","\r\n");
+            if(textlist[textindex].Contains("^")){
+                var tempsave = (textlist[textindex]).Split("^");
+                List<string> smalllist = new List<string>();
+                foreach(var part in tempsave){
+                    smalllist.Add(part);
+                }
+                if(smalllist[0]!="")
+                    Textlabel.text = smalllist[0]+"\r\n「你選擇："+smalllist[1]+"」";
+                else
+                    Textlabel.text = "「你選擇："+smalllist[1]+"」";
+                if(imglist.Count!=0)    
+                    picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
             }
-            Textlabel.text += (smalllist[0]+"\r\n「你選擇"+smalllist[1]+"」");
+            else{
+                Textlabel.text += textlist[textindex];
+                if(imglist.Count!=0)  
+                    picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
+            }
         }
         else{
-            //只有內文
-            Textlabel.text = textlist[textindex];
+            Textlabel.text = "The End!";
         }
     }
     
@@ -89,24 +102,19 @@ public class Getstory : MonoBehaviour
                 //初始化文字和圖片
                 textlist.Clear();
                 imglist.Clear();
-                textindex = 1;
-                picindex = 0;
+                texttoimg.Clear();
+                textindex = 0;
                 
                 fileindex++;
                 //向後換新檔案
+                texttoimgindex=-1;
                 GetTextFromFile(tales[fileindex]);
                 string clearelement = "";
                 Textlabel.text = clearelement;
                 CheckContentsInTheTextlist();
-                picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
             }
             //正常換頁（同檔案）
             else{
-                if(textlist[textindex]=="changeImage"){
-                    picindex++;
-                    picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
-                    textindex++;
-                }
                 string clearelement = "";
                 Textlabel.text = clearelement;
                 CheckContentsInTheTextlist();
@@ -118,31 +126,25 @@ public class Getstory : MonoBehaviour
     //按下向左翻頁
     void ClickLeftButton(){
         //確認可不可以再向左翻
-        if(!(textindex==1&&fileindex==0)){
+        if(!(textindex==0&&fileindex==0)){
             textindex--;
             //當到了劇情的最前面，但不是最前面的檔案時
-            if(textindex==0&&fileindex!=0){
+            if(textindex==-1&&fileindex!=0){
                 //text and pic initialize
                 textlist.Clear();
                 imglist.Clear();
+                texttoimg.Clear();
 
                 fileindex--;
+                texttoimgindex=-1;
                 GetTextFromFile(tales[fileindex]);
                 textindex = textlist.Count-1;
-                picindex = imglist.Count-1;
                 string clearelement = "";
                 Textlabel.text = clearelement;
                 CheckContentsInTheTextlist();
-                picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
             }
             //正常換頁（同檔案）
             else{
-                //當textlist的內容是changeImage時就換圖片
-                if(textlist[textindex]=="changeImage"&&textindex!=0){
-                    picindex--;
-                    picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
-                    textindex--; 
-                }
                 string clearelement = "";
                 Textlabel.text = clearelement;
                 CheckContentsInTheTextlist();
@@ -154,13 +156,14 @@ public class Getstory : MonoBehaviour
     void ClickExitButton(){
         fileaddress.text = "Empty";
         fileindex=0;
-        textindex=1;
-        picindex=0;
+        textindex=0;
+        texttoimgindex=-1;
         string clearelement = "";
         Textlabel.text = clearelement;
         sieve = 0;
         textlist.Clear();
         imglist.Clear();
+        texttoimg.Clear();
 
         storywindow.SetActive(false);
         choosewindow.SetActive(true);
@@ -181,17 +184,8 @@ public class Getstory : MonoBehaviour
             GetTextFromFile(tales[0]);
             //show initial text and picture
             Textlabel.text = clearelement;
-            //
-            if(textlist[0]=="changeImage"){
-                CheckContentsInTheTextlist();
-                picture.sprite = Resources.Load<Sprite>(imglist[picindex]);
-            }
-            else{
-                Textlabel.text += textlist[0];
-                textindex = 0;
-                picindex = -1;
-            }
-            //
+            CheckContentsInTheTextlist();
+
             sieve=1;   
         }
     }
@@ -201,19 +195,39 @@ public class Getstory : MonoBehaviour
         StreamReader r = new StreamReader(Path);
         string json = r.ReadToEnd();
         var desjson = JsonConvert.DeserializeObject<storys>(json);
-        //read file text(用"#"來分割travelogue)
-        var tempsave = (desjson.travelogue).Split('#');
-        foreach(var words in tempsave){
-            if(words != ""){
-                string a = words.Replace("<br>","\r\n");
-                textlist.Add(a);
-            }
-        }
+
         //read image path(用"#"來分割imagePathForStory)
-        tempsave = (desjson.imagePathForStory).Split('#');
+        var tempsave = (desjson.imagePathForStory).Split('#');
         foreach(var pic in tempsave){
             if(pic!="")
                 imglist.Add(pic);
         }
+
+        //read file text(用"#"來分割travelogue)
+        tempsave = (desjson.travelogue).Split('#');
+        foreach(var words in tempsave){
+            if(words != ""&&words!="\n"){
+                if(words=="changeImage"){
+                    texttoimgindex++;
+                }
+                else if(words.Contains("changeImage")){
+                    texttoimgindex++;
+                    texttoimg.Add(texttoimgindex);
+                    
+                    var tempsave2 = (words).Split("^");
+                    List<string> smalllist = new List<string>();
+                    foreach(var part in tempsave2){
+                        smalllist.Add(part);
+                    }
+                    textlist.Add("^"+smalllist[1]);
+                }
+                else{
+                    textlist.Add(words);
+                    texttoimg.Add(texttoimgindex);
+                    Debug.Log(words);
+                }
+            }
+        }
+        checklistlen = textlist.Count;
     }
 }
