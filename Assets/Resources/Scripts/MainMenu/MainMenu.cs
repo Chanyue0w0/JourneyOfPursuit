@@ -176,6 +176,16 @@ public class MainMenu : MonoBehaviour
         //EnableMenuButtons();
     }
 
+    public void CrewPanelOpen()
+    {
+        crewPanel.SetActive(true);
+    }
+
+    public void CrewPanelClose()
+    {
+        crewPanel.SetActive(false);
+    }
+
     public void SwitchChapter()
     {
         chapter.gameObject.SetActive(!chapter.gameObject.activeSelf);
