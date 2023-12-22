@@ -130,7 +130,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnSetClicked() 
     {
-        DisablMenuButtons();
+        //DisablMenuButtons();
         setPanel.SetActive(true);
         crewPanel.SetActive(true);
         volumeSlider.interactable = true;
@@ -173,7 +173,7 @@ public class MainMenu : MonoBehaviour
         crewPanel.SetActive(false);
         volumeSlider.interactable = false;
         setPanel.SetActive(false);
-        EnableMenuButtons();
+        //EnableMenuButtons();
     }
 
     public void SwitchChapter()
