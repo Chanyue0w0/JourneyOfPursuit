@@ -6,14 +6,12 @@ using System.IO;
 
 public class FileManager
 {
-    public int folderName;
     public int fileName;
     public string travelogue;
     public string imagePathForStory;
 
     public FileManager()
     {
-        folderName = 0;
         fileName = 0;
         travelogue = "";
         imagePathForStory = "";

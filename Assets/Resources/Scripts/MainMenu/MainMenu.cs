@@ -63,7 +63,6 @@ public class MainMenu : MonoBehaviour
         setPanel.SetActive(false);
         crewPanel.SetActive(false);
         volumeSlider.interactable = false;
-        mainmenuButton.interactable = false;
         switchChapterButton.interactable = false;
     }
 
@@ -135,7 +134,6 @@ public class MainMenu : MonoBehaviour
         setPanel.SetActive(true);
         crewPanel.SetActive(true);
         volumeSlider.interactable = true;
-        mainmenuButton.interactable = true;
         switchChapterButton.interactable = true;
     }
 
@@ -169,7 +167,6 @@ public class MainMenu : MonoBehaviour
 
     public void SetPanelClose()
     {
-        mainmenuButton.interactable = false;
         switchChapterButton.interactable = false;
         chapter.gameObject.SetActive(false);
         password.gameObject.SetActive(false);
