@@ -92,9 +92,9 @@ public class InkExternalFunctions
             int ranNum = random.Next(0, 20231022) % 20 + 1;
             randvalue = ranNum;
             typeD = type;
-            strengthD = strength;
-            agilityD = agility;
-            charismaD = charisma;
+            strengthD = DialogueManager.GetInstance().strength;
+            agilityD = DialogueManager.GetInstance().agility;
+            charismaD = DialogueManager.GetInstance().charisma;
             difficultyLevelD = difficultyLevel;
 
             DialogueManager.GetInstance().diceNum = ranNum;

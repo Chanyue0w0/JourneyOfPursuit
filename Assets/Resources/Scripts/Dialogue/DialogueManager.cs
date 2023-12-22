@@ -69,12 +69,12 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     public int diceNum = 1;
 
     // Save test
-    private int HP = -1;
-    private int money = -1;
-    private int morality = -1;
-    private int strength = -1;
-    private int agility = -1;
-    private int charisma = -1;
+    public int HP = -1;
+    public int money = -1;
+    public int morality = -1;
+    public int strength = -1;
+    public int agility = -1;
+    public int charisma = -1;
 
     private string imagePath;
     private string storyPath;
@@ -582,9 +582,9 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
 
     public void MakeChoice(int choiceIndex)
     {
+        if (letterIsTyping)
+            return;
         currentStory.ChooseChoiceIndex(choiceIndex);
-        print("Make choice" + choiceIndex);
-        print(choicesText[choiceIndex].text);
         fileManager.travelogue += "^" + choicesText[choiceIndex].text;
         ContinueStory();
     }
@@ -602,7 +602,6 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         }
         else if (!choicesIsMaking && !diceIsRolling)
         {
-            print("Continue Story");
             ContinueStory();
         }
     }
