@@ -83,8 +83,8 @@ INCLUDE globals.ink
     一群尖耳的精靈被數十隻巨大蟲子包圍。<br>那些蟲子渾身漆黑，肢體上覆蓋著堅硬的外殼，散發出微微的金屬光澤;他們的爪子呈曲線狀，有且有著毒液在尖端滴下;頭部呈現怪異的形狀，被拉的極度長，且表面布滿了複眼。
     精靈們被蟲群包圍，健壯的戰士在最外圍，手持長槍和蟲子們對峙，一名手持長杖的年邁精靈站在正中心，似是在維持著守護他們的防護罩;但蟲群不斷的敲擊防護罩，防護罩已然開始搖晃。
     巨大蟲子還在不斷趕來。
-    ++[幫忙(難度23,敏捷)] 
-    ~temp res = DiceResult(23, "agility")
+    ++[幫忙(難度11,敏捷)] 
+    ~temp res = DiceResult(11, "agility")
     “這是什麼狀況......。”你被這情景嚇到了。<br>一名精靈戰士和你對到眼。他有些驚訝，但隨即示意你趕緊離開這危險的地方。
     “難道，我什麼都幫不了嗎?”你自問道。<br>你想到了方才少年給你的爆炸石。<br>“如果我用這些爆炸石引開那些蟲子的注意，他們就能趁機逃離包圍圈了吧。”
         不理會精靈戰士的警告，你小心翼翼的移動到較靠近他們的地方，準備幫助他們。#rolling:0
@@ -205,8 +205,8 @@ INCLUDE globals.ink
 ->bless
 
 ===bless===
-“感謝你，英勇的旅人，母樹的精神會與你同在。”村長說道。#strength: 5 #agility: 5 #charisma: 5 #portrait:Village/light
-綠色光點隨著他的言語浮現，環繞著你。最後沒入項鍊中。
+“感謝你，英勇的旅人，母樹的精神會與你同在。”村長說道。#strength:3 #agility:3 #charisma:3 #portrait:Village/light
+綠色光點隨著他的言語浮現，環繞著你。最後沒入項鍊中。<br>(力量、敏捷、魅力各+3)
 村長神色有些驚訝，隨即露出了然的表情。
 ->female_elf
 
@@ -227,9 +227,6 @@ INCLUDE globals.ink
 +[依序前往戰場]
 #bgm:stop #music:Battle
 ->lake
-+[直奔母樹]
-#bgm:stop #music:Battle
-->mother_tree
 
 ===lake===
     你抵達湖畔，發現那裡的水面已經變得污濁且有毒，湖邊的樹木也凋零枯萎。枯萎者正從水中湧現，牠們的身體散發著陰森的氣息。#portrait:Lake/lake
@@ -238,8 +235,9 @@ INCLUDE globals.ink
     ->lake_roll
   
 ===lake_roll===
-+[(難度15,力量)]
-    ~temp res = DiceResult(15, "strength")
+(難度10,力量)如若失敗，HP-5。
++[戰鬥]
+    ~temp res = DiceResult(10, "strength")
     #rolling:0
         {res:
         從你口中冒出了幾個陌生的字節。
@@ -287,8 +285,9 @@ INCLUDE globals.ink
 枯萎者們盤據著一尊精靈雕像，為首的那隻看到你們前來，挑釁似的朝你們噴了幾口毒霧。#portrait:Statue/poisonfog
 ->statue_roll
 ===statue_roll
-+[(難度15,力量)]#portrait:Statue/bug2
-~temp res = DiceResult(15, "strength")
+(難度10,力量)如若失敗，HP-5。
++[戰鬥]#portrait:Statue/bug2
+~temp res = DiceResult(10, "strength")
 #rolling:0
     {res:
     你緊握著項鍊，傾聽著，並隨之複誦。<br>"vento kolektanta tranĉo"
@@ -341,8 +340,9 @@ INCLUDE globals.ink
 看著眼前的一切，你莫名感到悲傷。<br>“你們甘於被外族如此踐踏嗎?站起來吧，和你們的後輩一起抵抗吧!”握著項鍊，你朝空中吶喊。#portrait:Others/bug3
 ->spiritual_roll
 ===spiritual_roll===
-+[(難度15,力量)]
-~temp res = DiceResult(15, "strength")
+(難度10,力量)如若失敗，HP-5。
++[戰鬥]
+~temp res = DiceResult(10, "strength")
 #rolling:0
     {res:
     "Alvokante praulajn spiritojn por helpo"
@@ -364,12 +364,13 @@ INCLUDE globals.ink
     “你可有聽到你的子民們的聲音，精靈族的母親，你何以忍受的了。”<br>緊握著項鍊，你在心中默念著。#portrait:MotherTree/bugs
     ->tree_rolling1
 ===tree_rolling1===
-+[(難度15,力量)]
-~temp res = DiceResult(15, "strength")
+(難度10,力量)如若失敗，HP-5。
++[戰鬥]
+~temp res = DiceResult(10, "strength")
 #rolling:0
     {res:
     "protekti homojn"
-    無數虛幻的枝條從母樹身上竄出，雖有些虛弱，卻堅定的探向每一位精靈。精靈們身上的傷正一點一點的復原，疲憊感也一掃而空。//#portrait:MotherTree/help
+    無數虛幻的枝條從母樹身上竄出，雖有些虛弱，卻堅定的探向每一位精靈。精靈們身上的傷正一點一點的復原，疲憊感也一掃而空。#portrait:MotherTree/mothertree//#portrait:MotherTree/help
     眾精靈面色驚訝的望向母樹，隨後爆出欣喜的吶喊”是母樹!她在保護著我們。”
     原先精靈們挫敗的氛圍一掃而散，取而代之的是滿滿的戰意。
     ->mother_tree2
@@ -382,8 +383,9 @@ INCLUDE globals.ink
     “你甘於此嗎?”你再次問道。
 ->tree_rolling2
 ===tree_rolling2===
-+[(難度15,力量)]
-~temp res = DiceResult(15, "strength")
+(難度10,力量)如若失敗，HP-5。
++[戰鬥]
+~temp res = DiceResult(10, "strength")
 #rolling:0
     {res:
     "kolerega kontraŭatako"。
@@ -413,6 +415,7 @@ INCLUDE globals.ink
 村長的臉龐顯得沉重，他的眼神充滿了擔憂。他走到我身旁，遙遙指著東方，"也許，你的所有疑問都能從矮人那裡得知。能將具有強大力量的寶石加工成項鍊的，鐵定只有他們。"
 "但是，"村長接著說，"旅人啊，前往矮人的城堡勢必會經過沙漠，而那是一條危險的道路。<br>或許，他們能告訴你更多有關項鍊的信息、找回失去的記憶。又或者，你會在那裡喪命。"#portrait:MotherTree/goodbye
 "無論是酷熱的陽光或是無情的風沙，任何一項在沙漠裡的事物都能輕易剝奪你的生命。請小心，旅人，我希望你能平安返回，帶著項鍊的真相和你的記憶。”
+"這是最後給你的祝福。"村長將手置於項鍊上，一股力量透過項鍊傳遍你的全身。<br>(HP+10)
 "對了，"村長突然想起些什麼，"外圍的小動物們發現，有人在森林外圍徘迴，可能是來追著你來的。"他警告我。
 "他們，跟到這裡了嗎......"你有些不安。
 (離開森林)#bgm:stop#music:stop
