@@ -24,6 +24,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private Button mainmenuButton;
     [SerializeField] private Button switchChapterButton;
+    [SerializeField] private Button crewPanelButton;
 
     [Header("For Test")]
     [SerializeField] private TMP_InputField password;
@@ -62,8 +63,6 @@ public class MainMenu : MonoBehaviour
 
         setPanel.SetActive(false);
         crewPanel.SetActive(false);
-        volumeSlider.interactable = false;
-        switchChapterButton.interactable = false;
     }
 
     public void OnNewGameClicked()
@@ -132,9 +131,9 @@ public class MainMenu : MonoBehaviour
     {
         //DisablMenuButtons();
         setPanel.SetActive(true);
-        crewPanel.SetActive(true);
-        volumeSlider.interactable = true;
-        switchChapterButton.interactable = true;
+        //crewPanelButton.gameObject.SetActive(true);
+        //crewPanel.SetActive(false);
+        //switchChapterButton.interactable = true;
     }
 
     public void OnRecallClicked()
@@ -151,14 +150,6 @@ public class MainMenu : MonoBehaviour
         setButton.interactable = false;
     }
 
-    private void EnableMenuButtons()
-    {
-        newGameButton.interactable = true;
-        continueGameButton.interactable = true;
-        recallButton.interactable = true;
-        setButton.interactable = true;
-    }
-
     private void OnVolumeChanged(float volume)
     {
         AudioManager.GlobalVolume = volume;
@@ -167,11 +158,11 @@ public class MainMenu : MonoBehaviour
 
     public void SetPanelClose()
     {
-        switchChapterButton.interactable = false;
+        if (crewPanel.activeSelf == true)
+            return;
         chapter.gameObject.SetActive(false);
         password.gameObject.SetActive(false);
         crewPanel.SetActive(false);
-        volumeSlider.interactable = false;
         setPanel.SetActive(false);
         //EnableMenuButtons();
     }
@@ -179,11 +170,19 @@ public class MainMenu : MonoBehaviour
     public void CrewPanelOpen()
     {
         crewPanel.SetActive(true);
+        crewPanelButton.gameObject.SetActive(false);
+        crewPanelButton.interactable = false;
+        volumeSlider.gameObject.SetActive(false);
+        volumeSlider.interactable = false;
     }
 
     public void CrewPanelClose()
     {
         crewPanel.SetActive(false);
+        crewPanelButton.gameObject.SetActive(true);
+        crewPanelButton.interactable = true;
+        volumeSlider.gameObject.SetActive(true);
+        volumeSlider.interactable = true;
     }
 
     public void SwitchChapter()
