@@ -14,6 +14,8 @@ VAR cnt_village = 0
 //var in desert
 VAR Desert = 0
 
+VAR Castleviewcnt = 0
+
 EXTERNAL PushEvent(a)
 EXTERNAL GetEvent()
 EXTERNAL ClearEvent()
