@@ -50,6 +50,10 @@ INCLUDE globals.ink
 「我根本什麼都不記得，能不能交代清楚再離開啊。」你喃喃抱怨道。
 「是說，易爆物都不用有些防護措施的嗎?」你看著手中的小袋子，有些無語。
 ->toforest
+
+===died===
+你感到力量慢慢從身體流失，意識慢慢淡去。#portrait:EndingPics/LostMan
+->END
 ===girl_on_tree===
 無目的的在森林裡走動，突然聽到一聲尖叫，聲音裡透漏出濃濃的不安。#portrait:ToForest/first
 +[前往一探究竟]
@@ -231,7 +235,7 @@ INCLUDE globals.ink
 ->female_elf
 
 ===female_elf===
-「這已經是第幾批了。」又是一批傷痕累累的隊伍迎面而來。那些都是在前線受重傷的戰士。<br>身邊不時傳來幾聲怒哼，除了對敵人的怒意外，更多的是看見同族被重傷的憤怒。
+「這已經是第幾批了。」又是一批傷痕累累的隊伍迎面而來。那些都是在前線受重傷的戰士。<br>身邊不時傳來幾聲怒哼，除了對敵人的怒意外，更多的是看見同族被重傷的憤怒。#portrait:ToForest/first
 哀傷的精靈坐在樹梢上，她歌唱著，頌唱出對傷兵們的不捨，還有對前線戰士的祝福。#portrait:Others/femaleelf 
 聽到了歌聲，你有些失神。
 「印象中，我也曾聽過這般哀傷的歌聲。」
@@ -261,12 +265,17 @@ INCLUDE globals.ink
     #rolling:0
         {res:
         從你口中冒出了幾個陌生的字節。
-        「akvo kirlante frostiĝanta」
+        「akvo kirlante frostiganta」
         ->lake_win
         -else:    
         你的手被項鍊震了一下。你更用力的抓住項鍊。#health:-5
+        ~health = health - 5
+        {health < 1:
+        ->died
+        -else:
         ->lake_roll
-            }
+        }
+        }
 ===lake_win===
     湖水翻騰起來，氣勢洶洶的撲向成群的枯萎者，將他們沖到了半空中。而後一股寒意襲捲戰場，湖水結凍了，將枯萎者困在其中。#portrait:Lake/iced
     你的出現顛覆了戰局。
@@ -314,7 +323,12 @@ INCLUDE globals.ink
     ->statue_win
     -else:
     你的手被項鍊震了一下，你再次緊握項鍊。#health:-5
+    ~health = health - 5
+    {health < 1:
+    ->died
+    -else:
     ->statue_roll
+    }
     }
 ===statue_win===
     狂風驟起，將毒霧遠遠吹離我們。隨後變換為滾滾風刃，將枯萎者們撕裂，劃開戰場。#portrait:Statue/statue
@@ -369,7 +383,12 @@ INCLUDE globals.ink
     ->spiritual_win
     -else:
     「你們不是自詡為高貴種族嗎?你們的自尊呢?隨著生命一同腐爛於泥土中了嗎?」<br>我喊道，「戰鬥吧，如果你們還記得曾經的那份高傲。」#health:-5
+    ~health = health - 5
+    {health < 1:
+    ->died
+    -else:
     ->spiritual_roll
+    }
     }
 ===spiritual_win===
 一點一點的金光從土地中冒出，沖向了奮勇廝殺的精靈戰士們。他們精神一振，將戰線又往前推進了些。
@@ -396,7 +415,12 @@ INCLUDE globals.ink
     ->mother_tree2
     -else:
     你再次堅定的抬頭望向母樹。#health:-5
+    ~health = health - 5
+    {health < 1:
+    ->died
+    -else:
     ->tree_rolling1
+    }
     }
 ===mother_tree2===
     即使有了母樹的幫助，戰局也只是由劣勢轉為持平而已。
@@ -413,7 +437,12 @@ INCLUDE globals.ink
     ->ending
     -else:
     你又望向母樹。#health:-5
+    ~health = health - 5
+    {health < 1:
+    ->died
+    -else:
     ->tree_rolling2
+    }
     }
     
 ===ending===
@@ -421,11 +450,16 @@ INCLUDE globals.ink
 「母樹雖然傷痕累累，但至少，我們奪回了她。」眾精靈傳唱道。
 在不久的將來，她的根將再次深入大地，重現以往的光榮。
 他們慶祝的同時，你默默來到母樹身邊。<br>你知道你有能力修復她，但需要付出一些代價。
-+[修復]#health:-10
-    你站在母樹的樹根旁，專注地將許願之力集中在手中。這股神秘的力量湧現而出，你感到自己正逐漸虛弱，但你仍未停手。你的手指輕觸著母樹的樹根，你開始傳送這份力量到母樹的身體中。(HP-10)//#portrait:MotherTree/heal
++[修復(HP-10)]#health:-10
+    你站在母樹的樹根旁，專注地將許願之力集中在手中。這股神秘的力量湧現而出，你感到自己正逐漸虛弱，但你仍未停手。你的手指輕觸著母樹的樹根，你開始傳送這份力量到母樹的身體中。
     母樹的樹皮開始變得有光澤，她的葉子重新生機勃發，而根部的損傷也逐漸痊癒。你不停地將許願之力注入母樹，犧牲自己的生命力以換取她的康復。
     最後，當你感覺自己幾乎虛脫時，母樹的傷勢得以修復，她重新恢復了生機和力量。你倒在她的樹根旁，感到疲憊不堪，但也充滿了滿足感。你的奉獻和許願之力成功拯救了母樹，為精靈村莊帶來了和平和希望。
+    ~health = health - 10
+    {health < 1:
+    ->died
+    -else:
 ->leave_forest
+}
 +[裝作沒辦法]
     你站在母樹的樹根旁，感到內心掙扎，但最終，你抽回了手。//#portrait:MotherTree/notheal
     你不願為了初見的事物犧牲，即便曾一起奮戰。你站在母樹的樹根旁，表現出無奈的表情。

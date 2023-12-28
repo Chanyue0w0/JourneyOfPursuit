@@ -17,6 +17,10 @@ INCLUDE globals.ink
 
 ->SMSZ
 
+===died===
+你感到力量慢慢從身體流失，意識慢慢淡去。#portrait:EndingPics/LostMan
+->END
+
 ===SMSZ===
 「看的見雪山了。」你站在沙丘上遠眺，終於能離開這炎熱的地區了。你有些慶幸的想著。#bgm:stop#portrait:1.Mountain/snow1#music:Howling
 高聳入雲的雪山在陽光的映照下，閃耀著銀白色的光芒。山巔覆蓋著潔白的積雪，彷彿是大自然賦予的一層皚皚白裘。山脈綿延，延伸直至目光盡頭。
@@ -370,8 +374,13 @@ INCLUDE globals.ink
     -else:
         用力過猛，你失去了重心，向前傾倒。
         法爾科趁機揮出手中利斧，你極力閃躲，但仍被擦到腰間，一絲絲鮮血沿著傷口滲出。(HP-10)#health:-10
+        ~health = health - 10
+        {health < 1:
+        ->died
+        -else:
         你重整架式。
         ->falcul1
+        }
     }
 
 ===falcul2===
@@ -390,7 +399,12 @@ INCLUDE globals.ink
     -else:
         先前受到的傷拖慢了你的動作。即使斧頭的來勢不快，你只能眼睜睜的看著他劃過你的大腿。(HP-20)#health:-20
         「小樣兒的，老夫還治不了你不成。」法爾科不屑的瞥了你一眼。
+        ~health = health - 20
+        {health < 1:
+        ->died
+        -else:
         ->falcul2_2
+        }
     }
 
 ===falcul3===
@@ -413,8 +427,13 @@ INCLUDE globals.ink
         「鏘。」長劍巨斧相擊，震的你手一頓麻。長劍也因此脫手。
         失去長劍的你，一邊躲避著巨斧的攻擊，一邊朝長劍的方向靠近。
         你拿到了長劍，卻也因此被劃傷了手臂。(HP-20)#health:-20
+        ~health = health - 20
+        {health < 1:
+        ->died
+        -else:
         你拉開距離，重整架勢。
         ->falcul3_3
+        }
     }
 
 ===fireball===
@@ -432,8 +451,13 @@ INCLUDE globals.ink
     -else:
         「啊啊啊啊啊！」火球砸中了你的臂膀，你無法忍受瞬間的高溫，大叫出聲。(HP-10)#health:-10
         你跌坐在地，灼心的痛楚使腦袋空白了數秒。
+        ~health = health - 10
+        {health < 1:
+        ->died
+        -else:
         一咬牙，你奮力起身，用盡意志力繼續奔向台前。
         ->lightning
+        }
     }
 
 ===lightning===
@@ -452,8 +476,13 @@ INCLUDE globals.ink
         在你竭盡全力的努力下，你的躲避策略未能成功，雷電魔法的力量仍然將你擊中。一道熾熱的閃電在空中劈開，瞬間朝著你的方向射來，你發現自己無法逃離雷電的惡劣命運。
         雷電的衝擊在瞬間將你籠罩，電流貫穿全身，你感到一陣劇痛和麻木。光芒與雷聲交織在一起，使你瞬間失神。(HP-10)#health:-10
         在雷電的轟擊下，你的身體被拋出，倒地時全身疼痛。空氣中瀰漫著燒焦的氣味，雷電留下了一道焦黑的痕跡。戰場上的魔法能量強烈波動，而你已經處於這場魔法風暴的邊緣。
+        ~health = health - 10
+        {health < 1:
+        ->died
+        -else:
         一咬牙，你奮力起身，用盡意志力繼續奔向台前。
-            ->magicbattle
+        ->magicbattle
+        }
     }
 ===magicbattle===
 混亂的場面中，魔法的光芒交錯，彷彿是一場令人震撼的煙火表演。#portrait:8.Magicbattle/f

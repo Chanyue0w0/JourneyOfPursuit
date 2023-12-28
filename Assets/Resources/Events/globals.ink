@@ -1,5 +1,6 @@
 VAR player_name = ""
 VAR money = 0//all money
+VAR health = 40
 
 //var in kingdom
 VAR Times = 0

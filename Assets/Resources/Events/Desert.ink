@@ -28,8 +28,13 @@ INCLUDE globals.ink
 「聽說，這裡曾不是沙漠。」你耳邊突然響起方才村長的喃喃自語。
 (由於炙熱的天氣，每隔一段時間會減少一些血量。)
 ->desert_path
+
+===died===
+你感到力量慢慢從身體流失，意識慢慢淡去。#portrait:EndingPics/LostMan
+->END
+
 ===temperature1===
-「快融化了。」你喃喃自語，「早知道水就省著點喝。」#portrait:Surrounding/sun #health: -1
+「快融化了。」你喃喃自語，「早知道水就省著點喝。」(HP-1)#portrait:Surrounding/sun #health: -1
 這片烈陽下，你感受到身上的水份仿佛隨時都要蒸發殆盡。嘴唇微乾，但水袋裡早已空蕩蕩，只能聊勝於無的拿來搧風。
 你晃了晃水袋，感受到手心的溫熱。裡面早已沒有一滴水，只剩下袋子內凹的形狀，顯示出早前的用水之匱乏。盡管喉嚨渴望著水分，但眼前這空空的水袋卻是你唯一的訴苦對象。
 汗水直冒，卻絲毫無法減緩熱意。陽光灼熱的灼人，你感受到每一滴汗珠都是身體在與大地共鳴的象徵。濕漉漉的衣物貼在身上，帶來短暫的涼意，卻也隨即讓你感受到悶熱的不適。
@@ -37,20 +42,20 @@ INCLUDE globals.ink
 ->desert_path
 
 ===temperature2===
-「真是火辣的天氣。」你不禁自語，額頭上的汗水早已湧現，蒸騰的熱氣悄悄地融化你的意志。眼前的沙漠一片廣闊，烈陽如同無情的火焰，熾熱而令人窒息。#portrait:Surrounding/sun #health: -1
+「真是火辣的天氣。」你不禁自語，額頭上的汗水早已湧現，蒸騰的熱氣悄悄地融化你的意志。眼前的沙漠一片廣闊，烈陽如同無情的火焰，熾熱而令人窒息。(HP-1)#portrait:Surrounding/sun #health: -1
 你揮動著手中的水袋，但裡面只剩下一絲熱風，仿佛在輕輕譏笑你的大意。沙漠風吹過，帶著灼熱的砂石，如同沙塵暴中的野獸，撲面而來，讓人感到無處遮蔽的絕望。
 身上的衣物猶如烘爐布，貼在皮膚上，每一步都彷彿在火炭上行走納什的地面散發著灼人的熱氣，仿佛腳下是一片沸騰的火爐。這裡的陽光不僅照耀，更像是一把無情的火焰，將一切生命的水分盡情吸食。
 在這片曠野中，你感受到了大地的極端酷熱，每一口呼吸都似乎帶有灼熱的味道。沙漠風吹過，帶走了你身上的水分，留下的只有一種焦渴的渴望。這是納什的試煉，而你必須在這片炙熱中找到生存的力量。
 ->desert_path
 
 ===brokenremain===
-巨大石塊散落，有些零散，但，似乎能組成一座建築。#portrait:Surrounding/bigstone1 #health: -1
+巨大石塊散落，有些零散，但，似乎能組成一座建築。(HP-1)#portrait:Surrounding/bigstone1 #health: -1
 「是風沙太大吹毀的嗎?」你疑惑道。
 周圍已無人跡，看來並非近期發生的。//查看?
 ->desert_path
 
 ===scorpion===
-沙地下傳來低沉的震動聲，無數巨大的蠍子從沙堆中浮現。#portrait:Surrounding/scorpion #health: -1
+沙地下傳來低沉的震動聲，無數巨大的蠍子從沙堆中浮現。(HP-1)#portrait:Surrounding/scorpion #health: -1
 牠們的外骨骼閃著金屬般的光澤，對比著沙漠中的灰沙。
 這些巨蠍的鉗子鋒利無比，尾巴上帶著毒刺。牠們的眼睛透露著兇猛和敏銳，宛如沙漠中的戰士般威嚴。在陽光的照射下，巨蠍的外殼閃著金屬光芒，使其看起來更加威嚴可怕。
 在這片歇息的時光中，你可以考慮如何趁著牠們沉靜的時候通過，或者尋找其他安全的路線。然而，必須謹慎行動，因為一旦巨蠍們感受到威脅，牠們將迅速恢復戰鬥狀態。
@@ -70,8 +75,13 @@ INCLUDE globals.ink
             ->desert_path
         -else:
             殘酷的沙漠消磨了你的精力，即使奮力奔跑，你仍被螯劃到了背部。#health: -5
+            ~health = health - 5
+            {health < 1:
+            ->died
+            -else:
             確認過對牠們來說並非威脅，巨蠍們回到原處繼續休息。
             ->desert_path
+            }
         }
     }
     
@@ -121,17 +131,31 @@ INCLUDE globals.ink
 (請依照圖示，選擇你的答案)
 *[4322]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple1_choice
+}
 *[1243]
 門發出轟隆巨響，你進到了遺跡中。
 ->temple1_in
 *[0332]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple1_choice
+}
 *[0323]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple1_choice
-
+}
 ===temple1_in===
 這裡漆黑一片，你小心翼翼地貼著牆行走，雖然看得不是很清楚，但仍能辨認出這是一條單向的通道。#portrait:Temple/hallway
 走了一段時間，環境變亮了些，你看清了周圍。
@@ -174,16 +198,31 @@ INCLUDE globals.ink
 (請依照圖示，選擇你的答案)
 *[153]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple2_choice
+}
 *[135]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple2_choice
+}
 *[315]
 門發出轟隆巨響，你進到了遺跡中。
 ->temple2_in
 *[513]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple2_choice
+}
 
 ===temple2_in===
 這裡漆黑一片，你小心翼翼地貼著牆行走，雖然看得不是很清楚，但仍能辨認出這是一條單向的通道。#portrait:Temple/hallway
@@ -230,13 +269,28 @@ INCLUDE globals.ink
 ->temple3_in
 *[8]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple3_choice
+}
 *[16]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple3_choice
+}
 *[32]
 門紋絲不動。#health: -1
+~health = health - 1
+{health < 1:
+->died
+-else:
 ->temple3_choice
+}
 
 ===temple3_in===
 你在黑暗的通道中小心翼翼地前行。#portrait:Temple/hallway
@@ -359,16 +413,31 @@ INCLUDE globals.ink
 {Desert:
 -0:
 ~ Desert = Desert + 1
-#portrait:background/background1#health:-2
+(HP-2)#portrait:background/background1#health:-2
+~health = health - 2
+{health < 1:
+->died
+-else:
 ->random2
+}
 -1: 
 ~ Desert = Desert + 1
 #portrait:background/background2#health:-2
+~health = health - 2
+{health < 1:
+->died
+-else:
 ->random3
+}
 -2: 
 ~ Desert = Desert + 1
-#health:-2
+(HP-2)#health:-2
+~health = health - 2
+{health < 1:
+->died
+-else:
 ->random4
+}
 -else:
 ->bighole
 
