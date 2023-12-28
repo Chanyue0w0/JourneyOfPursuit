@@ -31,7 +31,7 @@ public class GameData
 
     public GameData(string chapter)
     {
-        HP = 100;
+        HP = 40;
         money = 0;
         morality = 5;
         strength = 0;
