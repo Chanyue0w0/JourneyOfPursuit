@@ -407,6 +407,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                     break;
                 case MORALITY_TAG:
                     morality += int.Parse(tagValue);
+                    UpdatePlayerState();
                     break;
                 case BACKGROUND_TAG:
                     portraitImage.sprite = Resources.Load<Sprite>("Arts/BackGround/" + tagValue);
