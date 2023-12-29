@@ -124,6 +124,9 @@ INCLUDE globals.ink
 ->street
 
 ===choice===
+{dog > 3:
+->choice2
+-else:
 *[到樹叢看看(難度7,敏捷)]
 ~ dog = dog + 1
 (探頭尋找)#portrait:Event1_Notice/grove
@@ -132,7 +135,7 @@ INCLUDE globals.ink
     {res:
     ->event1_find
     - else:
-    ->find_dog
+    ->event1_no
         }
 *[查看附近農舍(難度7,敏捷)]
 ~ dog = dog + 1
@@ -142,7 +145,7 @@ INCLUDE globals.ink
     {res1:
     ->event1_find
     - else:
-    ->find_dog
+    ->event1_no
         }
 *[查看前方溝渠(難度7,敏捷)]
 ~ dog = dog + 1
@@ -152,7 +155,7 @@ INCLUDE globals.ink
     {res2:
     ->event1_find
     - else:
-    ->find_dog
+    ->event1_no
         }
 *[到巷弄找找(難度7,敏捷)]
 ~ dog = dog + 1
@@ -162,8 +165,9 @@ INCLUDE globals.ink
     {res3:
     ->event1_find
     - else:
-    ->find_dog
+    ->event1_no
         }
+}
 
 ===choice2===
 你找了很久，還是沒有看到萊斯的身影。於是你決定離開。
