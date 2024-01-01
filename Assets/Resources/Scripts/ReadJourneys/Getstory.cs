@@ -74,14 +74,12 @@ public class Getstory : MonoBehaviour
                     Textlabel.text = smalllist[0]+"\r\n「你選擇："+smalllist[1]+"」";
                 else
                     Textlabel.text = "「你選擇："+smalllist[1]+"」";
-                if(imglist.Count!=0)    
-                    picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
             }
             else{
                 Textlabel.text += textlist[textindex];
-                if(imglist.Count!=0)  
-                    picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
             }
+            if(imglist.Count!=0)    
+                picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[textindex]]);
         }
         else{
             Textlabel.text = "The End!";
@@ -180,16 +178,25 @@ public class Getstory : MonoBehaviour
                 if(!file.Contains(".meta")&&!file.Contains(".DS_Store"))
                     tales.Add(file);
             }
-            Textlabel.text = tales[0];
-            GetTextFromFile(tales[0]);
-            //show initial text and picture
-            Textlabel.text = clearelement;
-            CheckContentsInTheTextlist();
-
+            if(tales.Count!=0){
+                GetTextFromFile(tales[0]);
+                //show initial text and picture
+                CheckContentsInTheTextlist();
+            }
+            else{
+                WhenNothingInTheFolder();
+            }
             sieve=1;   
         }
     }
-    
+    private void WhenNothingInTheFolder(){
+        textlist.Add("「There's nothing in this folder.」\r\n「You must finish at least one area of story.」");
+        imglist.Add("Arts/Characters/Node1_Born/alley");
+        texttoimg.Add(0);
+        Textlabel.text = textlist[0];
+        if(imglist.Count!=0)    
+            picture.sprite = Resources.Load<Sprite>(imglist[texttoimg[0]]);
+    }
     //把檔案裡的資料先讀進來
     private void GetTextFromFile(string Path){
         StreamReader r = new StreamReader(Path);

@@ -83,10 +83,27 @@ public class choosestory : MonoBehaviour
         var files = Directory.GetDirectories(Application.persistentDataPath);
         foreach (var file in files)
         {   
+            //Hide incomplete file
+            string[] allfile = Directory.GetFiles(file);
+            List<string> tempsave = new List<string>();
+            foreach(var inside in allfile){
+                if(!inside.Contains(".meta")&&!inside.Contains(".DS_Store"))
+                    tempsave.Add(inside);
+            }
+            if(tempsave.Count()!=0){
+                FolderWithDate temp = new FolderWithDate();
+                temp.fileName = file;
+                temp.dateTime = File.GetCreationTime(file);
+                filepath.Add(temp);
+            }
+            //
+            /*
+            //origin method
             FolderWithDate temp = new FolderWithDate();
             temp.fileName = file;
             temp.dateTime = File.GetCreationTime(file);
             filepath.Add(temp);
+            */
         }
         filepath.Sort((x,y)=>DateTime.Compare(x.dateTime,y.dateTime));
 
