@@ -170,7 +170,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         this.fileManager.travelogue = data.travelogue;
         this.fileManager.imagePathForStory = data.imagePathForStory;
         this.fileManager.fileName = data.fileName;
-        this.fileManager.folderPath = data.folderPath;
+        if (data.folderPath != "")
+            this.fileManager.folderPath = data.folderPath;
 
         // Music
         this.currBGM = data.currBGM;
@@ -442,13 +443,13 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                 case CHANGEFILE_TAG:
                     fileManager.fileName += 1;
                     fileManager.SaveFile(fileManager);
-                    storyPath = "Events/" + tagValue;
-                    inkJSON = Resources.Load<TextAsset>(storyPath);
+                    //storyPath = "Events/" + tagValue;
+                    //inkJSON = Resources.Load<TextAsset>(storyPath);
                     /*if (PlayerPrefs.HasKey(saveStoryKey))
                     {
                         PlayerPrefs.DeleteKey(saveStoryKey);
                     }*/
-                    EnterDialogueMode(inkJSON, true);
+                    //EnterDialogueMode(inkJSON, true);
                     break;
                 case ROLLING_TAG:
                     StartCoroutine(DiceRollingAnimation());
