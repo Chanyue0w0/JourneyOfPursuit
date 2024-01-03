@@ -104,6 +104,7 @@ INCLUDE globals.ink
 
 
 /////////////////////////////////////////////////////////////////////
+
 ->kingdom_first
 
 ===choose_chapter===
@@ -601,6 +602,7 @@ choose the chapter u want.
     謹慎地取下項鍊，將它交給了龍人珠寶商。他滿意地接過項鍊，環顧四周，似乎對這筆交易感到滿意。<br>龍人珠寶商表示感謝，說：「這位貴客，你做出了明智的選擇。比起只能觀賞的寶石，還是金幣更適合你現在的處境。來吧，這裡是你的十萬金幣，去換一套新衣服吧。」#money:100000
     你興高采烈的離開。
     (好似聽到了一聲嘆息，你已死亡。)#portrait:EndingPics/LostMan
+    #changefile:save
     ->END
 +[拒絕]
     「不了，我想繼續保留著它。」#portrait:Event12_DragonJeweler/head_lower
@@ -664,6 +666,7 @@ choose the chapter u want.
 
 ===died===
 你感到力量慢慢從身體流失，意識慢慢淡去。#portrait:EndingPics/LostMan
+#changefile:save
 ->END
 ===girl_on_tree===
 無目的的在森林裡走動，突然聽到一聲尖叫，聲音裡透漏出濃濃的不安。#portrait:ToForest/first
@@ -837,6 +840,7 @@ choose the chapter u want.
 你回到了多明尼特。#portrait:EndingPics/BreakOathMan
 沒過多久，數名黑衣人出現，將你打暈。
 醒來時，胸口的項鍊不翼而飛。你失去了關於過去的唯一線索。
+#changefile:save
 ->END
 
 ===bless===
@@ -1045,7 +1049,7 @@ choose the chapter u want.
     {res:
     「kolerega kontraŭatako」。
     竭盡母樹的能量，最後的驚天一擊擊敗了大部分的枯萎者。//#portrait:MotherTree/lastattack
-    ->ending
+    ->fending
     -else:
     你又望向母樹。#health:-5
     ~health = health - 5
@@ -1056,7 +1060,7 @@ choose the chapter u want.
     }
     }
     
-===ending===
+===fending===
 枯萎者們撤退了，精靈村莊恢復了和平。#music:stop #music:Victory #portrait:MotherTree/cheer 
 「母樹雖然傷痕累累，但至少，我們奪回了她。」眾精靈傳唱道。
 在不久的將來，她的根將再次深入大地，重現以往的光榮。
@@ -1096,6 +1100,7 @@ choose the chapter u want.
 
 ===desert_Died===
 你感到力量慢慢從身體流失，意識慢慢淡去。#portrait:EndingPics/LostMan
+#changefile:save
 ->END
 
 ===temperature1===
@@ -1515,6 +1520,7 @@ choose the chapter u want.
 
 ===castle_Died===
 你感到力量慢慢從身體流失，意識慢慢淡去。#portrait:EndingPics/LostMan
+#changefile:save
 ->END
 
 ===SMSZ===
@@ -1822,6 +1828,7 @@ choose the chapter u want.
 在報紙的另一面，刊登著另一則報導：「公主離奇失蹤」，國王提出高額賞金欲找到公主的蹤跡。
 你已然明白一切。
 (破誓者)#portrait:EndingPics/BreakOathMan
+#changefile:save
 ->END
     
 ===kingship===
@@ -2060,6 +2067,7 @@ choose the chapter u want.
 「我們一定要阻止他們的惡行！」
 語畢，你們開始打點行李，準備乘坐利恩龍前往多明尼特，奔向最後的戰場。
 (To Be Continued...)
+#changefile:save
 ->END
     
     
