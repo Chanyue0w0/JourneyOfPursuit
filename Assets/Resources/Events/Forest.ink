@@ -42,7 +42,7 @@ INCLUDE globals.ink
 ~ temp statue2 = GetEvent()
 ~ temp statue3 = GetEvent()
 
-
+===forest_first===
 你們抵達了一處空地，前方是一大片森林。#portrait:ToForest/first #bgm:forest 
 「就把你送到這裡吧，」他說。「前方就是艾爾夫斯，接下來的旅途必須由你自己走完。去找精靈的部落吧，那裡需要你。」少年說道。<br>「要怎麼去?」你滿頭問號。
 「拿著這個」，不理會你的問題，他又遞給你一個小袋子，逕直說道，「裡面裝的是爆炸石，用力丟出去就會爆炸，給你自保用。」<br>「欸不是……」#portrait:ToForest/bag 

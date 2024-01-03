@@ -5,31 +5,32 @@ INCLUDE globals.ink
 ~ClearEvent()
 ~ PushEvent(->temperature1)
 ~ PushEvent(->temperature2)
-~ temp random1 = GetEvent()
+~ temp random_temp = GetEvent()
 
 ~ClearEvent()
 ~ PushEvent(->brokenremain)
 ~ PushEvent(->scorpion)
-~ temp random2 = GetEvent()
+~ temp random_small_event = GetEvent()
 
 ~ClearEvent()
 ~ PushEvent(->sandstorm1)
 ~ PushEvent(->sandstorm2)
-~ temp random3 = GetEvent()
+~ temp random_sand = GetEvent()
 
 ~ClearEvent()
 ~ PushEvent(->temple1_entrance)
 ~ PushEvent(->temple2_entrance)
 ~ PushEvent(->temple3_entrance)
-~ temp random4 = GetEvent()
+~ temp random_temple = GetEvent()
 
+===desert_first===
 你來到了森林的邊界，這裡似是被人用畫筆分出一條明確的界線，線內是滿地綠意，線外是炙熱沙地。你深吸了一口氣，踏過了那條分界線。#portrait:Background/background1#bgm:desert
 熱浪迎面而來，提醒著你身處沙漠：一個危機四伏的惡地。只能依著手中的羅盤走著。
 「聽說，這裡曾不是沙漠。」你耳邊突然響起方才村長的喃喃自語。
 (由於炙熱的天氣，每隔一段時間會減少一些血量。)
 ->desert_path
 
-===died===
+===desert_Died===
 你感到力量慢慢從身體流失，意識慢慢淡去。#portrait:EndingPics/LostMan
 ->END
 
@@ -81,7 +82,7 @@ INCLUDE globals.ink
             殘酷的沙漠消磨了你的精力，即使奮力奔跑，你仍被螯劃到了背部。#health: -5
             ~health = health - 5
             {health < 1:
-            ->died
+            ->desert_Died
             -else:
             確認過對牠們來說並非威脅，巨蠍們回到原處繼續休息。
             ->desert_path
@@ -137,7 +138,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple1_choice
 }
@@ -148,7 +149,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple1_choice
 }
@@ -156,7 +157,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple1_choice
 }
@@ -204,7 +205,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple2_choice
 }
@@ -212,7 +213,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple2_choice
 }
@@ -223,7 +224,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple2_choice
 }
@@ -275,7 +276,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple3_choice
 }
@@ -283,7 +284,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple3_choice
 }
@@ -291,7 +292,7 @@ INCLUDE globals.ink
 門紋絲不動。#health: -1
 ~health = health - 1
 {health < 1:
-->died
+->desert_Died
 -else:
 ->temple3_choice
 }
@@ -421,27 +422,27 @@ INCLUDE globals.ink
 (HP-2)#portrait:background/background1#health:-2
 ~health = health - 2
 {health < 1:
-->died
+->desert_Died
 -else:
-->random2
+->random_small_event
 }
 -1: 
 ~ Desert = Desert + 1
 #portrait:background/background2#health:-2
 ~health = health - 2
 {health < 1:
-->died
+->desert_Died
 -else:
-->random3
+->random_sand
 }
 -2: 
 ~ Desert = Desert + 1
 (HP-2)#health:-2
 ~health = health - 2
 {health < 1:
-->died
+->desert_Died
 -else:
-->random4
+->random_temple
 }
 -else:
 ->bighole
