@@ -125,6 +125,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
 
         fileManager = new FileManager();
+        fileManager.folderPath = MainMenu.instance.folderPath;
         dialogueSystem = new DialogSystem(dialogueManager);
         randomEvents = new List<Ink.Runtime.Path>();
         //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
@@ -169,6 +170,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         this.fileManager.travelogue = data.travelogue;
         this.fileManager.imagePathForStory = data.imagePathForStory;
         this.fileManager.fileName = data.fileName;
+        this.fileManager.folderPath = data.folderPath;
 
         // Music
         this.currBGM = data.currBGM;
@@ -215,6 +217,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         data.travelogue = this.fileManager.travelogue;
         data.imagePathForStory = this.fileManager.imagePathForStory;
         data.fileName = this.fileManager.fileName;
+        data.folderPath = this.fileManager.folderPath;
 
         data.BGMTime = dialogueSystem.BGM.time;
         data.currBGM = this.currBGM;
@@ -240,7 +243,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         {
             DiceManager.GetInstance().gameObject.SetActive(false);
         }
-
+        SaveStoryState();
+        DataPersistentManager.instance.SaveGame();
     }
 
     public void EnterDialogueMode(TextAsset inkJSON, bool changeFile)
@@ -647,7 +651,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         strengthText.text = "Strength: " + strength.ToString();
         agilityText.text = "Agility: " + agility.ToString();
         charismaText.text = "Charisma: " + charisma.ToString();
-        if (morality >= 0 && morality <= 3)
+        if (morality <= 3)
         {
             moralityText.text = "Morality: 邪惡";
         }
@@ -655,7 +659,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         {
             moralityText.text = "Morality: 中立";
         }
-        else if (morality >= 7 && morality <= 10)
+        else if (morality >= 7)
         {
             moralityText.text = "Morality: 善良";
         }

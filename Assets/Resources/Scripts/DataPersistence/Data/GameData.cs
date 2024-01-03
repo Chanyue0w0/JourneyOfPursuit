@@ -23,6 +23,7 @@ public class GameData
     public int fileName;
     public string travelogue;
     public string imagePathForStory;
+    public string folderPath;
 
     public float BGMTime;
     public string currBGM;
