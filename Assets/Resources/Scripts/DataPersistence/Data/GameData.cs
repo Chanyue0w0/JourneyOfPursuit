@@ -49,6 +49,7 @@ public class GameData
         fileName = 0;
         travelogue = "";
         imagePathForStory = "";
+        folderPath = "";
 
         currBGM = "forest";
         BGMTime = 0;
