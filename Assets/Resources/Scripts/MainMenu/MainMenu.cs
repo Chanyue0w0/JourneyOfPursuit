@@ -25,6 +25,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button mainmenuButton;
     [SerializeField] private Button switchChapterButton;
     [SerializeField] private Button crewPanelButton;
+    [SerializeField] private Button textSizeRightButton;
+    [SerializeField] private Button textSizeleftButton;
+    [SerializeField] private TMP_Text textSize;
 
     [Header("For Test")]
     [SerializeField] private TMP_InputField password;
@@ -32,6 +35,8 @@ public class MainMenu : MonoBehaviour
 
 
     public string folderPath = "";
+    public float dialogueTextSize = 14.0f;
+    private const string TextSizeKey = "TextSize";
 
     public static MainMenu instance { get; private set; }
 
@@ -63,6 +68,14 @@ public class MainMenu : MonoBehaviour
 
         setPanel.SetActive(false);
         crewPanel.SetActive(false);
+
+        if (PlayerPrefs.HasKey(TextSizeKey))
+        {
+            Debug.Log("has key");
+            dialogueTextSize = PlayerPrefs.GetFloat(TextSizeKey);
+        }
+        Debug.Log("dts: " + dialogueTextSize.ToString());
+        textSize.text = dialogueTextSize.ToString();
     }
 
     public void OnNewGameClicked()
@@ -189,5 +202,35 @@ public class MainMenu : MonoBehaviour
     {
         chapter.gameObject.SetActive(!chapter.gameObject.activeSelf);
         password.gameObject.SetActive(!password.gameObject.activeSelf);
+    }
+
+    public void WordSizeRight()
+    {
+        if (!textSizeleftButton.interactable)
+            textSizeleftButton.interactable = true;
+
+        dialogueTextSize += 1;
+        textSize.text = dialogueTextSize.ToString();
+
+        PlayerPrefs.SetFloat(TextSizeKey, dialogueTextSize);
+        PlayerPrefs.Save();
+
+        if (dialogueTextSize >= 24)
+            textSizeRightButton.interactable = false;
+    }
+
+    public void WordSizeLeft()
+    {
+        if (!textSizeRightButton.interactable)
+            textSizeRightButton.interactable = true;
+
+        dialogueTextSize -= 1;
+        textSize.text = dialogueTextSize.ToString();
+
+        PlayerPrefs.SetFloat(TextSizeKey, dialogueTextSize);
+        PlayerPrefs.Save();
+
+        if (dialogueTextSize <= 6)
+            textSizeleftButton.interactable = false;
     }
 }

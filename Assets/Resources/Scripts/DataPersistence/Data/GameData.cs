@@ -30,6 +30,8 @@ public class GameData
     public float musicTime;
     public string currMusic;
 
+    public string textSize;
+
     public GameData(string chapter)
     {
         HP = 40;
@@ -55,5 +57,7 @@ public class GameData
         BGMTime = 0;
         currMusic = "none";
         musicTime = 0;
+
+        textSize = "";
     }
 }

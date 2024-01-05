@@ -14,6 +14,7 @@ using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine.SceneManagement;
 using Unity.Mathematics;
 using System.Threading;
+using System.Drawing;
 
 public class DialogueManager : MonoBehaviour, IDataPersistence
 {
@@ -128,6 +129,8 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         fileManager.folderPath = MainMenu.instance.folderPath;
         dialogueSystem = new DialogSystem(dialogueManager);
         randomEvents = new List<Ink.Runtime.Path>();
+
+        dialogueText.fontSize = MainMenu.instance.dialogueTextSize + 12.0f;
         //inkJSON = Resources.Load<TextAsset>("Events/Aoa");
         //player.UpdatePlayerState(healthPointText, moneyText, strengthText, agilityText, charismaText);
         //UpdatePlayerState();
