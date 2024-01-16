@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button continueGameButton;
     [SerializeField] private Button recallButton;
     [SerializeField] private Button setButton;
+    [SerializeField] private Button achButton;
     public Text startTestTxt;
 
     [Header("Menu Panel")]
@@ -76,6 +77,21 @@ public class MainMenu : MonoBehaviour
         }
         Debug.Log("dts: " + dialogueTextSize.ToString());
         textSize.text = dialogueTextSize.ToString();
+
+        // Achievement
+        string filePath = Path.Combine(Application.persistentDataPath, "ach.txt");
+        if (File.Exists(filePath))
+        { 
+            Debug.Log("Ach file exist: " + filePath);
+        }
+        else
+        {
+            Debug.Log("Ach file doesn't exist, creating: " + filePath);
+            using (FileStream fs = File.Create(filePath))
+            {
+            }
+        }
+
     }
 
     public void OnNewGameClicked()
@@ -149,6 +165,12 @@ public class MainMenu : MonoBehaviour
         //switchChapterButton.interactable = true;
     }
 
+    public void OnAchClicked()
+    {
+        DisablMenuButtons();
+        SceneManager.LoadSceneAsync("Achievement");
+    }
+
     public void OnRecallClicked()
     {
         DisablMenuButtons();
@@ -161,6 +183,7 @@ public class MainMenu : MonoBehaviour
         continueGameButton.interactable = false;
         recallButton.interactable = false;
         setButton.interactable = false;
+        achButton.interactable = false;
     }
 
     private void OnVolumeChanged(float volume)

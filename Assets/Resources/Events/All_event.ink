@@ -119,11 +119,13 @@ choose the chapter u want.
 ->SMSZ
 
 ===kingdom_first===
-#portrait:Node1_Born/alley #bgm:stop #music:Awaken
+#portrait:Node1_Born/alley #bgm:stop #music:Awaken #ach:A
 你醒來時，發現自己躺在一個狹窄陰暗的小巷弄裡，「這裡是……?」你感到一陣混亂。緩慢起身，晃了晃腦袋，試圖理清現在的情況。「我剛剛應該在......等等，我原本在哪裡?」你嘗試回想，卻一無所獲。
 +[檢視自身]
-你穿的衣服沾滿了黑灰，邊角還有些燒焦的痕跡。從口袋裡翻出了一條項鍊。正中心鑲著一顆紅寶石，看起來價值不斐。<br>你對它的存在感到困惑，卻莫名地對它有著熟悉感，似是並非第一次看到它。#portrait:Node1_Born/necklace
+#ach:A
+你穿的衣服沾滿了黑灰，邊角還有些燒焦的痕跡。從口袋裡翻出了一條項鍊。正中心鑲著一顆紅寶石，看起來價值不斐。<br>你對它的存在感到困惑，卻莫名地對它有著熟悉感，似是並非第一次看到它。#portrait:Node1_Born/necklace #ach:G
 ++[戴起項鍊]
+#ach:C
 你將項鍊戴起，開始打量起四周。
 +++[探索巷子]
     ->alley_random1

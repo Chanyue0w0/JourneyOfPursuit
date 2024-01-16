@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Shuangwei.unity
     guid: 5d1e4ce5ad8880c41ab034e95ca32719
+  - enabled: 1
+    path: Assets/Scenes/Achievement.unity
+    guid: baade219e19c1be419feebbecb319b15
   - enabled: 0
     path: Assets/Scenes/ChanYueScene.unity
     guid: f793ce16080b10b49a991b20730daed1

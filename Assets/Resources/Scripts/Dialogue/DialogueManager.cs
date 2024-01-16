@@ -97,6 +97,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private const string ROLLING_TAG = "rolling";
     private const string BGM_TAG = "bgm";
     private const string MUSIC_TAG = "music";
+    private const string ACH_TAG = "ach";
 
 
     //Dice Panel
@@ -464,6 +465,30 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                 case MUSIC_TAG:
                     currMusic = tagValue;
                     dialogueSystem.SwitchMusic(tagValue, 0);
+                    break;
+                case ACH_TAG:
+                    bool arc = true;
+                    string filePath = System.IO.Path.Combine(Application.persistentDataPath, "ach.txt");
+                    using (StreamReader reader = new StreamReader(filePath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            if (line == tagValue)
+                            {
+                                Debug.Log("Have get this arc before.");
+                                arc = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (arc)
+                    {
+                        using (StreamWriter writer = new StreamWriter(filePath, true))
+                        {
+                            writer.WriteLine(tagValue);
+                        }
+                    }
                     break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
