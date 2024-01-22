@@ -61,7 +61,7 @@ public class choosestory : MonoBehaviour
         if(DeleteMode)
             mode.text = "刪除故事";
         else
-            mode.text = "～～目錄～～";
+            mode.text = "目錄";
     }
     //exit to main menu
     void ExitToMainMenu(){
