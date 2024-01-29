@@ -1805,6 +1805,12 @@ MonoBehaviour:
   moralityText: {fileID: 904237346}
   dialogueManager: {fileID: 733617542}
   diceNum: 1
+  HP: -1
+  money: -1
+  morality: -1
+  strength: -1
+  agility: -1
+  charisma: -1
   DicePanel: {fileID: 1911541872}
   ShowType: {fileID: 63223125}
   ShowDifficulty: {fileID: 1072228248}
