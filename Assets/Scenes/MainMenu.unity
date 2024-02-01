@@ -1405,7 +1405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &268547042
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4101,7 +4101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u4F01\u5283\t\u963F\u6CB9\n\u5287\u672C\t\u6F22\n\u7A0B\u5F0F\tLeah,
+  m_text: "\u4F01\u5283\t\u963F\u6CB9\n\u5287\u672C\t\u6F22, Stanly\n\u7A0B\u5F0F\tLeah,
     Shuangwei\n\u7F8E\u8853\tYumi\n\u97F3\u6A02\u88FD\u4F5C\nAudio Manager\t\tIan
     Lai\nAudio Engineer\t\tIan Lai\nComposer   \n\tIan Lai, Josch Ritscher\nVocals\n\tIan
     Lai, T\xEDmea Siquet \nLyrics\n\tIan Lai, T\xEDmea Siquet\nMixing/Mastering\tIan
@@ -6696,7 +6696,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6755,7 +6755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1268452857
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9060,8 +9060,8 @@ RectTransform:
   m_Father: {fileID: 1010764967}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
