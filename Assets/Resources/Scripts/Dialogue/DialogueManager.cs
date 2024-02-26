@@ -513,13 +513,17 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         SaveStoryState();
         DataPersistentManager.instance.SaveGame();
 
-
-
-        ShowDiceResult(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
-
-        //yield return new WaitForSeconds(3);
+        //Show Dice orgin state
+        PreDiceState(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
+        bool CheckPanel = false;
         while (!closeconfirmbutton)
         {
+            //After 3 seconds, showing result
+            if(!DiceManager.GetInstance().anim.GetCurrentAnimatorStateInfo(0).IsName("wPoliUnwrappedActionPoliUnwrappedAction")&&!CheckPanel)
+            {
+                ShowDiceResult(inkExternalFunctions.typeD,inkExternalFunctions.randvalue,inkExternalFunctions.strengthD,inkExternalFunctions.agilityD,inkExternalFunctions.charismaD,inkExternalFunctions.difficultyLevelD);
+                CheckPanel=true;
+            }
             yield return null;
         }
         
@@ -529,8 +533,25 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         DiceManager.GetInstance().gameObject.SetActive(false);
         ContinueStory();
     }
-
-    //
+    //show orginal state(Dice panel)
+    public void PreDiceState(string type,int ranNum,int strength,int agility,int charisma,int difficultyLevel){
+        ShowType.text = type;
+        ShowDifficulty.text = difficultyLevel.ToString();
+        if(type == "strength")
+        {
+            ShowResult.text = "? + " + strength.ToString() + " = ?";
+        }
+        else if(type == "agility")
+        {
+            ShowResult.text = "? + " + agility.ToString() + " = ?";
+        }
+        else
+        {
+            ShowResult.text = "? + " + charisma.ToString() + " = ?";
+        }
+        ShowFinalResult.text = "?";
+    }
+    //show dice result
     public void ShowDiceResult(string type,int ranNum,int strength,int agility,int charisma,int difficultyLevel)
     {
         int sum = 0;
