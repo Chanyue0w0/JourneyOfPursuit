@@ -305,7 +305,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 5a8c0d89753ebd14b8927cbf497df702, type: 3}
-    m_FontSize: 80
+    m_FontSize: 90
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -3469,7 +3469,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.78431374}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5882353}
     m_HighlightedColor: {r: 0.3764706, g: 0.32156864, b: 0.20392157, a: 0.78431374}
     m_PressedColor: {r: 0.4433962, g: 0.4413047, b: 0.4413047, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
