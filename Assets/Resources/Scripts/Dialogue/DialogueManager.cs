@@ -47,6 +47,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     [SerializeField] private UnityEngine.UI.Text agilityText;
     [SerializeField] private UnityEngine.UI.Text charismaText;
     [SerializeField] private UnityEngine.UI.Text moralityText;
+    [SerializeField] private UnityEngine.UI.Text hintText;
     //private PlayerState player;
 
     [Header("Music Test")]
@@ -76,6 +77,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     public int strength = -1;
     public int agility = -1;
     public int charisma = -1;
+    public string hint = "";
 
     private string imagePath;
     private string storyPath;
@@ -98,6 +100,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     private const string BGM_TAG = "bgm";
     private const string MUSIC_TAG = "music";
     private const string ACH_TAG = "ach";
+    private const string HINT_TAG = "hint";
 
 
     //Dice Panel
@@ -153,6 +156,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         this.strength = data.strength;
         this.agility = data.agility;
         this.charisma = data.charisma;
+        this.hint = data.hint;
 
         this.dialogueText.text = data.dialogueText;
         this.dialogueFinishedText = data.dialogueText;
@@ -210,6 +214,7 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
         data.strength = this.strength;
         data.agility = this.agility;
         data.charisma = this.charisma;
+        data.hint = this.hint;
 
         data.displayNameText = this.displayNameText.text;
         //data.dialogueText = this.dialogueText.text;
@@ -442,6 +447,10 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
                     break;
                 case CHARISMA_TAG:
                     charisma += int.Parse(tagValue);
+                    UpdatePlayerState();
+                    break;
+                case HINT_TAG:
+                    hint = tagValue;
                     UpdatePlayerState();
                     break;
                 case CHANGEFILE_TAG:
@@ -696,22 +705,23 @@ public class DialogueManager : MonoBehaviour, IDataPersistence
     // Save Game Test
     public void UpdatePlayerState()
     {
-        healthPointText.text = "HP: " + HP.ToString();
-        moneyText.text = "Money: " + money.ToString();
-        strengthText.text = "Strength: " + strength.ToString();
-        agilityText.text = "Agility: " + agility.ToString();
-        charismaText.text = "Charisma: " + charisma.ToString();
+        healthPointText.text = "血量: " + HP.ToString();
+        moneyText.text = "金錢: " + money.ToString();
+        strengthText.text = "力量: " + strength.ToString();
+        agilityText.text = "敏捷: " + agility.ToString();
+        charismaText.text = "魅力: " + charisma.ToString();
+        hintText.text = "提示: " + hint.ToString();
         if (morality <= 3)
         {
-            moralityText.text = "Morality: 邪惡";
+            moralityText.text = "善惡: 邪惡";
         }
         else if (morality >= 4 && morality <= 6)
         {
-            moralityText.text = "Morality: 中立";
+            moralityText.text = "善惡: 中立";
         }
         else if (morality >= 7)
         {
-            moralityText.text = "Morality: 善良";
+            moralityText.text = "善惡: 善良";
         }
         else
         {
