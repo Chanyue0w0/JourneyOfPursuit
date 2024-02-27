@@ -119,7 +119,7 @@ choose the chapter u want.
 ->SMSZ
 
 ===kingdom_first===
-#portrait:Node1_Born/alley #bgm:stop #music:Awaken #ach:A
+#portrait:Node1_Born/alley #bgm:stop #music:Awaken #ach:A #hint:你應該要熟悉王城
 你醒來時，發現自己躺在一個狹窄陰暗的小巷弄裡，「這裡是……?」你感到一陣混亂。緩慢起身，晃了晃腦袋，試圖理清現在的情況。「我剛剛應該在......等等，我原本在哪裡?」你嘗試回想，卻一無所獲。
 +[檢視自身]
 #ach:A

@@ -12,6 +12,7 @@ public class GameData
     public int strength;
     public int agility;
     public int charisma;
+    public string hint;
 
     public string dialogueText;
     public string displayNameText;
@@ -40,6 +41,7 @@ public class GameData
         strength = 0;
         agility = 0;
         charisma = 0;
+        hint = "";
 
         dialogueText = "";
         displayNameText = "";
