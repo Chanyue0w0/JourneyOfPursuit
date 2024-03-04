@@ -8367,7 +8367,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 134620049}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1834028079}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: CrewPanelClose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1809320444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8578,7 +8590,7 @@ MonoBehaviour:
   achButton: {fileID: 978126993}
   startTestTxt: {fileID: 1102187710}
   setPanel: {fileID: 1268452856}
-  crewPanel: {fileID: 1655937535}
+  crewPanel: {fileID: 268547041}
   volumeSlider: {fileID: 625416945}
   mainmenuButton: {fileID: 1611635744}
   switchChapterButton: {fileID: 1132975503}
